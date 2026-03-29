@@ -12,10 +12,8 @@
 	let error = $state<string | null>(null);
 	let currentPath = $derived($page.params.path ?? '');
 
-	// Facets from tag-only query (for status tab counts)
+	// Facets from tag-only query (for status tab counts + tag list)
 	let tagFacets = $state<Facets | null>(null);
-	// Facets from full query (for tag counts within current status)
-	let facets = $state<Facets | null>(null);
 
 	// Read filters from URL
 	let statusFilter = $derived($page.url.searchParams.get('status'));
@@ -43,10 +41,8 @@
 			// If status filter active, fetch again with both
 			if (statusFilter) {
 				data = await browseKind(currentPath, { ...tagOpts, status: statusFilter });
-				facets = data.facets ?? null;
 			} else {
 				data = tagResult;
-				facets = tagFacets;
 			}
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load';
@@ -109,11 +105,11 @@
 	{:else}
 		<h2 class="mb-4 text-xl font-semibold capitalize">{data.kind}</h2>
 
-		<!-- Tag filters (first — narrow by topic) -->
-		{#if facets && facets.tags.length > 0}
+		<!-- Tag filters (first — narrow by topic, uses tag-only facets so always visible) -->
+		{#if tagFacets && tagFacets.tags.length > 0}
 			<div class="mb-3 flex flex-wrap items-center gap-1.5">
 				<span class="text-xs text-brain-muted">tags:</span>
-				{#each facets.tags as tagFacet (tagFacet.tag)}
+				{#each tagFacets.tags as tagFacet (tagFacet.tag)}
 					<button
 						onclick={() => toggleTag(tagFacet.tag)}
 						class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(

@@ -21,10 +21,19 @@ at: '2026-03-29T13:49:53.166Z'
 
 ## Status filters
 
-- [x] Add filter bar above memory list: All / Planned / In Progress / Done
-- [x] Client-side filter on progress.status (shows only when memories have checkboxes)
-- [x] Active filter button highlighted with status color
+- [x] Add status as tab bar below tags: All / Planned / In Progress / Done
+- [x] All tabs always visible with counts from tag-filtered facets (cross-filtering)
+- [x] Active tab highlighted with status color (underline style)
 - [x] Card styling changes by status (done=dimmed, in-progress=amber left border)
+- [x] API-driven filtering via Brain's ?status= param (not client-side)
+- [x] Second API call only when status is active
+
+## Tag filters
+
+- [x] Tags at top — filter by topic first
+- [x] Tag counts from API facets (cascading with status)
+- [x] Clickable tags on cards toggle filter
+- [x] All filters synced to URL (?tag=x&status=y) for refresh/sharing
 
 ## Type badges (from tags)
 
@@ -37,7 +46,6 @@ No title prefix stripping — just detect from tags and show colored badge.
 - [ ] Show lucide icon next to badge
 - [ ] Filter by type in addition to status
 - [x] Add category badges to search results and memory detail
-- [x] Cascading tag filters: only show tags available given current status/tag selection
 
 ## Visual polish
 

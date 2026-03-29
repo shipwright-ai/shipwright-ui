@@ -21,15 +21,15 @@ at: '2026-03-29T14:11:19.748Z'
 
 ## Pagination
 
-- [ ] browse endpoint: respect limit/offset, return total + hasMore
+- [x] browse endpoint: respect limit/offset, return total + hasMore
 - [ ] search endpoint: same pagination pattern
-- [ ] Response shape: `{ total, limit, offset, hasMore, memories: [...] }`
+- [x] Response shape: `{ total, limit, offset, hasMore, memories: [...] }`
 
 ## Facets (first page only, when offset=0)
 
-- [ ] Return aggregated tags with counts: `facets.tags: [{ tag, count }]`
-- [ ] Return status distribution: `facets.status: { not-started, in-progress, done, no-progress }`
-- [ ] Facets respect active filters — if `?tags=bug`, facets show counts for that subset
+- [x] Return aggregated tags with counts: `facets.tags: [{ tag, count }]`
+- [x] Return status distribution: `facets.status: { not-started, in-progress, done, no-progress }`
+- [x] Facets respect active filters — if `?tags=bug`, facets show counts for that subset
 - [ ] Same pattern for /api/search
 
 ## Why
