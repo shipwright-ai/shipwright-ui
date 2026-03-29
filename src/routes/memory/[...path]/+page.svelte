@@ -286,6 +286,25 @@
 			{@html html}
 		</article>
 
+		<!-- Refs -->
+		{#if entry.refs.length > 0}
+			<div class="mt-8 border-t border-brain-border pt-6">
+				<h3 class="mb-3 text-sm font-semibold text-brain-muted">related memories</h3>
+				<div class="space-y-2">
+					{#each entry.refs as ref (ref)}
+						{@const refSlug = ref.split('/').slice(-2, -1)[0]?.replace(/-/g, ' ') ?? ref}
+						<a
+							href={resolve('/memory/[...path]', { path: ref })}
+							class="block rounded border border-brain-border bg-brain-surface p-3 text-sm transition-colors hover:border-brain-accent"
+						>
+							<span class="capitalize">{refSlug}</span>
+							<span class="ml-2 text-xs text-brain-muted">{ref}</span>
+						</a>
+					{/each}
+				</div>
+			</div>
+		{/if}
+
 		<!-- Children -->
 		{#if entry.children.length > 0}
 			<div class="mt-8 border-t border-brain-border pt-6">

@@ -17,6 +17,9 @@ at: '2026-03-29T17:16:18.096Z'
 
 > Context: Brain stores refs (related memory_file paths) in frontmatter but brain-ui doesn't display them
 
-- [ ] Show refs section in memory detail (after content, before children)
-- [ ] Fetch ref titles from Brain API to display as linked cards
+- [x] Show refs section in memory detail (after content, before children)
+- [x] Display as linked cards with slug name + full path
+- [ ] Fetch ref titles from Brain API instead of parsing slug
 - [ ] Bidirectional: show "referenced by" as well (if Brain API supports it)
+
+![refs-displayed.png](refs-displayed.png)
