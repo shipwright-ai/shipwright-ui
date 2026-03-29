@@ -88,6 +88,7 @@
 			url.searchParams.delete('status');
 		}
 		url.searchParams.delete('tag');
+		url.searchParams.delete('tags');
 		for (const t of tags) {
 			url.searchParams.append('tag', t);
 		}
