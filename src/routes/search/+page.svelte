@@ -135,10 +135,12 @@
 		}}
 		class="mb-4 flex gap-2"
 	>
+		<!-- svelte-ignore a11y_autofocus -->
 		<input
 			type="text"
 			bind:value={inputValue}
 			placeholder="search..."
+			autofocus
 			class="flex-1 rounded border border-brain-border bg-brain-bg px-3 py-2 text-sm text-brain-text placeholder:text-brain-muted focus:border-brain-accent focus:outline-none"
 		/>
 		<button
