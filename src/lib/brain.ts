@@ -69,6 +69,7 @@ export function fileUrl(path: string): string {
 export interface KindEntry {
 	kind: string;
 	count?: number;
+	progress?: Progress;
 }
 
 export interface BrowseRootResponse {

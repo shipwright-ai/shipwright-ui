@@ -32,10 +32,25 @@
 						href={resolve('/browse/[...path]', { path: kind.kind })}
 						class="block rounded border border-brain-border bg-brain-surface p-4 transition-colors hover:border-brain-accent"
 					>
-						<span class="text-sm font-medium capitalize">{kind.kind}</span>
-						{#if kind.count}
-							<span class="ml-2 text-xs text-brain-muted">{kind.count}</span>
-						{/if}
+						<div class="flex items-center gap-2">
+							<span class="text-sm font-medium capitalize">{kind.kind}</span>
+							{#if kind.count}
+								<span class="text-xs text-brain-muted">{kind.count}</span>
+							{/if}
+							{#if kind.progress}
+								<span
+									class="rounded border px-1.5 py-0.5 text-xs"
+									class:border-brain-green={kind.progress.status === 'done'}
+									class:text-brain-green={kind.progress.status === 'done'}
+									class:border-amber-500={kind.progress.status === 'in-progress'}
+									class:text-amber-500={kind.progress.status === 'in-progress'}
+									class:border-brain-muted={kind.progress.status === 'not-started'}
+									class:text-brain-muted={kind.progress.status === 'not-started'}
+								>
+									{kind.progress.checked}/{kind.progress.total}
+								</span>
+							{/if}
+						</div>
 					</a>
 				{/each}
 			</div>
