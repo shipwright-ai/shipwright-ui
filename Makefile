@@ -5,7 +5,7 @@ FILES ?=
 
 BRAIN_SERVER = npx shipwright-brain ui --dir ./docs
 
-.PHONY: help dev build lint format check typecheck test clean up down brain
+.PHONY: help dev build lint format check typecheck test clean up down brain brain-update
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
@@ -48,6 +48,10 @@ check: lint typecheck ## Run all checks (lint + typecheck)
 
 test: ## Run unit tests
 	npm run test
+
+brain-update: ## Update Brain package (then /mcp to reconnect)
+	npm update shipwright-brain
+	@echo "Brain updated. Run /mcp to reconnect, then ToolSearch to refresh definitions."
 
 clean: ## Remove build artifacts
 	rm -rf .svelte-kit build node_modules/.vite
