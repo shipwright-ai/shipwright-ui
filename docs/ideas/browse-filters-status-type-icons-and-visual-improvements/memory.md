@@ -9,7 +9,8 @@ tags:
   - ux
   - filters
   - browse
-refs: []
+refs:
+  - docs/ideas/api-pagination-with-tag-status-facets/memory.md
 by: developer
 at: '2026-03-29T13:49:53.166Z'
 ---
