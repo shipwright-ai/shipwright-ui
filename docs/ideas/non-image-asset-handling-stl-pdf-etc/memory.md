@@ -23,3 +23,5 @@ at: '2026-03-29T15:24:01.425Z'
 - [ ] Consider inline preview for PDFs
 
 [testprint.stl](testprint.stl)
+
+[testpdf.pdf](testpdf.pdf)
