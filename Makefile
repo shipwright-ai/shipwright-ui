@@ -3,7 +3,7 @@
 
 FILES ?=
 
-BRAIN_SERVER = node ../shipwright-brain/src/http.js ./docs
+BRAIN_SERVER = npx shipwright-brain ui --dir ./docs
 
 .PHONY: help dev build lint format check typecheck test clean up down brain
 
@@ -14,7 +14,7 @@ up: ## Start Brain API + dev server
 	$(BRAIN_SERVER) & echo "Brain API: http://localhost:3111" && npm run dev
 
 down: ## Stop Brain API
-	@-pkill -f "shipwright-brain/src/http.js" 2>/dev/null || true
+	@-pkill -f "shipwright-brain ui" 2>/dev/null || true
 	@echo "Brain API stopped"
 
 brain: ## Start Brain API only
