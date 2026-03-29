@@ -148,24 +148,40 @@
 
 		<!-- Dashboard: recent memories by status -->
 		{#if dashboard.some((s) => s.total > 0)}
-			<div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-				{#each dashboard as section (section.status)}
-					{#if section.total > 0}
-						<div>
-							<div class="mb-2 flex items-center justify-between">
-								<h3 class="text-sm font-medium text-brain-muted">
-									{section.label}
-									<span class="opacity-40">({section.total})</span>
-								</h3>
+			<div class="mt-10">
+				<div class="mb-3 flex items-center justify-between">
+					<h2 class="text-sm font-semibold text-brain-muted">Recent activity</h2>
+					<a href={resolve('/board')} class="text-xs text-brain-accent hover:text-brain-accent/80">
+						see full board &rarr;
+					</a>
+				</div>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+					{#each dashboard as section (section.status)}
+						{#if section.total > 0}
+							<div>
+								<div class="mb-2">
+									<h3 class="text-sm font-medium text-brain-muted">
+										{section.label}
+										<span class="opacity-40">({section.total})</span>
+									</h3>
+								</div>
+								<div class="space-y-2">
+									{#each section.memories as mem (mem.memory_file)}
+										<MemoryCard memory={mem} showKind />
+									{/each}
+									{#if section.total > 3}
+										<a
+											href="{resolve('/board')}?status={section.status}"
+											class="block py-1 text-center text-xs text-brain-muted/60 hover:text-brain-accent"
+										>
+											+{section.total - 3} more
+										</a>
+									{/if}
+								</div>
 							</div>
-							<div class="space-y-2">
-								{#each section.memories as mem (mem.memory_file)}
-									<MemoryCard memory={mem} showKind />
-								{/each}
-							</div>
-						</div>
-					{/if}
-				{/each}
+						{/if}
+					{/each}
+				</div>
 			</div>
 		{/if}
 	{/if}

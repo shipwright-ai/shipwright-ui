@@ -62,10 +62,16 @@
 <header
 	class="flex items-center justify-between border-b border-brain-border bg-brain-surface px-4 py-3"
 >
-	<div class="flex items-center gap-3">
+	<div class="flex items-center gap-4">
 		<a href={resolve('/')} class="flex items-center gap-2 hover:opacity-80">
 			<BrainCircuit class="h-6 w-6 text-brain-accent" />
 			<h1 class="text-lg font-semibold tracking-tight">shipwright brain</h1>
+		</a>
+		<a
+			href={resolve('/board')}
+			class="text-xs text-brain-muted transition-colors hover:text-brain-text"
+		>
+			board
 		</a>
 	</div>
 

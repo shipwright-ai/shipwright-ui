@@ -18,11 +18,12 @@ at: '2026-03-29T21:38:45.363Z'
 
 ## Capabilities
 
-- **Header** — sticky top bar with brain icon (links to home), "shipwright brain" title, inline search input, theme toggle, connection status dot (green=connected, red=disconnected)
-- **Breadcrumbs** — contextual navigation on browse and memory detail pages (home / kind / title)
+- **Header** — sticky top bar with brain icon (links to home), "shipwright brain" title, board link, inline search input, theme toggle, connection status dot (green=connected, red=disconnected)
+- **Breadcrumbs** — full path hierarchy derived from memory_file, nested memories show all parent segments
 - **Command palette** — Cmd+K opens search overlay for quick navigation
 - **Theme switcher** — cycles dark / system / light with icon indicator
 - **Clean URLs** — `/memory/docs/ideas/foo/memory.md` instead of encoded paths
+- **Board link** — direct link to kanban board in header
 
 ![header-navigation.png](header-navigation.png)
 
