@@ -8,9 +8,8 @@
 		type SortField,
 		type SortOrder
 	} from '$lib/brain';
-	import { detectCategory } from '$lib/categories';
-	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
+	import TagIcon from '$lib/components/TagIcon.svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<SearchResponse | null>(null);
@@ -194,7 +193,6 @@
 			<div class="mb-3 flex flex-wrap items-center gap-1.5">
 				<span class="text-xs text-brain-muted">tags:</span>
 				{#each tagFacets.tags as tagFacet (tagFacet.tag)}
-					{@const tagCategory = detectCategory([tagFacet.tag])}
 					<button
 						onclick={() => toggleTag(tagFacet.tag)}
 						class="cursor-pointer rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(
@@ -203,10 +201,8 @@
 							? 'text-brain-accent'
 							: 'text-brain-muted hover:text-brain-text'}"
 					>
-						{#if tagCategory}
-							<CategoryBadge category={tagCategory} minimal />
-						{/if}
-						{tagFacet.tag} ({tagFacet.count})
+						<span class="opacity-40"><TagIcon tag={tagFacet.tag} /></span>
+						{tagFacet.tag} <span class="opacity-40">({tagFacet.count})</span>
 					</button>
 				{/each}
 				{#if activeTags.length > 0}

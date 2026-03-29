@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - ux
   - improvement
-refs: []
+refs:
+  - docs/ideas/redesign-homepage-hero-current-image-not-liked/memory.md
 by: developer
 at: '2026-03-29T21:30:38.262Z'
 ---
@@ -19,8 +20,7 @@ The homepage currently uses a custom/emoji-based logo. Lucide icons are already 
 
 ## Key Points
 
-- [ ] Pick a suitable Lucide icon (brain, ship-wheel, anchor, compass, etc.)
-- [ ] Replace current homepage branding with the chosen icon
-- [ ] Ensure it works in both dark and light themes
+- [x] Superseded — hero PNG already on homepage from branding work
+- [x] Icon approach evolved into tag icon mapping (all tags get Lucide icons)
 
 ![homepage-current.png](homepage-current.png)
