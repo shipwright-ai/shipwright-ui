@@ -16,8 +16,10 @@ at: '2026-03-29T22:31:10.779Z'
 
 ## Key Points
 
-- [ ] Fetch 3 most recently modified memories per status (not-started, in-progress, done)
-- [ ] Use sort=modified&order=desc&status=X&limit=3 API calls
-- [ ] Show as three columns/sections on homepage below the kind list
-- [ ] Each section shows count + 3 MemoryCards
-- [ ] Responsive — stack on mobile
+- [x] Fetch 3 most recently modified memories per status (not-started, in-progress, done)
+- [x] Uses searchMemories with sort=modified:desc + status filter
+- [x] Show as three columns on homepage below the kind list
+- [x] Each section shows label + count + up to 3 MemoryCards with kind badge
+- [x] Responsive — stacks on mobile (grid-cols-1 md:grid-cols-3)
+
+![homepage-dashboard.png](homepage-dashboard.png)

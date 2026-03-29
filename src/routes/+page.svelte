@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { browseRoot, browseKind, type BrowseRootResponse, type MemorySummary } from '$lib/brain';
+	import {
+		browseRoot,
+		browseKind,
+		searchMemories,
+		type BrowseRootResponse,
+		type MemorySummary
+	} from '$lib/brain';
+	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import heroImg from '$lib/assets/shipwright-hero.png';
@@ -10,19 +17,40 @@
 	let error = $state<string | null>(null);
 	let singleMemories = $state<Record<string, MemorySummary>>({});
 
+	interface StatusSection {
+		label: string;
+		status: 'not-started' | 'in-progress' | 'done';
+		memories: MemorySummary[];
+		total: number;
+	}
+	let dashboard = $state<StatusSection[]>([]);
+
 	onMount(async () => {
 		try {
 			data = await browseRoot();
-			// Fetch single-memory kinds to get their memory details
+			// Fetch single-memory kinds and dashboard in parallel
 			const singles = data.kinds.filter((k) => (k.count ?? 0) === 1);
-			const results = await Promise.all(singles.map((k) => browseKind(k.kind)));
+			const [kindResults, ...statusResults] = await Promise.all([
+				Promise.all(singles.map((k) => browseKind(k.kind))),
+				...(['not-started', 'in-progress', 'done'] as const).map((status) =>
+					searchMemories({ status, sort: 'modified', order: 'desc' })
+				)
+			]);
 			const rec: Record<string, MemorySummary> = {};
-			for (const result of results) {
+			for (const result of kindResults) {
 				if (result.memories.length > 0) {
 					rec[result.kind] = result.memories[0];
 				}
 			}
 			singleMemories = rec;
+			const labels = ['Planned', 'In Progress', 'Done'];
+			const statuses = ['not-started', 'in-progress', 'done'] as const;
+			dashboard = statusResults.map((r, i) => ({
+				label: labels[i],
+				status: statuses[i],
+				memories: r.memories.slice(0, 3),
+				total: r.total
+			}));
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to connect to Brain';
 		}
@@ -101,6 +129,29 @@
 				<img src="/error-404.svg" alt="Empty" class="mb-6 h-40 w-auto opacity-60" />
 				<p class="text-lg font-medium text-brain-muted">Brain is empty</p>
 				<p class="mt-1 text-sm text-brain-muted/60">No memories yet — start creating!</p>
+			</div>
+		{/if}
+
+		<!-- Dashboard: recent memories by status -->
+		{#if dashboard.some((s) => s.total > 0)}
+			<div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+				{#each dashboard as section (section.status)}
+					{#if section.total > 0}
+						<div>
+							<div class="mb-2 flex items-center justify-between">
+								<h3 class="text-sm font-medium text-brain-muted">
+									{section.label}
+									<span class="opacity-40">({section.total})</span>
+								</h3>
+							</div>
+							<div class="space-y-2">
+								{#each section.memories as mem (mem.memory_file)}
+									<MemoryCard memory={mem} showKind />
+								{/each}
+							</div>
+						</div>
+					{/if}
+				{/each}
 			</div>
 		{/if}
 	{/if}
