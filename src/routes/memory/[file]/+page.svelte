@@ -12,6 +12,7 @@
 	let entry = $state<MemoryDetail | null>(null);
 	let error = $state<string | null>(null);
 	let html = $state('');
+	let lightboxSrc = $state<string | null>(null);
 
 	const file = $derived(decodeURIComponent($page.params.file ?? ''));
 
@@ -90,10 +91,11 @@
 					}
 				);
 			let parsed = await marked.parse(content);
-			// Wrap images with alt text in figure/figcaption for filename caption
+			// Wrap images in clickable figure with figcaption
 			parsed = parsed.replace(
 				/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*>/g,
-				(match, _src, alt) => `<figure>${match}<figcaption>${alt}</figcaption></figure>`
+				(match, src, alt) =>
+					`<figure><a href="${src}" class="lightbox-trigger" data-lightbox="${src}">${match}</a><figcaption>${alt}</figcaption></figure>`
 			);
 			// Convert standalone file links (in their own <p>) to attachment cards
 			parsed = parsed.replace(/<p><a href="([^"]+)">([^<]+)<\/a><\/p>/g, (_, url, text) => {
@@ -122,6 +124,18 @@
 		}
 	}
 </script>
+
+{#if lightboxSrc}
+	<div
+		class="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/90 p-8"
+		onclick={() => (lightboxSrc = null)}
+		onkeydown={(e) => e.key === 'Escape' && (lightboxSrc = null)}
+		role="dialog"
+		tabindex="-1"
+	>
+		<img src={lightboxSrc} alt="" class="max-h-full max-w-full rounded" />
+	</div>
+{/if}
 
 <div class="mx-auto max-w-4xl">
 	{#if error}
@@ -192,7 +206,16 @@
 		</div>
 
 		<!-- Content -->
-		<article class="prose prose-sm max-w-none prose-invert">
+		<article
+			class="prose prose-sm max-w-none prose-invert"
+			onclick={(e) => {
+				const trigger = (e.target as HTMLElement).closest('[data-lightbox]');
+				if (trigger) {
+					e.preventDefault();
+					lightboxSrc = trigger.getAttribute('data-lightbox');
+				}
+			}}
+		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -- rendering trusted markdown from Brain API -->
 			{@html html}
 		</article>

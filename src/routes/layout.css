@@ -73,3 +73,9 @@
 .prose a[download] {
 	text-decoration: none;
 }
+
+/* Lightbox image triggers */
+.prose .lightbox-trigger {
+	cursor: zoom-in;
+	text-decoration: none;
+}
