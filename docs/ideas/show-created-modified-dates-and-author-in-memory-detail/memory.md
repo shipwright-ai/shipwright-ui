@@ -17,3 +17,5 @@ at: '2026-03-29T15:23:57.878Z'
 - [x] Add modified field to MemoryDetail type
 - [x] Display created date, modified date, and author below tags
 - [x] Show relative time ("2 hours ago") + exact datetime as small muted text next to it
+
+![dates-implemented.png](dates-implemented.png)

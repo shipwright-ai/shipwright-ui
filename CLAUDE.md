@@ -55,7 +55,9 @@ After finishing any implementation — before reporting done:
 1. Run `make check` on changed files — fix all errors
 2. Self-review: did you follow conventions.md? Did you drift from what was asked?
 3. If the change affects architecture/decisions/vision docs, flag it — don't update silently
-4. Summary: what changed, gates passed, any concerns
+4. Update the related Brain idea: check off completed items, add new items for refinements
+5. Ask the developer for a screenshot of the result, attach to the idea via `brain.attach_to_memory`
+6. Summary: what changed, gates passed, any concerns
 
 ## Shipwright
 
