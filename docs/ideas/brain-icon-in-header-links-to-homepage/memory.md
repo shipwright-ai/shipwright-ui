@@ -14,5 +14,7 @@ at: '2026-03-29T16:33:48.847Z'
 
 > Context: header says "shipwright brain" as text — needs a visual brain icon that links home
 
-- [ ] Add brain emoji or SVG icon before the title in Header.svelte
-- [ ] Make it a link to / (homepage)
+- [x] Add brain emoji (🧠) before the title in Header.svelte
+- [x] Make it a link to / (homepage)
+
+![brain-icon-and-search-in-navbar.png](brain-icon-and-search-in-navbar.png)

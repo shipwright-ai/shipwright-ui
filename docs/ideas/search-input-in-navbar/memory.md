@@ -17,7 +17,8 @@ at: '2026-03-29T16:33:50.048Z'
 
 > Context: search requires navigating to /search page — should be always accessible from navbar
 
-- [ ] Add compact search input in Header.svelte
-- [ ] On submit, navigate to /search?q=query
-- [ ] Hide on /search page to avoid duplication
+- [x] Add compact search input in Header.svelte (expands on focus)
+- [x] On submit, navigate to /search?q=query
+- [x] Hidden on /search page to avoid duplication
+- [x] Hidden on mobile (sm: breakpoint)
 - [ ] Ties into Cmd+K popup idea as well
