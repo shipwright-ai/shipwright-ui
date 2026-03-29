@@ -17,8 +17,8 @@ at: '2026-03-29T15:24:01.425Z'
 
 > Context: brain.attach_to_memory works with any file type, but brain-ui only handles images inline
 
-- [ ] Test attaching non-image files (STL, PDF, etc)
-- [ ] Show download link with file icon for non-image attachments
+- [x] Test attaching non-image files (STL, PDF, etc)
+- [x] Show download link for non-image attachments (relative path rewriting works)
 - [ ] Detect file type from extension and show appropriate icon
 - [ ] Consider inline preview for PDFs
 
