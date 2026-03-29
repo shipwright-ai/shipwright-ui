@@ -17,7 +17,9 @@ at: '2026-03-29T15:24:04.914Z'
 
 > Context: code blocks in memory markdown render as plain monospace text with no highlighting
 
-- [ ] Choose highlighting library (shiki for build-time, highlight.js for runtime)
-- [ ] Integrate with marked renderer for fenced code blocks
-- [ ] Dark theme matching brain-\* color palette
-- [ ] Support common languages: js, ts, python, bash, json, yaml, markdown
+- [x] Choose highlighting library: highlight.js (runtime, tree-shakeable)
+- [x] Integrate with marked via marked-highlight plugin
+- [x] Dark theme: github-dark-dimmed (matches brain-\* palette)
+- [x] Languages: js, ts, python, bash, json, yaml, markdown, css, html, xml, svelte
+
+![syntax-highlighting-working.png](syntax-highlighting-working.png)
