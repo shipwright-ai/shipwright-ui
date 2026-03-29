@@ -68,3 +68,8 @@
 	color: #888;
 	margin-top: 0.5em;
 }
+
+/* Attachment card download buttons — remove prose link styling */
+.prose a[download] {
+	text-decoration: none;
+}

@@ -23,8 +23,11 @@ at: '2026-03-29T15:24:01.425Z'
 - [x] Standalone file links render as attachment cards with icon, name, download button
 - [x] PDF accordion: collapsible preview with inline iframe
 - [x] Download button styled as button, not link
-- [ ] Test PDF preview actually renders in browser
+- [x] Test PDF preview actually renders in browser
+- [x] Fix download button underline from prose styling
 
 [testprint.stl](testprint.stl)
 
 [testpdf.pdf](testpdf.pdf)
+
+![pdf-preview-working.png](pdf-preview-working.png)
