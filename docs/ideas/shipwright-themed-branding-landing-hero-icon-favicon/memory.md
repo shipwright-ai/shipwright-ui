@@ -36,3 +36,5 @@ One design, three scales:
 - [ ] Iterate on design based on feedback
 
 ![hero-on-landing.png](hero-on-landing.png)
+
+![brain-chip-v2.png](brain-chip-v2.png)

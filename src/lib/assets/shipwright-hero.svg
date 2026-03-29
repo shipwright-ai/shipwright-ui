@@ -1,53 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <!-- Compass circle -->
-  <circle cx="100" cy="100" r="85" stroke="#60a5fa" stroke-width="1.5" opacity="0.2" />
-  <circle cx="100" cy="100" r="75" stroke="#60a5fa" stroke-width="0.5" opacity="0.1" />
+  <!-- Brain left hemisphere (organic curves) -->
+  <path d="M100 40 C88 30, 65 32, 56 45 C47 58, 48 72, 55 82 C46 88, 40 100, 45 112 C50 124, 62 130, 74 128 C76 138, 84 150, 98 155"
+    stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" fill="none" />
 
-  <!-- Compass cardinal marks -->
-  <line x1="100" y1="18" x2="100" y2="28" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" />
-  <line x1="100" y1="172" x2="100" y2="182" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" />
-  <line x1="18" y1="100" x2="28" y2="100" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" />
-  <line x1="172" y1="100" x2="182" y2="100" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" />
+  <!-- Brain inner folds (left) -->
+  <path d="M98 50 Q82 62, 70 58" stroke="#60a5fa" stroke-width="1.2" opacity="0.5" stroke-linecap="round" />
+  <path d="M98 70 Q78 78, 62 75" stroke="#60a5fa" stroke-width="1.2" opacity="0.4" stroke-linecap="round" />
+  <path d="M98 90 Q80 96, 55 92" stroke="#60a5fa" stroke-width="1.2" opacity="0.35" stroke-linecap="round" />
+  <path d="M98 110 Q82 115, 68 112" stroke="#60a5fa" stroke-width="1.2" opacity="0.3" stroke-linecap="round" />
+  <path d="M98 130 Q86 135, 78 130" stroke="#60a5fa" stroke-width="1.2" opacity="0.25" stroke-linecap="round" />
 
-  <!-- Diagonal marks -->
-  <line x1="42" y1="42" x2="49" y2="49" stroke="#60a5fa" stroke-width="1" opacity="0.2" />
-  <line x1="151" y1="42" x2="158" y2="49" stroke="#60a5fa" stroke-width="1" opacity="0.2" />
-  <line x1="42" y1="158" x2="49" y2="151" stroke="#60a5fa" stroke-width="1" opacity="0.2" />
-  <line x1="151" y1="158" x2="158" y2="151" stroke="#60a5fa" stroke-width="1" opacity="0.2" />
+  <!-- Center divider (brain to chip transition) -->
+  <line x1="100" y1="38" x2="100" y2="157" stroke="#60a5fa" stroke-width="0.8" opacity="0.15" />
 
-  <!-- Brain left hemisphere -->
-  <path d="M100 55 C90 45, 72 42, 65 50 C58 58, 56 70, 60 80 C52 85, 48 95, 52 105 C56 115, 65 120, 75 118 C75 130, 82 140, 95 143"
-    stroke="#60a5fa" stroke-width="2" stroke-linecap="round" />
+  <!-- Chip right side (geometric) -->
+  <!-- Chip body outline -->
+  <rect x="102" y="52" width="52" height="90" rx="4" stroke="#60a5fa" stroke-width="2" opacity="0.7" fill="none" />
 
-  <!-- Brain right hemisphere -->
-  <path d="M100 55 C110 45, 128 42, 135 50 C142 58, 144 70, 140 80 C148 85, 152 95, 148 105 C144 115, 135 120, 125 118 C125 130, 118 140, 105 143"
-    stroke="#60a5fa" stroke-width="2" stroke-linecap="round" />
+  <!-- Chip inner die -->
+  <rect x="112" y="65" width="32" height="64" rx="2" stroke="#60a5fa" stroke-width="1" opacity="0.4" fill="none" />
 
-  <!-- Brain center folds -->
-  <path d="M100 58 L100 140" stroke="#60a5fa" stroke-width="0.5" opacity="0.2" />
-  <path d="M80 70 Q90 80, 100 75" stroke="#60a5fa" stroke-width="1" opacity="0.3" />
-  <path d="M120 70 Q110 80, 100 75" stroke="#60a5fa" stroke-width="1" opacity="0.3" />
-  <path d="M75 95 Q88 90, 100 95" stroke="#60a5fa" stroke-width="1" opacity="0.3" />
-  <path d="M125 95 Q112 90, 100 95" stroke="#60a5fa" stroke-width="1" opacity="0.3" />
+  <!-- Die circuit pattern -->
+  <line x1="118" y1="72" x2="138" y2="72" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <line x1="118" y1="82" x2="138" y2="82" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <line x1="118" y1="92" x2="138" y2="92" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <line x1="118" y1="102" x2="138" y2="102" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <line x1="118" y1="112" x2="138" y2="112" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <line x1="128" y1="65" x2="128" y2="129" stroke="#60a5fa" stroke-width="0.8" opacity="0.2" />
 
-  <!-- Circuit nodes -->
-  <circle cx="72" cy="72" r="3" fill="#60a5fa" opacity="0.8" />
-  <circle cx="128" cy="72" r="3" fill="#60a5fa" opacity="0.8" />
-  <circle cx="60" cy="100" r="3" fill="#60a5fa" opacity="0.8" />
-  <circle cx="140" cy="100" r="3" fill="#60a5fa" opacity="0.8" />
-  <circle cx="100" cy="85" r="4" fill="#60a5fa" opacity="0.9" />
-  <circle cx="85" cy="115" r="2.5" fill="#60a5fa" opacity="0.6" />
-  <circle cx="115" cy="115" r="2.5" fill="#60a5fa" opacity="0.6" />
+  <!-- Circuit nodes on die -->
+  <circle cx="120" cy="77" r="2" fill="#60a5fa" opacity="0.8" />
+  <circle cx="136" cy="87" r="2" fill="#60a5fa" opacity="0.7" />
+  <circle cx="120" cy="97" r="2.5" fill="#60a5fa" opacity="0.9" />
+  <circle cx="136" cy="107" r="2" fill="#60a5fa" opacity="0.7" />
+  <circle cx="128" cy="120" r="2" fill="#60a5fa" opacity="0.6" />
 
-  <!-- Circuit connections -->
-  <line x1="72" y1="72" x2="100" y2="85" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
-  <line x1="128" y1="72" x2="100" y2="85" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
-  <line x1="60" y1="100" x2="85" y2="115" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
-  <line x1="140" y1="100" x2="115" y2="115" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
-  <line x1="100" y1="85" x2="85" y2="115" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
-  <line x1="100" y1="85" x2="115" y2="115" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <!-- Signal wires going right (from chip pins) -->
+  <!-- Top pins -->
+  <line x1="154" y1="62" x2="172" y2="62" stroke="#60a5fa" stroke-width="1.5" opacity="0.5" stroke-linecap="round" />
+  <line x1="154" y1="72" x2="180" y2="72" stroke="#60a5fa" stroke-width="1.5" opacity="0.45" stroke-linecap="round" />
+  <line x1="154" y1="82" x2="175" y2="82" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" stroke-linecap="round" />
 
-  <!-- Ship keel line (subtle, under the brain) -->
-  <path d="M70 145 Q100 160, 130 145" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" stroke-linecap="round" />
-  <line x1="100" y1="143" x2="100" y2="155" stroke="#60a5fa" stroke-width="1" opacity="0.3" />
+  <!-- Middle pins -->
+  <line x1="154" y1="92" x2="185" y2="92" stroke="#60a5fa" stroke-width="1.5" opacity="0.5" stroke-linecap="round" />
+  <line x1="154" y1="102" x2="178" y2="102" stroke="#60a5fa" stroke-width="1.5" opacity="0.4" stroke-linecap="round" />
+
+  <!-- Bottom pins -->
+  <line x1="154" y1="112" x2="170" y2="112" stroke="#60a5fa" stroke-width="1.5" opacity="0.45" stroke-linecap="round" />
+  <line x1="154" y1="122" x2="176" y2="122" stroke="#60a5fa" stroke-width="1.5" opacity="0.35" stroke-linecap="round" />
+  <line x1="154" y1="132" x2="168" y2="132" stroke="#60a5fa" stroke-width="1.5" opacity="0.3" stroke-linecap="round" />
+
+  <!-- Signal dots at wire ends -->
+  <circle cx="172" cy="62" r="1.5" fill="#60a5fa" opacity="0.5" />
+  <circle cx="180" cy="72" r="1.5" fill="#60a5fa" opacity="0.45" />
+  <circle cx="175" cy="82" r="1.5" fill="#60a5fa" opacity="0.4" />
+  <circle cx="185" cy="92" r="2" fill="#60a5fa" opacity="0.5" />
+  <circle cx="178" cy="102" r="1.5" fill="#60a5fa" opacity="0.4" />
+  <circle cx="170" cy="112" r="1.5" fill="#60a5fa" opacity="0.45" />
+  <circle cx="176" cy="122" r="1.5" fill="#60a5fa" opacity="0.35" />
+  <circle cx="168" cy="132" r="1.5" fill="#60a5fa" opacity="0.3" />
+
+  <!-- Transition zone: brain-to-chip connections crossing the center -->
+  <path d="M98 55 Q100 55, 102 55" stroke="#60a5fa" stroke-width="1" opacity="0.4" />
+  <path d="M98 75 Q100 73, 112 72" stroke="#60a5fa" stroke-width="0.8" opacity="0.35" />
+  <path d="M98 95 Q104 94, 112 92" stroke="#60a5fa" stroke-width="0.8" opacity="0.35" />
+  <path d="M98 115 Q104 113, 112 112" stroke="#60a5fa" stroke-width="0.8" opacity="0.3" />
+  <path d="M98 135 Q102 137, 102 142" stroke="#60a5fa" stroke-width="0.8" opacity="0.25" />
+
+  <!-- Subtle glow on center node -->
+  <circle cx="100" cy="97" r="4" fill="#60a5fa" opacity="0.15" />
+  <circle cx="100" cy="97" r="2" fill="#60a5fa" opacity="0.5" />
 </svg>
