@@ -22,6 +22,30 @@
 		load();
 	});
 
+	function getFileIcon(ext: string): string {
+		const icons: Record<string, string> = {
+			pdf: '📄',
+			stl: '🧊',
+			obj: '🧊',
+			'3mf': '🧊',
+			zip: '📦',
+			tar: '📦',
+			gz: '📦',
+			csv: '📊',
+			xlsx: '📊',
+			xls: '📊',
+			docx: '📝',
+			doc: '📝',
+			txt: '📝',
+			log: '📋',
+			json: '🔧',
+			yaml: '🔧',
+			yml: '🔧',
+			svg: '🎨'
+		};
+		return icons[ext] || '📎';
+	}
+
 	async function load() {
 		entry = null;
 		error = null;
@@ -41,7 +65,9 @@
 					/(?<!!)\[([^\]]+)\]\((?!https?:\/\/)(?!#)([^)]+\.[a-z0-9]+)\)/gi,
 					(_, text, href) => {
 						const resolved = href.startsWith('/') ? href : `${memDir}/${href}`;
-						return `[${text}](${fileUrl(resolved)})`;
+						const ext = href.split('.').pop()?.toLowerCase() ?? '';
+						const icon = getFileIcon(ext);
+						return `[${icon} ${text}](${fileUrl(resolved)})`;
 					}
 				);
 			let parsed = await marked.parse(content);
@@ -50,6 +76,27 @@
 				/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*>/g,
 				(match, _src, alt) => `<figure>${match}<figcaption>${alt}</figcaption></figure>`
 			);
+			// Convert standalone file links (in their own <p>) to attachment cards
+			parsed = parsed.replace(/<p><a href="([^"]+)">([^<]+)<\/a><\/p>/g, (_, url, text) => {
+				const icon = text.split(' ')[0];
+				const name = text.substring(text.indexOf(' ') + 1);
+				const isPdf = url.toLowerCase().endsWith('.pdf') || name.toLowerCase().endsWith('.pdf');
+				if (isPdf) {
+					return `<details class="my-3 rounded border border-brain-border bg-brain-surface">
+							<summary class="flex cursor-pointer items-center gap-3 p-3">
+								<span class="text-lg">${icon}</span>
+								<span class="flex-1 text-sm text-brain-text">${name}</span>
+								<a href="${url}" class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted hover:text-brain-accent" download onclick="event.stopPropagation()">⬇ download</a>
+							</summary>
+							<iframe src="${url}" class="w-full border-t border-brain-border" style="height: 500px;"></iframe>
+						</details>`;
+				}
+				return `<div class="my-3 flex items-center gap-3 rounded border border-brain-border bg-brain-surface p-3">
+						<span class="text-lg">${icon}</span>
+						<span class="flex-1 text-sm text-brain-text">${name}</span>
+						<a href="${url}" class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted hover:text-brain-accent" download>⬇ download</a>
+					</div>`;
+			});
 			html = parsed;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load memory';
