@@ -8,6 +8,7 @@
 		type MemorySummary
 	} from '$lib/brain';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import heroSvg from '$lib/assets/shipwright-hero.svg';
 	import { onMount } from 'svelte';
 
 	let data = $state<BrowseRootResponse | null>(null);
@@ -44,7 +45,11 @@
 	{:else if !data}
 		<p class="text-brain-muted">loading...</p>
 	{:else}
-		<h2 class="mb-4 text-xl font-semibold">memory kinds</h2>
+		<!-- Hero -->
+		<div class="mb-8 flex flex-col items-center">
+			<img src={heroSvg} alt="Shipwright Brain" class="mb-4 h-32 w-32 opacity-80" />
+			<h2 class="text-xl font-semibold">memory kinds</h2>
+		</div>
 
 		{#if data.kinds.length > 0}
 			<!-- Multi-memory kinds (grid cards linking to browse) -->
