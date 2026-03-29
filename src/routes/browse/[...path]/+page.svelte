@@ -11,6 +11,10 @@
 	let data = $state<BrowseKindResponse | null>(null);
 	let error = $state<string | null>(null);
 	let currentPath = $derived($page.params.path ?? '');
+
+	// Facets from tag-only query (for status tab counts)
+	let tagFacets = $state<Facets | null>(null);
+	// Facets from full query (for tag counts within current status)
 	let facets = $state<Facets | null>(null);
 
 	// Read filters from URL
@@ -19,7 +23,6 @@
 
 	onMount(() => load());
 
-	// Re-fetch when URL changes (path or query params)
 	$effect(() => {
 		void currentPath;
 		void statusFilter;
@@ -29,14 +32,22 @@
 
 	async function load() {
 		if (!currentPath) return;
-		data = null;
 		error = null;
 		try {
-			const opts: { tags?: string[]; status?: string } = {};
-			if (activeTags.length > 0) opts.tags = activeTags;
-			if (statusFilter) opts.status = statusFilter;
-			data = await browseKind(currentPath, opts);
-			facets = data.facets ?? null;
+			// Fetch with tags only → status counts for tabs
+			const tagOpts: { tags?: string[] } = {};
+			if (activeTags.length > 0) tagOpts.tags = activeTags;
+			const tagResult = await browseKind(currentPath, tagOpts);
+			tagFacets = tagResult.facets ?? null;
+
+			// If status filter active, fetch again with both
+			if (statusFilter) {
+				data = await browseKind(currentPath, { ...tagOpts, status: statusFilter });
+				facets = data.facets ?? null;
+			} else {
+				data = tagResult;
+				facets = tagFacets;
+			}
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load';
 		}
@@ -73,7 +84,11 @@
 	}
 
 	let hasProgress = $derived(
-		facets ? Object.values(facets.status).some((v, i) => i < 3 && v > 0) : false
+		tagFacets
+			? tagFacets.status['not-started'] > 0 ||
+					tagFacets.status['in-progress'] > 0 ||
+					tagFacets.status['done'] > 0
+			: false
 	);
 </script>
 
@@ -94,53 +109,9 @@
 	{:else}
 		<h2 class="mb-4 text-xl font-semibold capitalize">{data.kind}</h2>
 
-		<!-- Status filter bar -->
-		{#if facets && hasProgress}
-			<div class="mb-4 flex items-center gap-2">
-				<button
-					onclick={() => setStatus(null)}
-					class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === null
-						? 'bg-brain-accent text-black'
-						: 'text-brain-muted hover:text-brain-text'}"
-				>
-					All
-				</button>
-				{#if facets.status['not-started'] > 0 || statusFilter === 'not-started'}
-					<button
-						onclick={() => setStatus(statusFilter === 'not-started' ? null : 'not-started')}
-						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'not-started'
-							? 'bg-brain-muted/30 text-brain-text'
-							: 'text-brain-muted hover:text-brain-text'}"
-					>
-						Planned ({facets.status['not-started']})
-					</button>
-				{/if}
-				{#if facets.status['in-progress'] > 0 || statusFilter === 'in-progress'}
-					<button
-						onclick={() => setStatus(statusFilter === 'in-progress' ? null : 'in-progress')}
-						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'in-progress'
-							? 'bg-amber-500/20 text-amber-400'
-							: 'text-brain-muted hover:text-brain-text'}"
-					>
-						In Progress ({facets.status['in-progress']})
-					</button>
-				{/if}
-				{#if facets.status['done'] > 0 || statusFilter === 'done'}
-					<button
-						onclick={() => setStatus(statusFilter === 'done' ? null : 'done')}
-						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'done'
-							? 'bg-brain-green/20 text-brain-green'
-							: 'text-brain-muted hover:text-brain-text'}"
-					>
-						Done ({facets.status['done']})
-					</button>
-				{/if}
-			</div>
-		{/if}
-
-		<!-- Tag filters -->
+		<!-- Tag filters (first — narrow by topic) -->
 		{#if facets && facets.tags.length > 0}
-			<div class="mb-4 flex flex-wrap items-center gap-1.5">
+			<div class="mb-3 flex flex-wrap items-center gap-1.5">
 				<span class="text-xs text-brain-muted">tags:</span>
 				{#each facets.tags as tagFacet (tagFacet.tag)}
 					<button
@@ -159,6 +130,47 @@
 						clear
 					</button>
 				{/if}
+			</div>
+		{/if}
+
+		<!-- Status tabs (always show all with counts from tag-filtered set) -->
+		{#if hasProgress && tagFacets}
+			<div class="mb-4 flex items-center gap-1 border-b border-brain-border">
+				<button
+					onclick={() => setStatus(null)}
+					class="border-b-2 px-3 py-2 text-xs transition-colors {statusFilter === null
+						? 'border-brain-accent text-brain-text'
+						: 'border-transparent text-brain-muted hover:text-brain-text'}"
+				>
+					All ({tagFacets.status['not-started'] +
+						tagFacets.status['in-progress'] +
+						tagFacets.status['done'] +
+						tagFacets.status['no-progress']})
+				</button>
+				<button
+					onclick={() => setStatus(statusFilter === 'not-started' ? null : 'not-started')}
+					class="border-b-2 px-3 py-2 text-xs transition-colors {statusFilter === 'not-started'
+						? 'border-brain-muted text-brain-text'
+						: 'border-transparent text-brain-muted hover:text-brain-text'}"
+				>
+					Planned ({tagFacets.status['not-started']})
+				</button>
+				<button
+					onclick={() => setStatus(statusFilter === 'in-progress' ? null : 'in-progress')}
+					class="border-b-2 px-3 py-2 text-xs transition-colors {statusFilter === 'in-progress'
+						? 'border-amber-500 text-amber-400'
+						: 'border-transparent text-brain-muted hover:text-brain-text'}"
+				>
+					In Progress ({tagFacets.status['in-progress']})
+				</button>
+				<button
+					onclick={() => setStatus(statusFilter === 'done' ? null : 'done')}
+					class="border-b-2 px-3 py-2 text-xs transition-colors {statusFilter === 'done'
+						? 'border-brain-green text-brain-green'
+						: 'border-transparent text-brain-muted hover:text-brain-text'}"
+				>
+					Done ({tagFacets.status['done']})
+				</button>
 			</div>
 		{/if}
 
