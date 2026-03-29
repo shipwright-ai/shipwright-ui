@@ -37,6 +37,34 @@ Every change MUST pass `make check` before being committed. This runs prettier, 
   - `/memory/[file]` — Memory detail with rendered markdown
   - `/search` — Full-text search across memories
 
+## Context Gates
+
+Before writing code → read docs/conventions/brain-ui-conventions/memory.md
+Before making decisions → read docs/decisions/brain-ui-decisions/memory.md
+Before suggesting features → read docs/vision/brain-ui-vision/memory.md
+For architecture questions → read docs/architecture/brain-ui-architecture/memory.md
+
+## Idea Capture
+
+When the developer mentions an idea unrelated to the current task ("oh we should also...", "what if we...", "remind me to..."), capture it immediately to Brain:
+
+1. Acknowledge briefly: "Captured."
+2. Use `brain.create_memory` with kind: "ideas", include context of current work
+3. Return to current task — don't let capture become a conversation
+
+## Post-Implementation Checks
+
+After finishing any implementation — before reporting done:
+
+1. Run `make check` on changed files — fix all errors
+2. Self-review: did you follow conventions.md? Did you drift from what was asked?
+3. If the change affects architecture/decisions/vision docs, flag it — don't update silently
+4. Summary: what changed, gates passed, any concerns
+
+## Shipwright
+
+Skills: ../shipwright/skills/
+
 ## Conventions
 
 - Use `resolve()` from `$app/paths` for all `href` attributes (typed routes)

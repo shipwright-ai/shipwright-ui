@@ -24,7 +24,7 @@ Separate project: shipwright-ui. SvelteKit app consuming Brain's HTTP API.
 
 ## Architecture
 
-- Consumes /api/* endpoints from Brain's http.js
+- Consumes /api/\* endpoints from Brain's http.js
 - Separate deployment — can run anywhere
 - Brain's current simple HTML is the placeholder until this ships
 

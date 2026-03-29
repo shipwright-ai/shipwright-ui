@@ -1,9 +1,16 @@
 ---
 title: Brain UI
-summary: SvelteKit app to browse, search, and visualize shipwright-brain memories with tree drilldown and graph view
+summary: >-
+  SvelteKit app to browse, search, and visualize shipwright-brain memories with
+  tree drilldown and graph view
 kind: vision
-tags: [brain-ui, sveltekit, frontend]
-refs: [docs/ideas/brain-ui-sveltekit/memory.md]
+tags:
+  - brain-ui
+  - sveltekit
+  - frontend
+refs:
+  - docs/ideas/brain-ui-sveltekit/memory.md
+  - docs/vision/brain-ui-vision/memory.md
 by: developer
 at: 2025-03-28T00:00:00.000Z
 ---
