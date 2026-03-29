@@ -19,9 +19,11 @@ All memories with checkboxes have a status (planned/in-progress/done). A kanban 
 
 ## Key Points
 
-- [ ] New route `/board` or `/kanban`
-- [ ] Three columns: Not Started, In Progress, Done
-- [ ] Each column shows MemoryCard components
-- [ ] Filter by tags and kinds
-- [ ] Fetch all memories with status using search API
-- [ ] Responsive — stack columns on mobile
+- [x] New route `/board`
+- [x] Three columns: Not Started, In Progress, Done
+- [x] Each column shows MemoryCard components with kind badge
+- [x] Filter by tags with TagIcon
+- [x] Fetch all memories with status using search API + sort=modified:desc
+- [x] Responsive — stacks on mobile (grid-cols-1 md:grid-cols-3)
+
+![kanban-board.png](kanban-board.png)

@@ -88,9 +88,16 @@
 					{#if isSingle}
 						<a
 							href={resolve('/memory/[...path]', { path: memory.memory_file })}
-							class="block rounded border border-brain-border bg-brain-surface p-4 transition-colors hover:border-brain-accent"
+							class="block overflow-hidden rounded border border-brain-border bg-brain-surface transition-colors hover:border-brain-accent"
 						>
-							<div class="flex items-center gap-2">
+							{#if kind.progress}
+								{@const pct =
+									kind.progress.total > 0 ? (kind.progress.checked / kind.progress.total) * 100 : 0}
+								<div class="h-0.5 w-full bg-brain-border/30">
+									<div class="h-full bg-amber-500 transition-all" style="width: {pct}%"></div>
+								</div>
+							{/if}
+							<div class="flex items-center gap-2 p-4">
 								<span class="text-xs text-brain-muted capitalize">{kind.kind}</span>
 								<span class="text-sm font-medium">{memory.title}</span>
 								{#if memory.children > 0}
@@ -104,9 +111,16 @@
 					{:else}
 						<a
 							href={resolve('/browse/[...path]', { path: kind.kind })}
-							class="block rounded border border-brain-border bg-brain-surface p-4 transition-colors hover:border-brain-accent"
+							class="block overflow-hidden rounded border border-brain-border bg-brain-surface transition-colors hover:border-brain-accent"
 						>
-							<div class="flex items-center gap-2">
+							{#if kind.progress}
+								{@const pct =
+									kind.progress.total > 0 ? (kind.progress.checked / kind.progress.total) * 100 : 0}
+								<div class="h-0.5 w-full bg-brain-border/30">
+									<div class="h-full bg-amber-500 transition-all" style="width: {pct}%"></div>
+								</div>
+							{/if}
+							<div class="flex items-center gap-2 p-4">
 								<span class="text-xs text-brain-muted capitalize">{kind.kind}</span>
 								{#if kind.count}
 									<span class="text-sm font-medium">{kind.count} memories</span>
