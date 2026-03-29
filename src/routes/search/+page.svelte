@@ -62,6 +62,19 @@
 							>{result.kind}</span
 						>
 						<span class="text-sm font-medium">{result.title}</span>
+						{#if result.progress}
+							<span
+								class="rounded border px-1.5 py-0.5 text-xs"
+								class:border-brain-green={result.progress.status === 'done'}
+								class:text-brain-green={result.progress.status === 'done'}
+								class:border-amber-500={result.progress.status === 'in-progress'}
+								class:text-amber-500={result.progress.status === 'in-progress'}
+								class:border-brain-muted={result.progress.status === 'not-started'}
+								class:text-brain-muted={result.progress.status === 'not-started'}
+							>
+								{result.progress.checked}/{result.progress.total}
+							</span>
+						{/if}
 					</div>
 					{#if result.summary}
 						<div class="mt-1 text-xs text-brain-muted">{result.summary}</div>

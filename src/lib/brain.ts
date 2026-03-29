@@ -48,9 +48,13 @@ export async function getMemory(file: string): Promise<MemoryDetail> {
 	return res.json();
 }
 
-export async function searchMemories(query: string): Promise<SearchResponse> {
+export async function searchMemories(
+	query: string,
+	status?: 'not-started' | 'in-progress' | 'done'
+): Promise<SearchResponse> {
 	const url = new URL('/api/search', getBrainUrl());
 	url.searchParams.set('q', query);
+	if (status) url.searchParams.set('status', status);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
 	return res.json();
@@ -72,6 +76,12 @@ export interface BrowseRootResponse {
 	kinds: KindEntry[];
 }
 
+export interface Progress {
+	checked: number;
+	total: number;
+	status: 'not-started' | 'in-progress' | 'done';
+}
+
 export interface MemorySummary {
 	memory_file: string;
 	title: string;
@@ -80,6 +90,7 @@ export interface MemorySummary {
 	tags: string[];
 	children: number;
 	at: string;
+	progress?: Progress;
 }
 
 export interface BrowseKindResponse {
@@ -101,6 +112,7 @@ export interface MemoryDetail {
 	at: string;
 	content: string;
 	children: MemorySummary[];
+	progress?: Progress;
 }
 
 export interface SearchResponse {

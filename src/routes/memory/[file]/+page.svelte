@@ -57,7 +57,22 @@
 
 		<!-- Header -->
 		<div class="mb-6">
-			<h1 class="text-2xl font-semibold">{entry.title}</h1>
+			<div class="flex items-center gap-3">
+				<h1 class="text-2xl font-semibold">{entry.title}</h1>
+				{#if entry.progress}
+					<span
+						class="rounded border px-2 py-0.5 text-sm"
+						class:border-brain-green={entry.progress.status === 'done'}
+						class:text-brain-green={entry.progress.status === 'done'}
+						class:border-amber-500={entry.progress.status === 'in-progress'}
+						class:text-amber-500={entry.progress.status === 'in-progress'}
+						class:border-brain-muted={entry.progress.status === 'not-started'}
+						class:text-brain-muted={entry.progress.status === 'not-started'}
+					>
+						{entry.progress.checked}/{entry.progress.total}
+					</span>
+				{/if}
+			</div>
 			{#if entry.summary}
 				<p class="mt-1 text-brain-muted">{entry.summary}</p>
 			{/if}
@@ -92,7 +107,22 @@
 							})}
 							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
 						>
-							<div class="text-sm font-medium">{child.title}</div>
+							<div class="flex items-center gap-2 text-sm font-medium">
+								{child.title}
+								{#if child.progress}
+									<span
+										class="rounded border px-1.5 py-0.5 text-xs"
+										class:border-brain-green={child.progress.status === 'done'}
+										class:text-brain-green={child.progress.status === 'done'}
+										class:border-amber-500={child.progress.status === 'in-progress'}
+										class:text-amber-500={child.progress.status === 'in-progress'}
+										class:border-brain-muted={child.progress.status === 'not-started'}
+										class:text-brain-muted={child.progress.status === 'not-started'}
+									>
+										{child.progress.checked}/{child.progress.total}
+									</span>
+								{/if}
+							</div>
 							{#if child.summary}
 								<div class="mt-1 text-xs text-brain-muted">{child.summary}</div>
 							{/if}
