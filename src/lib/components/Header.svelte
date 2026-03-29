@@ -3,22 +3,38 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { checkConnection, setBrainUrl, resetBrainUrl } from '$lib/brain';
-	import { BrainCircuit } from 'lucide-svelte';
+	import { BrainCircuit, Sun, Moon, Monitor } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let connected = $state(false);
 	let showPopover = $state(false);
 	let urlInput = $state('http://localhost:3111');
 	let searchQuery = $state('');
+	let theme = $state<'dark' | 'light' | 'system'>('dark');
 
 	let isSearchPage = $derived($page.url.pathname.startsWith('/search'));
 
 	onMount(() => {
 		urlInput = localStorage.getItem('brain-url') || 'http://localhost:3111';
+		theme = (localStorage.getItem('brain-theme') as typeof theme) || 'dark';
+		applyTheme();
 		check();
 		const interval = setInterval(check, 10000);
 		return () => clearInterval(interval);
 	});
+
+	function applyTheme() {
+		const root = document.documentElement;
+		root.classList.remove('dark', 'light');
+		if (theme !== 'system') root.classList.add(theme);
+	}
+
+	function cycleTheme() {
+		const order: Array<typeof theme> = ['dark', 'system', 'light'];
+		theme = order[(order.indexOf(theme) + 1) % order.length];
+		localStorage.setItem('brain-theme', theme);
+		applyTheme();
+	}
 
 	async function check() {
 		connected = await checkConnection();
@@ -71,6 +87,21 @@
 				/>
 			</form>
 		{/if}
+
+		<!-- Theme toggle -->
+		<button
+			onclick={cycleTheme}
+			class="text-brain-muted transition-colors hover:text-brain-text"
+			title="Theme: {theme}"
+		>
+			{#if theme === 'dark'}
+				<Moon class="h-4 w-4" />
+			{:else if theme === 'light'}
+				<Sun class="h-4 w-4" />
+			{:else}
+				<Monitor class="h-4 w-4" />
+			{/if}
+		</button>
 
 		<!-- Connection status -->
 		<div class="relative">

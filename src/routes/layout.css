@@ -14,6 +14,38 @@
 	--color-brain-red: #f87171;
 }
 
+/* Light mode overrides */
+html.light {
+	--color-brain-bg: #fafafa;
+	--color-brain-surface: #ffffff;
+	--color-brain-border: #e2e2e2;
+	--color-brain-text: #1a1a1a;
+	--color-brain-muted: #666;
+	--color-brain-accent: #2563eb;
+	--color-brain-green: #16a34a;
+	--color-brain-red: #dc2626;
+}
+
+/* System preference (when no explicit class) */
+@media (prefers-color-scheme: light) {
+	html:not(.dark) {
+		--color-brain-bg: #fafafa;
+		--color-brain-surface: #ffffff;
+		--color-brain-border: #e2e2e2;
+		--color-brain-text: #1a1a1a;
+		--color-brain-muted: #666;
+		--color-brain-accent: #2563eb;
+		--color-brain-green: #16a34a;
+		--color-brain-red: #dc2626;
+	}
+}
+
+/* Base styles */
+html {
+	background-color: var(--color-brain-bg);
+	color: var(--color-brain-text);
+}
+
 /* Checkbox styling in prose content */
 .prose input[type='checkbox'] {
 	appearance: none;
@@ -27,9 +59,13 @@
 	cursor: default;
 }
 
+html.light .prose input[type='checkbox'] {
+	border-color: #ccc;
+}
+
 .prose input[type='checkbox']:checked {
-	background-color: #4ade80;
-	border-color: #4ade80;
+	background-color: var(--color-brain-green);
+	border-color: var(--color-brain-green);
 }
 
 .prose input[type='checkbox']:checked::after {
@@ -39,7 +75,7 @@
 	top: 0px;
 	width: 5px;
 	height: 9px;
-	border: solid #0f0f0f;
+	border: solid var(--color-brain-bg);
 	border-width: 0 2px 2px 0;
 	transform: rotate(45deg);
 }
@@ -50,12 +86,12 @@
 
 /* Image styling in prose content */
 .prose img {
-	border: 1px solid #2a2a2a;
+	border: 1px solid var(--color-brain-border);
 	border-radius: 8px;
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 50%;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Image captions */
@@ -66,7 +102,7 @@
 
 .prose figcaption {
 	font-size: 0.75em;
-	color: #888;
+	color: var(--color-brain-muted);
 	margin-top: 0.5em;
 }
 
