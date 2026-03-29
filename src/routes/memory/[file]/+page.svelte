@@ -190,21 +190,20 @@
 			{#if entry.summary}
 				<p class="mt-1 text-brain-muted">{entry.summary}</p>
 			{/if}
-			<div class="mt-3 flex items-center gap-3">
-				<span class="rounded bg-brain-accent/20 px-2 py-0.5 text-xs text-brain-accent"
-					>{entry.kind}</span
-				>
-				{#each entry.tags as tag (tag)}
-					<button
-						onclick={() => {
-							// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
-							goto(`${resolve('/search')}?tags=${encodeURIComponent(tag)}`);
-						}}
-						class="rounded border border-brain-border bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:border-brain-accent hover:text-brain-accent"
-						>{tag}</button
-					>
-				{/each}
-			</div>
+			{#if entry.tags.length > 0}
+				<div class="mt-3 flex flex-wrap items-center gap-1.5">
+					{#each entry.tags as tag (tag)}
+						<button
+							onclick={() => {
+								// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
+								goto(`${resolve('/search')}?tags=${encodeURIComponent(tag)}`);
+							}}
+							class="rounded border border-brain-border bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:border-brain-accent hover:text-brain-accent"
+							>{tag}</button
+						>
+					{/each}
+				</div>
+			{/if}
 			<div class="mt-2 flex flex-wrap gap-4 text-xs text-brain-muted">
 				{#if entry.at}
 					<span

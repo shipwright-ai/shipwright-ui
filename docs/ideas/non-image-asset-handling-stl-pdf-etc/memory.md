@@ -31,3 +31,5 @@ at: '2026-03-29T15:24:01.425Z'
 [testpdf.pdf](testpdf.pdf)
 
 ![pdf-preview-working.png](pdf-preview-working.png)
+
+![pdf-lightbox-fullscreen.png](pdf-lightbox-fullscreen.png)
