@@ -38,3 +38,5 @@ One design, three scales:
 ![hero-on-landing.png](hero-on-landing.png)
 
 ![brain-chip-v2.png](brain-chip-v2.png)
+
+![brain-chip-intersected-v3.png](brain-chip-intersected-v3.png)
