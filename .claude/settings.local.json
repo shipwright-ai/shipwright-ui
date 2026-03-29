@@ -17,7 +17,11 @@
       "Bash(make help:*)",
       "Bash(make check:*)",
       "WebFetch(domain:svelte.dev)",
-      "Bash(make test:*)"
+      "Bash(make test:*)",
+      "Bash(curl -s http://localhost:3111/api/browse)",
+      "Bash(curl -s \"http://localhost:3111/api/browse?path=decisions\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(git:*)"
     ]
   }
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { search, type SearchResult } from '$lib/brain';
+	import { searchMemories, type SearchResponse } from '$lib/brain';
 
 	let query = $state('');
-	let results = $state<SearchResult[]>([]);
+	let data = $state<SearchResponse | null>(null);
 	let searched = $state(false);
 	let loading = $state(false);
 
@@ -12,9 +12,9 @@
 		loading = true;
 		searched = true;
 		try {
-			results = await search(query.trim());
+			data = await searchMemories(query.trim());
 		} catch {
-			results = [];
+			data = null;
 		} finally {
 			loading = false;
 		}
@@ -47,11 +47,12 @@
 
 	{#if loading}
 		<p class="text-brain-muted">searching...</p>
-	{:else if searched && results.length === 0}
+	{:else if searched && (!data || data.memories.length === 0)}
 		<p class="text-brain-muted">no results found</p>
-	{:else}
+	{:else if data}
+		<p class="mb-3 text-xs text-brain-muted">{data.total} results</p>
 		<div class="space-y-2">
-			{#each results as result (result.memory_file)}
+			{#each data.memories as result (result.memory_file)}
 				<a
 					href={resolve('/memory/[file]', { file: encodeURIComponent(result.memory_file) })}
 					class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
@@ -61,7 +62,6 @@
 							>{result.kind}</span
 						>
 						<span class="text-sm font-medium">{result.title}</span>
-						<span class="ml-auto text-xs text-brain-muted">{Math.round(result.score * 100)}%</span>
 					</div>
 					{#if result.summary}
 						<div class="mt-1 text-xs text-brain-muted">{result.summary}</div>

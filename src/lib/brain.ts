@@ -26,15 +26,21 @@ export async function checkConnection(): Promise<boolean> {
 	}
 }
 
-export async function browse(path?: string): Promise<BrowseResponse> {
+export async function browseRoot(): Promise<BrowseRootResponse> {
+	const res = await fetch(`${getBrainUrl()}/api/browse`);
+	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
+	return res.json();
+}
+
+export async function browseKind(kind: string): Promise<BrowseKindResponse> {
 	const url = new URL('/api/browse', getBrainUrl());
-	if (path) url.searchParams.set('path', path);
+	url.searchParams.set('path', kind);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
 	return res.json();
 }
 
-export async function getMemory(file: string): Promise<MemoryEntry> {
+export async function getMemory(file: string): Promise<MemoryDetail> {
 	const url = new URL('/api/memory', getBrainUrl());
 	url.searchParams.set('f', file);
 	const res = await fetch(url);
@@ -42,7 +48,7 @@ export async function getMemory(file: string): Promise<MemoryEntry> {
 	return res.json();
 }
 
-export async function search(query: string): Promise<SearchResult[]> {
+export async function searchMemories(query: string): Promise<SearchResponse> {
 	const url = new URL('/api/search', getBrainUrl());
 	url.searchParams.set('q', query);
 	const res = await fetch(url);
@@ -54,26 +60,51 @@ export function fileUrl(path: string): string {
 	return `${getBrainUrl()}/file?p=${encodeURIComponent(path)}`;
 }
 
-// Types
-export interface BrowseEntry {
+// Types matching actual Brain API responses
+
+export interface KindEntry {
+	kind: string;
+	count?: number;
+}
+
+export interface BrowseRootResponse {
+	level: 'root';
+	kinds: KindEntry[];
+}
+
+export interface MemorySummary {
+	memory_file: string;
 	title: string;
 	summary: string;
 	kind: string;
 	tags: string[];
+	children: number;
+	at: string;
+}
+
+export interface BrowseKindResponse {
+	level: 'kind';
+	kind: string;
+	memories: MemorySummary[];
+	total: number;
+	hasMore: boolean;
+}
+
+export interface MemoryDetail {
 	memory_file: string;
-}
-
-export interface BrowseResponse {
-	path: string;
-	entries: BrowseEntry[];
-	children: string[];
-}
-
-export interface MemoryEntry extends BrowseEntry {
+	title: string;
+	summary: string;
+	kind: string;
+	tags: string[];
+	refs: string[];
+	by: string;
+	at: string;
 	content: string;
-	children: string[];
+	children: MemorySummary[];
 }
 
-export interface SearchResult extends BrowseEntry {
-	score: number;
+export interface SearchResponse {
+	memories: MemorySummary[];
+	total: number;
+	hasMore: boolean;
 }

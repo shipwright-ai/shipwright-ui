@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/stores';
-	import { getMemory, fileUrl, type MemoryEntry } from '$lib/brain';
+	import { getMemory, fileUrl, type MemoryDetail } from '$lib/brain';
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
 
-	let entry = $state<MemoryEntry | null>(null);
+	let entry = $state<MemoryDetail | null>(null);
 	let error = $state<string | null>(null);
 	let html = $state('');
 
@@ -34,12 +34,6 @@
 			error = e instanceof Error ? e.message : 'Failed to load memory';
 		}
 	}
-
-	function parentPath(memoryFile: string): string {
-		const parts = memoryFile.split('/');
-		parts.pop(); // memory.md
-		return '/browse/' + parts.join('/');
-	}
 </script>
 
 <div class="mx-auto max-w-4xl">
@@ -54,11 +48,8 @@
 		<nav class="mb-6 flex items-center gap-1.5 text-sm text-brain-muted">
 			<a href={resolve('/')} class="hover:text-brain-text">home</a>
 			<span>/</span>
-			<a
-				href={resolve('/browse/[...path]', {
-					path: parentPath(entry.memory_file).replace('/browse/', '')
-				})}
-				class="hover:text-brain-text">{entry.kind}</a
+			<a href={resolve('/browse/[...path]', { path: entry.kind })} class="hover:text-brain-text"
+				>{entry.kind}</a
 			>
 			<span>/</span>
 			<span class="text-brain-text">{entry.title}</span>
@@ -92,14 +83,19 @@
 		<!-- Children -->
 		{#if entry.children.length > 0}
 			<div class="mt-8 border-t border-brain-border pt-6">
-				<h3 class="mb-3 text-sm font-semibold text-brain-muted">related memories</h3>
+				<h3 class="mb-3 text-sm font-semibold text-brain-muted">sub-memories</h3>
 				<div class="space-y-2">
-					{#each entry.children as child (child)}
+					{#each entry.children as child (child.memory_file)}
 						<a
-							href={resolve('/memory/[file]', { file: encodeURIComponent(child) })}
-							class="block rounded border border-brain-border bg-brain-surface p-3 text-sm transition-colors hover:border-brain-accent"
+							href={resolve('/memory/[file]', {
+								file: encodeURIComponent(child.memory_file)
+							})}
+							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
 						>
-							{child}
+							<div class="text-sm font-medium">{child.title}</div>
+							{#if child.summary}
+								<div class="mt-1 text-xs text-brain-muted">{child.summary}</div>
+							{/if}
 						</a>
 					{/each}
 				</div>

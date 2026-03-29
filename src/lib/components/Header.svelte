@@ -4,9 +4,10 @@
 
 	let connected = $state(false);
 	let showPopover = $state(false);
-	let urlInput = $state(localStorage.getItem('brain-url') || 'http://localhost:3111');
+	let urlInput = $state('http://localhost:3111');
 
 	onMount(() => {
+		urlInput = localStorage.getItem('brain-url') || 'http://localhost:3111';
 		check();
 		const interval = setInterval(check, 10000);
 		return () => clearInterval(interval);
