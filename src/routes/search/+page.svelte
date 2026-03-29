@@ -1,18 +1,36 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/stores';
 	import { searchMemories, type SearchResponse } from '$lib/brain';
+	import { onMount } from 'svelte';
 
 	let query = $state('');
+	let activeTags = $state<string[]>([]);
 	let data = $state<SearchResponse | null>(null);
 	let searched = $state(false);
 	let loading = $state(false);
 
+	onMount(() => {
+		const urlTags = $page.url.searchParams.get('tags');
+		const urlQuery = $page.url.searchParams.get('q');
+		if (urlTags) {
+			activeTags = urlTags.split(',');
+			doSearch();
+		} else if (urlQuery) {
+			query = urlQuery;
+			doSearch();
+		}
+	});
+
 	async function doSearch() {
-		if (!query.trim()) return;
+		if (!query.trim() && activeTags.length === 0) return;
 		loading = true;
 		searched = true;
 		try {
-			data = await searchMemories(query.trim());
+			data = await searchMemories({
+				query: query.trim() || undefined,
+				tags: activeTags.length > 0 ? activeTags : undefined
+			});
 		} catch {
 			data = null;
 		} finally {
@@ -23,6 +41,28 @@
 
 <div class="mx-auto max-w-4xl">
 	<h2 class="mb-4 text-xl font-semibold">search memories</h2>
+
+	{#if activeTags.length > 0}
+		<div class="mb-4 flex items-center gap-2">
+			<span class="text-xs text-brain-muted">filtering by:</span>
+			{#each activeTags as tag (tag)}
+				<span
+					class="rounded border border-brain-accent bg-brain-accent/10 px-1.5 py-0.5 text-xs text-brain-accent"
+					>{tag}</span
+				>
+			{/each}
+			<button
+				onclick={() => {
+					activeTags = [];
+					data = null;
+					searched = false;
+				}}
+				class="text-xs text-brain-muted hover:text-brain-text"
+			>
+				clear
+			</button>
+		</div>
+	{/if}
 
 	<form
 		onsubmit={(e) => {

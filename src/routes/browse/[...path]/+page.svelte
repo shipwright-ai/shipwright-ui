@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browseKind, type BrowseKindResponse } from '$lib/brain';
 	import { onMount } from 'svelte';
@@ -73,8 +74,15 @@
 						{#if entry.tags.length > 0}
 							<div class="mt-2 flex gap-1.5">
 								{#each entry.tags as tag (tag)}
-									<span class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted"
-										>{tag}</span
+									<button
+										onclick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
+											goto(`${resolve('/search')}?tags=${encodeURIComponent(tag)}`);
+										}}
+										class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:text-brain-accent"
+										>{tag}</button
 									>
 								{/each}
 							</div>

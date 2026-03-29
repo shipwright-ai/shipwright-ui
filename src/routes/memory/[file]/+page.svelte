@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getMemory, fileUrl, type MemoryDetail } from '$lib/brain';
 	import { marked } from 'marked';
@@ -81,9 +82,13 @@
 					>{entry.kind}</span
 				>
 				{#each entry.tags as tag (tag)}
-					<span
-						class="rounded border border-brain-border bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted"
-						>{tag}</span
+					<button
+						onclick={() => {
+							// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
+							goto(`${resolve('/search')}?tags=${encodeURIComponent(tag)}`);
+						}}
+						class="rounded border border-brain-border bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:border-brain-accent hover:text-brain-accent"
+						>{tag}</button
 					>
 				{/each}
 			</div>

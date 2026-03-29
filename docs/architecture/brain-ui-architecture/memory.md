@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - architecture
   - sveltekit
-refs: []
+refs:
+  - docs/ideas/cmd-k-search-popup-with-autocomplete/memory.md
 by: developer
 at: '2026-03-29T12:12:13.987Z'
 ---
