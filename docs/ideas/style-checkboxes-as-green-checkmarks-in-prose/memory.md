@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - ux
   - styling
-refs: []
+refs:
+  - docs/ideas/fix-relative-image-paths-in-memory-detail-view/memory.md
 by: developer
 at: '2026-03-29T13:02:34.083Z'
 ---
@@ -17,11 +18,9 @@ at: '2026-03-29T13:02:34.083Z'
 
 > Context: viewing idea memory with checkboxes, default browser checkboxes look ugly and small
 
-- [ ] Add CSS for prose checkbox styling in layout.css
-- [ ] Checked items: green checkmark icon
-- [ ] Unchecked items: subtle empty circle or box
-- [ ] Checked text gets slight opacity reduction (completed feel)
-
-![current-checkboxes.png](current-checkboxes.png)
+- [x] Add CSS for prose checkbox styling in layout.css
+- [x] Checked items: green checkmark icon
+- [x] Unchecked items: subtle empty border box
+- [x] Checked text gets slight opacity reduction (completed feel)
 
 ![current-checkboxes.png](current-checkboxes.png)

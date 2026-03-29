@@ -17,8 +17,8 @@ at: '2026-03-29T13:01:08.051Z'
 > Context: viewing memory detail, tags are static text — should be interactive
 
 - [x] Add tag search support to brain.ts API client
-- [ ] Update search page to read ?tags= from URL params
-- [ ] Auto-search on load when tags param present
-- [ ] Make tags clickable in memory detail view
-- [ ] Make tags clickable in browse list view
+- [x] Update search page to read ?tags= from URL params
+- [x] Auto-search on load when tags param present
+- [x] Make tags clickable in memory detail view
+- [x] Make tags clickable in browse list view
 - [ ] Make tags clickable in search results

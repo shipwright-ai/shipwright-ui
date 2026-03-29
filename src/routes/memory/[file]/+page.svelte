@@ -26,9 +26,14 @@
 		try {
 			entry = await getMemory(file);
 			// Rewrite image paths to use Brain file API
+			// Resolve relative paths against the memory file's directory
+			const memDir = file.substring(0, file.lastIndexOf('/'));
 			const content = entry.content.replace(
 				/!\[([^\]]*)\]\((?!https?:\/\/)([^)]+)\)/g,
-				(_, alt, src) => `![${alt}](${fileUrl(src)})`
+				(_, alt, src) => {
+					const resolved = src.startsWith('/') ? src : `${memDir}/${src}`;
+					return `![${alt}](${fileUrl(resolved)})`;
+				}
 			);
 			html = await marked.parse(content);
 		} catch (e) {
