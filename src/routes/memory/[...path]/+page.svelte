@@ -124,25 +124,27 @@
 	}
 </script>
 
+<svelte:window
+	onkeydown={(e) => {
+		if (e.key === 'Escape') {
+			if (lightboxSrc) lightboxSrc = null;
+			if (lightboxPdf) lightboxPdf = null;
+		}
+	}}
+/>
+
 {#if lightboxSrc}
 	<div
 		class="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/90 p-8"
 		onclick={() => (lightboxSrc = null)}
-		onkeydown={(e) => e.key === 'Escape' && (lightboxSrc = null)}
 		role="dialog"
-		tabindex="-1"
 	>
 		<img src={lightboxSrc} alt="" class="max-h-full max-w-full rounded" />
 	</div>
 {/if}
 
 {#if lightboxPdf}
-	<div
-		class="fixed inset-0 z-50 flex flex-col bg-black/95 p-4"
-		onkeydown={(e) => e.key === 'Escape' && (lightboxPdf = null)}
-		role="dialog"
-		tabindex="-1"
-	>
+	<div class="fixed inset-0 z-50 flex flex-col bg-black/95 p-4" role="dialog">
 		<div class="mb-2 flex justify-end">
 			<button
 				onclick={() => (lightboxPdf = null)}

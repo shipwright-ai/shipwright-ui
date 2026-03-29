@@ -19,7 +19,8 @@ at: '2026-03-29T16:26:28.831Z'
 
 - [x] Wrap images in clickable link with data-lightbox attribute
 - [x] Show fullscreen overlay/lightbox on click (Svelte $state driven)
-- [x] Esc or click outside to close
+- [x] Esc (global svelte:window handler) or click outside to close
 - [x] No library — pure CSS overlay with event delegation on article
+- [x] PDF lightbox with fullscreen iframe preview
 
 ![lightbox-open.png](lightbox-open.png)
