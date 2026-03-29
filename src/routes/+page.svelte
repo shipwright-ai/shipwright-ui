@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { browseRoot, type BrowseRootResponse } from '$lib/brain';
+	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<BrowseRootResponse | null>(null);
@@ -38,17 +39,7 @@
 								<span class="text-xs text-brain-muted">{kind.count}</span>
 							{/if}
 							{#if kind.progress}
-								<span
-									class="rounded border px-1.5 py-0.5 text-xs"
-									class:border-brain-green={kind.progress.status === 'done'}
-									class:text-brain-green={kind.progress.status === 'done'}
-									class:border-amber-500={kind.progress.status === 'in-progress'}
-									class:text-amber-500={kind.progress.status === 'in-progress'}
-									class:border-brain-muted={kind.progress.status === 'not-started'}
-									class:text-brain-muted={kind.progress.status === 'not-started'}
-								>
-									{kind.progress.checked}/{kind.progress.total}
-								</span>
+								<ProgressBadge progress={kind.progress} />
 							{/if}
 						</div>
 					</a>

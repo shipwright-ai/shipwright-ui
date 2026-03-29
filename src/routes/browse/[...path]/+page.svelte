@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browseKind, type BrowseKindResponse } from '$lib/brain';
+	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<BrowseKindResponse | null>(null);
@@ -55,17 +56,7 @@
 						<div class="flex items-center gap-2 text-sm font-medium">
 							{entry.title}
 							{#if entry.progress}
-								<span
-									class="rounded border px-1.5 py-0.5 text-xs"
-									class:border-brain-green={entry.progress.status === 'done'}
-									class:text-brain-green={entry.progress.status === 'done'}
-									class:border-amber-500={entry.progress.status === 'in-progress'}
-									class:text-amber-500={entry.progress.status === 'in-progress'}
-									class:border-brain-muted={entry.progress.status === 'not-started'}
-									class:text-brain-muted={entry.progress.status === 'not-started'}
-								>
-									{entry.progress.checked}/{entry.progress.total}
-								</span>
+								<ProgressBadge progress={entry.progress} />
 							{/if}
 						</div>
 						{#if entry.summary}

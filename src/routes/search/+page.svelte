@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/stores';
 	import { searchMemories, type SearchResponse } from '$lib/brain';
+	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import { onMount } from 'svelte';
 
 	let query = $state('');
@@ -103,17 +104,7 @@
 						>
 						<span class="text-sm font-medium">{result.title}</span>
 						{#if result.progress}
-							<span
-								class="rounded border px-1.5 py-0.5 text-xs"
-								class:border-brain-green={result.progress.status === 'done'}
-								class:text-brain-green={result.progress.status === 'done'}
-								class:border-amber-500={result.progress.status === 'in-progress'}
-								class:text-amber-500={result.progress.status === 'in-progress'}
-								class:border-brain-muted={result.progress.status === 'not-started'}
-								class:text-brain-muted={result.progress.status === 'not-started'}
-							>
-								{result.progress.checked}/{result.progress.total}
-							</span>
+							<ProgressBadge progress={result.progress} />
 						{/if}
 					</div>
 					{#if result.summary}
