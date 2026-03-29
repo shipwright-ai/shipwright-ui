@@ -133,7 +133,7 @@ export interface MemoryDetail {
 	summary: string;
 	kind: string;
 	tags: string[];
-	refs: string[];
+	refs: MemorySummary[];
 	by: string;
 	at: string;
 	content: string;

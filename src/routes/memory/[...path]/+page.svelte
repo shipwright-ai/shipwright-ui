@@ -291,14 +291,25 @@
 			<div class="mt-8 border-t border-brain-border pt-6">
 				<h3 class="mb-3 text-sm font-semibold text-brain-muted">related memories</h3>
 				<div class="space-y-2">
-					{#each entry.refs as ref (ref)}
-						{@const refSlug = ref.split('/').slice(-2, -1)[0]?.replace(/-/g, ' ') ?? ref}
+					{#each entry.refs as ref (ref.memory_file)}
+						{@const refCategory = detectCategory(ref.tags)}
 						<a
-							href={resolve('/memory/[...path]', { path: ref })}
-							class="block rounded border border-brain-border bg-brain-surface p-3 text-sm transition-colors hover:border-brain-accent"
+							href={resolve('/memory/[...path]', { path: ref.memory_file })}
+							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
 						>
-							<span class="capitalize">{refSlug}</span>
-							<span class="ml-2 text-xs text-brain-muted">{ref}</span>
+							<div class="flex items-center gap-2 text-sm font-medium">
+								<span class="text-xs text-brain-muted">{ref.kind}</span>
+								{#if refCategory}
+									<CategoryBadge category={refCategory} />
+								{/if}
+								{ref.title}
+								{#if ref.progress}
+									<ProgressBadge progress={ref.progress} />
+								{/if}
+							</div>
+							{#if ref.summary}
+								<div class="mt-1 text-xs text-brain-muted">{ref.summary}</div>
+							{/if}
 						</a>
 					{/each}
 				</div>

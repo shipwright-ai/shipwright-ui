@@ -19,7 +19,13 @@ at: '2026-03-29T17:16:18.096Z'
 
 - [x] Show refs section in memory detail (after content, before children)
 - [x] Display as linked cards with slug name + full path
-- [ ] Fetch ref titles from Brain API instead of parsing slug
-- [ ] Bidirectional: show "referenced by" as well (if Brain API supports it)
+- [x] Brain API: return refs as full objects (title, summary, tags, progress, kind)
+- [ ] Brain API: return referencedBy (back-refs) — which memories ref this one
+- [x] UI: render refs as rich cards with kind, category badge, progress badge
+- [x] UI: use full objects from API
 
 ![refs-displayed.png](refs-displayed.png)
+
+![refs-section-showing.png](refs-section-showing.png)
+
+![rich-refs-with-badges.png](rich-refs-with-badges.png)
