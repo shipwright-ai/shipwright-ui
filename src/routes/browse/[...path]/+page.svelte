@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browseKind, type BrowseKindResponse, type Facets } from '$lib/brain';
 	import { detectCategory } from '$lib/categories';
@@ -9,59 +10,66 @@
 
 	let data = $state<BrowseKindResponse | null>(null);
 	let error = $state<string | null>(null);
-	let statusFilter = $state<string | null>(null);
-	let activeTags = $state<string[]>([]);
 	let currentPath = $derived($page.params.path ?? '');
 	let facets = $state<Facets | null>(null);
 
+	// Read filters from URL
+	let statusFilter = $derived($page.url.searchParams.get('status'));
+	let activeTags = $derived($page.url.searchParams.getAll('tag'));
+
 	onMount(() => load());
 
+	// Re-fetch when URL changes (path or query params)
 	$effect(() => {
 		void currentPath;
-		statusFilter = null;
-		activeTags = [];
+		void statusFilter;
+		void activeTags;
 		load();
 	});
 
-	// Re-fetch when filters change
-	$effect(() => {
-		void statusFilter;
-		void activeTags;
-		fetchFiltered();
-	});
-
 	async function load() {
+		if (!currentPath) return;
 		data = null;
 		error = null;
 		try {
-			data = await browseKind(currentPath);
+			const opts: { tags?: string[]; status?: string } = {};
+			if (activeTags.length > 0) opts.tags = activeTags;
+			if (statusFilter) opts.status = statusFilter;
+			data = await browseKind(currentPath, opts);
 			facets = data.facets ?? null;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load';
 		}
 	}
 
-	async function fetchFiltered() {
-		if (!currentPath) return;
-		try {
-			const opts: { tags?: string[]; status?: string } = {};
-			if (activeTags.length > 0) opts.tags = activeTags;
-			if (statusFilter) opts.status = statusFilter;
-
-			data = await browseKind(currentPath, opts);
-			// Update facets from filtered response (cross-filtering)
-			if (data.facets) facets = data.facets;
-		} catch {
-			// keep existing data on filter fetch failure
+	function updateUrl(status: string | null, tags: string[]) {
+		const url = new URL($page.url);
+		if (status) {
+			url.searchParams.set('status', status);
+		} else {
+			url.searchParams.delete('status');
 		}
+		url.searchParams.delete('tag');
+		for (const t of tags) {
+			url.searchParams.append('tag', t);
+		}
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- URL built from current page
+		goto(url.toString(), { replaceState: true, noScroll: true });
+	}
+
+	function setStatus(status: string | null) {
+		updateUrl(status, activeTags);
 	}
 
 	function toggleTag(tag: string) {
-		if (activeTags.includes(tag)) {
-			activeTags = activeTags.filter((t) => t !== tag);
-		} else {
-			activeTags = [...activeTags, tag];
-		}
+		const newTags = activeTags.includes(tag)
+			? activeTags.filter((t) => t !== tag)
+			: [...activeTags, tag];
+		updateUrl(statusFilter, newTags);
+	}
+
+	function clearTags() {
+		updateUrl(statusFilter, []);
 	}
 
 	let hasProgress = $derived(
@@ -90,7 +98,7 @@
 		{#if facets && hasProgress}
 			<div class="mb-4 flex items-center gap-2">
 				<button
-					onclick={() => (statusFilter = null)}
+					onclick={() => setStatus(null)}
 					class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === null
 						? 'bg-brain-accent text-black'
 						: 'text-brain-muted hover:text-brain-text'}"
@@ -99,7 +107,7 @@
 				</button>
 				{#if facets.status['not-started'] > 0 || statusFilter === 'not-started'}
 					<button
-						onclick={() => (statusFilter = statusFilter === 'not-started' ? null : 'not-started')}
+						onclick={() => setStatus(statusFilter === 'not-started' ? null : 'not-started')}
 						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'not-started'
 							? 'bg-brain-muted/30 text-brain-text'
 							: 'text-brain-muted hover:text-brain-text'}"
@@ -109,7 +117,7 @@
 				{/if}
 				{#if facets.status['in-progress'] > 0 || statusFilter === 'in-progress'}
 					<button
-						onclick={() => (statusFilter = statusFilter === 'in-progress' ? null : 'in-progress')}
+						onclick={() => setStatus(statusFilter === 'in-progress' ? null : 'in-progress')}
 						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'in-progress'
 							? 'bg-amber-500/20 text-amber-400'
 							: 'text-brain-muted hover:text-brain-text'}"
@@ -119,7 +127,7 @@
 				{/if}
 				{#if facets.status['done'] > 0 || statusFilter === 'done'}
 					<button
-						onclick={() => (statusFilter = statusFilter === 'done' ? null : 'done')}
+						onclick={() => setStatus(statusFilter === 'done' ? null : 'done')}
 						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'done'
 							? 'bg-brain-green/20 text-brain-green'
 							: 'text-brain-muted hover:text-brain-text'}"
@@ -147,10 +155,7 @@
 					</button>
 				{/each}
 				{#if activeTags.length > 0}
-					<button
-						onclick={() => (activeTags = [])}
-						class="text-xs text-brain-muted hover:text-brain-text"
-					>
+					<button onclick={clearTags} class="text-xs text-brain-muted hover:text-brain-text">
 						clear
 					</button>
 				{/if}
