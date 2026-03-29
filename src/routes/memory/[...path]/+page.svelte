@@ -269,15 +269,30 @@
 	{:else if !entry}
 		<Spinner />
 	{:else}
-		<!-- Breadcrumb -->
+		<!-- Breadcrumb — derive hierarchy from memory_file path -->
+		{@const pathParts = entry.memory_file
+			.replace(/^docs\//, '')
+			.replace(/\/memory\.md$/, '')
+			.split('/')}
 		<nav class="mb-6 flex items-center gap-1.5 text-sm text-brain-muted">
 			<a href={resolve('/')} class="hover:text-brain-text">home</a>
-			<span>/</span>
-			<a href={resolve('/browse/[...path]', { path: entry.kind })} class="hover:text-brain-text"
-				>{entry.kind}</a
-			>
-			<span>/</span>
-			<span class="text-brain-text">{entry.title}</span>
+			{#each pathParts as part, i (i)}
+				<span>/</span>
+				{#if i === 0}
+					<a href={resolve('/browse/[...path]', { path: part })} class="hover:text-brain-text"
+						>{part}</a
+					>
+				{:else if i === pathParts.length - 1}
+					<span class="text-brain-text">{entry.title}</span>
+				{:else}
+					<a
+						href={resolve('/memory/[...path]', {
+							path: `docs/${pathParts.slice(0, i + 1).join('/')}/memory.md`
+						})}
+						class="hover:text-brain-text">{part.replace(/-/g, ' ')}</a
+					>
+				{/if}
+			{/each}
 		</nav>
 
 		<!-- Header -->

@@ -19,7 +19,9 @@ Sub-memory breadcrumbs currently show `home / features / Browse` but should show
 
 ## Fix needed
 
-- [ ] Parse full path from memory_file — derive breadcrumb segments by deslugifying path parts
-- [ ] Show entire path hierarchy in breadcrumbs, not just parent
-- [ ] Each segment links to its corresponding memory or browse path
-- [ ] Example: home / features / Brain UI Features / Browse
+- [x] Parse full path from memory_file — derive breadcrumb segments by deslugifying path parts
+- [x] Show entire path hierarchy in breadcrumbs, not just parent
+- [x] Each segment links to its corresponding memory or browse path
+- [x] Example: home / features / brain ui features / Browse
+
+![nested-breadcrumbs.png](nested-breadcrumbs.png)
