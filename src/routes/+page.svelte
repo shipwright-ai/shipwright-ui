@@ -47,11 +47,7 @@
 	{:else}
 		<!-- Hero -->
 		<div class="mb-8 flex flex-col items-center">
-			<img
-				src={heroImg}
-				alt="Shipwright Brain"
-				class="mb-4 h-40 w-40 rounded-xl object-contain mix-blend-lighten"
-			/>
+			<img src={heroImg} alt="Shipwright Brain" class="mb-4 h-40 w-40 object-contain" />
 			<h2 class="text-xl font-semibold">memory kinds</h2>
 		</div>
 
