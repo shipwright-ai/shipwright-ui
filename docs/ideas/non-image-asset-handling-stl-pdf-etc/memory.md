@@ -21,3 +21,5 @@ at: '2026-03-29T15:24:01.425Z'
 - [ ] Show download link with file icon for non-image attachments
 - [ ] Detect file type from extension and show appropriate icon
 - [ ] Consider inline preview for PDFs
+
+[testprint.stl](testprint.stl)

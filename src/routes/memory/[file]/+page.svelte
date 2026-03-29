@@ -28,16 +28,22 @@
 		html = '';
 		try {
 			entry = await getMemory(file);
-			// Rewrite image paths to use Brain file API
-			// Resolve relative paths against the memory file's directory
+			// Rewrite relative paths to use Brain file API
 			const memDir = file.substring(0, file.lastIndexOf('/'));
-			const content = entry.content.replace(
-				/!\[([^\]]*)\]\((?!https?:\/\/)([^)]+)\)/g,
-				(_, alt, src) => {
+			const content = entry.content
+				// Images: ![alt](relative-path)
+				.replace(/!\[([^\]]*)\]\((?!https?:\/\/)([^)]+)\)/g, (_, alt, src) => {
 					const resolved = src.startsWith('/') ? src : `${memDir}/${src}`;
 					return `![${alt}](${fileUrl(resolved)})`;
-				}
-			);
+				})
+				// Non-image file links: [name](relative-path.ext)
+				.replace(
+					/(?<!!)\[([^\]]+)\]\((?!https?:\/\/)(?!#)([^)]+\.[a-z0-9]+)\)/gi,
+					(_, text, href) => {
+						const resolved = href.startsWith('/') ? href : `${memDir}/${href}`;
+						return `[${text}](${fileUrl(resolved)})`;
+					}
+				);
 			let parsed = await marked.parse(content);
 			// Wrap images with alt text in figure/figcaption for filename caption
 			parsed = parsed.replace(
