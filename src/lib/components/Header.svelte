@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { checkConnection, setBrainUrl, resetBrainUrl } from '$lib/brain';
+	import { BrainCircuit } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let connected = $state(false);
@@ -47,7 +48,7 @@
 >
 	<div class="flex items-center gap-3">
 		<a href={resolve('/')} class="flex items-center gap-2 hover:opacity-80">
-			<span class="text-xl">🧠</span>
+			<BrainCircuit class="h-6 w-6 text-brain-accent" />
 			<h1 class="text-lg font-semibold tracking-tight">shipwright brain</h1>
 		</a>
 	</div>

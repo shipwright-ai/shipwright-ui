@@ -1,0 +1,28 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 32 32"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="1.5"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class="h-6 w-6"
+>
+	<!-- Brain left hemisphere -->
+	<path d="M16 6c-2-2-5-2.5-7-1s-3 4.5-2.5 7c-1.5 1-2.5 3-2 5s2.5 3.5 4.5 3.5c0 2 1.5 4 4 4.5" />
+	<!-- Brain right hemisphere -->
+	<path d="M16 6c2-2 5-2.5 7-1s3 4.5 2.5 7c1.5 1 2.5 3 2 5s-2.5 3.5-4.5 3.5c0 2-1.5 4-4 4.5" />
+	<!-- Center line -->
+	<path d="M16 6v19" opacity="0.3" />
+	<!-- Circuit nodes -->
+	<circle cx="10" cy="12" r="1.5" fill="currentColor" stroke="none" />
+	<circle cx="22" cy="12" r="1.5" fill="currentColor" stroke="none" />
+	<circle cx="8" cy="18" r="1.5" fill="currentColor" stroke="none" />
+	<circle cx="24" cy="18" r="1.5" fill="currentColor" stroke="none" />
+	<circle cx="16" cy="15" r="1.5" fill="currentColor" stroke="none" />
+	<!-- Circuit connections -->
+	<line x1="10" y1="12" x2="16" y2="15" opacity="0.4" />
+	<line x1="22" y1="12" x2="16" y2="15" opacity="0.4" />
+	<line x1="8" y1="18" x2="16" y2="15" opacity="0.4" />
+	<line x1="24" y1="18" x2="16" y2="15" opacity="0.4" />
+</svg>
