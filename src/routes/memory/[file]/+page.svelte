@@ -22,6 +22,25 @@
 		load();
 	});
 
+	function relativeTime(iso: string): string {
+		const now = Date.now();
+		const then = new Date(iso).getTime();
+		const diff = now - then;
+		const mins = Math.floor(diff / 60000);
+		if (mins < 1) return 'just now';
+		if (mins < 60) return `${mins}m ago`;
+		const hours = Math.floor(mins / 60);
+		if (hours < 24) return `${hours}h ago`;
+		const days = Math.floor(hours / 24);
+		if (days < 30) return `${days}d ago`;
+		const months = Math.floor(days / 30);
+		return `${months}mo ago`;
+	}
+
+	function exactTime(iso: string): string {
+		return new Date(iso).toLocaleString();
+	}
+
 	function getFileIcon(ext: string): string {
 		const icons: Record<string, string> = {
 			pdf: '📄',
@@ -153,12 +172,18 @@
 					>
 				{/each}
 			</div>
-			<div class="mt-2 flex gap-4 text-xs text-brain-muted">
+			<div class="mt-2 flex flex-wrap gap-4 text-xs text-brain-muted">
 				{#if entry.at}
-					<span>created {new Date(entry.at).toLocaleDateString()}</span>
+					<span
+						>created {relativeTime(entry.at)}
+						<span class="text-brain-muted/60">{exactTime(entry.at)}</span></span
+					>
 				{/if}
 				{#if entry.modified}
-					<span>modified {new Date(entry.modified).toLocaleDateString()}</span>
+					<span
+						>modified {relativeTime(entry.modified)}
+						<span class="text-brain-muted/60">{exactTime(entry.modified)}</span></span
+					>
 				{/if}
 				{#if entry.by}
 					<span>by {entry.by}</span>
