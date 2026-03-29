@@ -13,10 +13,24 @@
 	let activeTags = $state<string[]>([]);
 	let currentPath = $derived($page.params.path ?? '');
 
-	let allTags = $derived.by(() => {
+	// Items after status filter (before tag filter) — used to compute available tags
+	let statusFiltered = $derived.by(() => {
 		if (!data) return [];
+		if (!statusFilter) return data.memories;
+		return data.memories.filter((m: MemorySummary) => {
+			if (!m.progress) return statusFilter === 'no-progress';
+			return m.progress.status === statusFilter;
+		});
+	});
+
+	// Tags available given current status + active tag filters (cascading)
+	let availableTags = $derived.by(() => {
+		const pool =
+			activeTags.length > 0
+				? statusFiltered.filter((m: MemorySummary) => activeTags.every((t) => m.tags.includes(t)))
+				: statusFiltered;
 		const tags: string[] = [];
-		for (const m of data.memories) {
+		for (const m of pool) {
 			for (const t of m.tags) {
 				if (!tags.includes(t)) tags.push(t);
 			}
@@ -25,18 +39,12 @@
 	});
 
 	let filtered = $derived.by(() => {
-		if (!data) return [];
-		let items = data.memories;
-		if (statusFilter) {
-			items = items.filter((m: MemorySummary) => {
-				if (!m.progress) return statusFilter === 'no-progress';
-				return m.progress.status === statusFilter;
-			});
-		}
 		if (activeTags.length > 0) {
-			items = items.filter((m: MemorySummary) => activeTags.every((t) => m.tags.includes(t)));
+			return statusFiltered.filter((m: MemorySummary) =>
+				activeTags.every((t) => m.tags.includes(t))
+			);
 		}
-		return items;
+		return statusFiltered;
 	});
 
 	let hasProgress = $derived(data?.memories.some((m: MemorySummary) => m.progress) ?? false);
@@ -125,10 +133,10 @@
 		{/if}
 
 		<!-- Tag filters -->
-		{#if allTags.length > 0}
+		{#if availableTags.length > 0}
 			<div class="mb-4 flex flex-wrap items-center gap-1.5">
 				<span class="text-xs text-brain-muted">tags:</span>
-				{#each allTags as tag (tag)}
+				{#each availableTags as tag (tag)}
 					<button
 						onclick={() => toggleTag(tag)}
 						class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)

@@ -35,7 +35,8 @@ No title prefix stripping — just detect from tags and show colored badge.
 - [x] Show colored badge: red=bug, blue=feature, green=improvement, purple=epic, cyan=research, gray=chore
 - [ ] Show lucide icon next to badge
 - [ ] Filter by type in addition to status
-- [ ] Add category badges to search results and memory detail
+- [x] Add category badges to search results and memory detail
+- [x] Cascading tag filters: only show tags available given current status/tag selection
 
 ## Visual polish
 

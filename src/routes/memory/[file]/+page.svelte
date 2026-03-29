@@ -3,6 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getMemory, fileUrl, type MemoryDetail } from '$lib/brain';
+	import { detectCategory } from '$lib/categories';
+	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import { marked } from 'marked';
 	import { onMount } from 'svelte';
@@ -69,8 +71,12 @@
 		</nav>
 
 		<!-- Header -->
+		{@const entryCategory = detectCategory(entry.tags)}
 		<div class="mb-6">
 			<div class="flex items-center gap-3">
+				{#if entryCategory}
+					<CategoryBadge category={entryCategory} />
+				{/if}
 				<h1 class="text-2xl font-semibold">{entry.title}</h1>
 				{#if entry.progress}
 					<ProgressBadge progress={entry.progress} />

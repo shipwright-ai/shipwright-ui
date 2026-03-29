@@ -21,4 +21,4 @@ at: '2026-03-29T13:01:08.051Z'
 - [x] Auto-search on load when tags param present
 - [x] Make tags clickable in memory detail view
 - [x] Make tags clickable in browse list view
-- [ ] Make tags clickable in search results
+- [x] Make tags clickable in search results

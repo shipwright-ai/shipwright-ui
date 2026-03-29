@@ -2,6 +2,8 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/stores';
 	import { searchMemories, type SearchResponse } from '$lib/brain';
+	import { detectCategory } from '$lib/categories';
+	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import { onMount } from 'svelte';
 
@@ -94,6 +96,7 @@
 		<p class="mb-3 text-xs text-brain-muted">{data.total} results</p>
 		<div class="space-y-2">
 			{#each data.memories as result (result.memory_file)}
+				{@const category = detectCategory(result.tags)}
 				<a
 					href={resolve('/memory/[file]', { file: encodeURIComponent(result.memory_file) })}
 					class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
@@ -102,6 +105,9 @@
 						<span class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-accent"
 							>{result.kind}</span
 						>
+						{#if category}
+							<CategoryBadge {category} />
+						{/if}
 						<span class="text-sm font-medium">{result.title}</span>
 						{#if result.progress}
 							<ProgressBadge progress={result.progress} />
@@ -109,6 +115,21 @@
 					</div>
 					{#if result.summary}
 						<div class="mt-1 text-xs text-brain-muted">{result.summary}</div>
+					{/if}
+					{#if result.tags.length > 0}
+						<div class="mt-2 flex gap-1.5">
+							{#each result.tags as tag (tag)}
+								<button
+									onclick={(e) => {
+										e.preventDefault();
+										activeTags = [tag];
+										doSearch();
+									}}
+									class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:text-brain-accent"
+									>{tag}</button
+								>
+							{/each}
+						</div>
 					{/if}
 				</a>
 			{/each}
