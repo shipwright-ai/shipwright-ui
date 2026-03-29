@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350" fill="none">
+  <!-- Ship on fire / exploding -->
+  <g transform="translate(80, 60)">
+    <!-- Ship hull -->
+    <path d="M40 200 L60 240 L200 240 L220 200 Q130 215 40 200Z" fill="#8B6914" stroke="#6B4F12" stroke-width="2"/>
+    <!-- Deck -->
+    <rect x="60" y="180" width="140" height="22" rx="3" fill="#A0781E" stroke="#8B6914" stroke-width="1.5"/>
+    <!-- Mast (cracked) -->
+    <line x1="130" y1="80" x2="130" y2="185" stroke="#6B4F12" stroke-width="4" stroke-linecap="round"/>
+    <line x1="130" y1="80" x2="145" y2="60" stroke="#6B4F12" stroke-width="3" stroke-linecap="round"/>
+    <!-- Broken mast crack -->
+    <path d="M128 80 L132 75 L129 80 L133 78" stroke="#4a3510" stroke-width="1.5" fill="none"/>
+
+    <!-- Fire on deck -->
+    <g>
+      <path d="M100 175 Q95 140 110 120 Q105 145 120 130 Q115 155 125 170 Z" fill="#ef4444" opacity="0.9">
+        <animate attributeName="d" dur="0.5s" repeatCount="indefinite" values="M100 175 Q95 140 110 120 Q105 145 120 130 Q115 155 125 170 Z;M100 175 Q90 135 108 115 Q110 148 122 125 Q118 158 125 170 Z;M100 175 Q95 140 110 120 Q105 145 120 130 Q115 155 125 170 Z"/>
+      </path>
+      <path d="M105 175 Q102 150 112 135 Q108 155 117 145 Q114 160 120 170 Z" fill="#f59e0b" opacity="0.8">
+        <animate attributeName="d" dur="0.4s" repeatCount="indefinite" values="M105 175 Q102 150 112 135 Q108 155 117 145 Q114 160 120 170 Z;M105 175 Q100 145 110 130 Q112 158 119 140 Q116 162 120 170 Z;M105 175 Q102 150 112 135 Q108 155 117 145 Q114 160 120 170 Z"/>
+      </path>
+      <path d="M108 175 Q106 158 113 148 Q110 160 116 155 Q114 165 118 172 Z" fill="#fbbf24" opacity="0.9">
+        <animate attributeName="d" dur="0.3s" repeatCount="indefinite" values="M108 175 Q106 158 113 148 Q110 160 116 155 Q114 165 118 172 Z;M108 175 Q104 155 112 145 Q113 162 118 152 Q115 167 118 172 Z;M108 175 Q106 158 113 148 Q110 160 116 155 Q114 165 118 172 Z"/>
+      </path>
+    </g>
+
+    <!-- Second fire -->
+    <g transform="translate(50, 5)">
+      <path d="M100 175 Q97 148 108 130 Q104 152 115 140 Q112 158 118 170 Z" fill="#ef4444" opacity="0.8">
+        <animate attributeName="d" dur="0.6s" repeatCount="indefinite" values="M100 175 Q97 148 108 130 Q104 152 115 140 Q112 158 118 170 Z;M100 175 Q94 142 106 125 Q108 155 117 135 Q114 160 118 170 Z;M100 175 Q97 148 108 130 Q104 152 115 140 Q112 158 118 170 Z"/>
+      </path>
+      <path d="M104 175 Q102 155 110 142 Q107 158 114 150 Q112 163 116 172 Z" fill="#fbbf24" opacity="0.85">
+        <animate attributeName="d" dur="0.35s" repeatCount="indefinite" values="M104 175 Q102 155 110 142 Q107 158 114 150 Q112 163 116 172 Z;M104 175 Q100 150 108 138 Q110 160 116 146 Q113 165 116 172 Z;M104 175 Q102 155 110 142 Q107 158 114 150 Q112 163 116 172 Z"/>
+      </path>
+    </g>
+
+    <!-- Smoke puffs -->
+    <circle cx="115" cy="100" r="12" fill="#71717a" opacity="0.3">
+      <animate attributeName="cy" from="100" to="40" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.3" to="0" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="r" from="12" to="25" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="90" r="8" fill="#71717a" opacity="0.25">
+      <animate attributeName="cy" from="90" to="20" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.25" to="0" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="r" from="8" to="20" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="105" r="10" fill="#71717a" opacity="0.2">
+      <animate attributeName="cy" from="105" to="35" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.2" to="0" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="r" from="10" to="22" dur="4s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Planks flying off -->
+    <rect x="170" y="170" width="20" height="4" rx="1" fill="#A0781E" stroke="#8B6914" stroke-width="0.5" transform="rotate(25, 180, 172)">
+      <animateTransform attributeName="transform" type="rotate" from="25 180 172" to="385 180 172" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="85" y="165" width="15" height="3" rx="1" fill="#B8901E" stroke="#8B6914" stroke-width="0.5" transform="rotate(-30, 92, 166)">
+      <animateTransform attributeName="transform" type="rotate" from="-30 92 166" to="-390 92 166" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.8" to="0" dur="2.5s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- Water line -->
+    <path d="M-60 240 Q-20 225 20 240 Q60 255 100 240 Q140 225 180 240 Q220 255 260 240 Q300 225 340 240" stroke="#3b82f6" stroke-width="3" fill="none" opacity="0.5">
+      <animate attributeName="d" dur="2s" repeatCount="indefinite" values="M-60 240 Q-20 225 20 240 Q60 255 100 240 Q140 225 180 240 Q220 255 260 240 Q300 225 340 240;M-60 240 Q-20 255 20 240 Q60 225 100 240 Q140 255 180 240 Q220 225 260 240 Q300 255 340 240;M-60 240 Q-20 225 20 240 Q60 255 100 240 Q140 225 180 240 Q220 255 260 240 Q300 225 340 240"/>
+    </path>
+  </g>
+
+  <!-- Panicking octopus -->
+  <g transform="translate(300, 220)">
+    <!-- Head -->
+    <ellipse cx="0" cy="0" rx="20" ry="16" fill="#c084fc" stroke="#a855f7" stroke-width="1.5"/>
+    <!-- Eyes (panicking) -->
+    <circle cx="-7" cy="-3" r="4" fill="white"/>
+    <circle cx="7" cy="-3" r="4" fill="white"/>
+    <circle cx="-6" cy="-4" r="2" fill="#333"/>
+    <circle cx="8" cy="-4" r="2" fill="#333"/>
+    <!-- Mouth (screaming) -->
+    <ellipse cx="0" cy="6" rx="5" ry="4" fill="#7c3aed" stroke="#6d28d9" stroke-width="0.5"/>
+    <!-- Tentacles waving -->
+    <path d="M-18 10 Q-30 20 -35 15 Q-28 25 -22 18" stroke="#c084fc" stroke-width="3" fill="none" stroke-linecap="round">
+      <animate attributeName="d" dur="0.4s" repeatCount="indefinite" values="M-18 10 Q-30 20 -35 15 Q-28 25 -22 18;M-18 10 Q-25 25 -38 20 Q-30 18 -22 18;M-18 10 Q-30 20 -35 15 Q-28 25 -22 18"/>
+    </path>
+    <path d="M18 10 Q30 20 35 15 Q28 25 22 18" stroke="#c084fc" stroke-width="3" fill="none" stroke-linecap="round">
+      <animate attributeName="d" dur="0.45s" repeatCount="indefinite" values="M18 10 Q30 20 35 15 Q28 25 22 18;M18 10 Q25 25 38 20 Q30 18 22 18;M18 10 Q30 20 35 15 Q28 25 22 18"/>
+    </path>
+    <path d="M-10 14 Q-15 30 -20 28" stroke="#c084fc" stroke-width="2.5" fill="none" stroke-linecap="round">
+      <animate attributeName="d" dur="0.5s" repeatCount="indefinite" values="M-10 14 Q-15 30 -20 28;M-10 14 Q-18 28 -15 32;M-10 14 Q-15 30 -20 28"/>
+    </path>
+    <path d="M10 14 Q15 30 20 28" stroke="#c084fc" stroke-width="2.5" fill="none" stroke-linecap="round">
+      <animate attributeName="d" dur="0.55s" repeatCount="indefinite" values="M10 14 Q15 30 20 28;M10 14 Q18 28 15 32;M10 14 Q15 30 20 28"/>
+    </path>
+    <!-- Exclamation marks -->
+    <text x="-30" y="-15" font-size="16" fill="#ef4444" font-family="monospace" font-weight="bold">!</text>
+    <text x="22" y="-12" font-size="12" fill="#ef4444" font-family="monospace" font-weight="bold">!</text>
+
+    <animateTransform attributeName="transform" type="translate" values="300,220;302,218;298,220;300,222;300,220" dur="0.8s" repeatCount="indefinite"/>
+  </g>
+</svg>

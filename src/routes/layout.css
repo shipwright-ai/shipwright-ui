@@ -86,6 +86,20 @@ html {
 	--tw-prose-invert-pre-code: var(--color-brain-text);
 }
 
+/* Inline code — blend in as plain colored text, no background/backticks */
+.prose :not(pre) > code {
+	background: none;
+	padding: 0;
+	font-size: inherit;
+	font-weight: inherit;
+	border-radius: 0;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+	content: none;
+}
+
 /* Checkbox styling in prose content */
 .prose input[type='checkbox'] {
 	appearance: none;

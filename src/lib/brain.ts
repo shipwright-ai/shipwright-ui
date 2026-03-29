@@ -32,9 +32,19 @@ export async function browseRoot(): Promise<BrowseRootResponse> {
 	return res.json();
 }
 
+export type SortField = 'title' | 'modified';
+export type SortOrder = 'asc' | 'desc';
+
 export async function browseKind(
 	kind: string,
-	opts?: { tags?: string[]; status?: string; limit?: number; offset?: number }
+	opts?: {
+		tags?: string[];
+		status?: string;
+		limit?: number;
+		offset?: number;
+		sort?: SortField;
+		order?: SortOrder;
+	}
 ): Promise<BrowseKindResponse> {
 	const url = new URL('/api/browse', getBrainUrl());
 	url.searchParams.set('path', kind);
@@ -42,6 +52,7 @@ export async function browseKind(
 	if (opts?.status) url.searchParams.set('status', opts.status);
 	if (opts?.limit) url.searchParams.set('limit', String(opts.limit));
 	if (opts?.offset) url.searchParams.set('offset', String(opts.offset));
+	if (opts?.sort) url.searchParams.set('sort', `${opts.sort}:${opts.order ?? 'desc'}`);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
 	return res.json();
@@ -59,11 +70,14 @@ export async function searchMemories(opts: {
 	query?: string;
 	tags?: string[];
 	status?: 'not-started' | 'in-progress' | 'done';
+	sort?: SortField;
+	order?: SortOrder;
 }): Promise<SearchResponse> {
 	const url = new URL('/api/search', getBrainUrl());
 	if (opts.query) url.searchParams.set('q', opts.query);
 	if (opts.tags?.length) url.searchParams.set('tags', opts.tags.join(','));
 	if (opts.status) url.searchParams.set('status', opts.status);
+	if (opts.sort) url.searchParams.set('sort', `${opts.sort}:${opts.order ?? 'desc'}`);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
 	return res.json();
@@ -78,6 +92,7 @@ export function fileUrl(path: string): string {
 export interface KindEntry {
 	kind: string;
 	count?: number;
+	totalCount?: number;
 	progress?: Progress;
 }
 
@@ -127,6 +142,16 @@ export interface BrowseKindResponse {
 	facets?: Facets;
 }
 
+export interface ContentLink {
+	label: string;
+	memory_file: string;
+	title?: string;
+	summary?: string;
+	kind?: string;
+	progress?: Progress;
+	deleted?: boolean;
+}
+
 export interface MemoryDetail {
 	memory_file: string;
 	title: string;
@@ -137,6 +162,7 @@ export interface MemoryDetail {
 	by: string;
 	at: string;
 	content: string;
+	contentLinks?: ContentLink[];
 	children: MemorySummary[];
 	progress?: Progress;
 	modified?: string;

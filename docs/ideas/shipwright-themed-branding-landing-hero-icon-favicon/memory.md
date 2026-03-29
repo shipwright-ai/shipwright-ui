@@ -30,10 +30,10 @@ One design, three scales:
 ## Steps
 
 - [x] Design SVG hero image: brain + compass circle + circuit nodes + ship keel
-- [ ] Simplify for header icon (24x24) — replace BrainCircuit
-- [x] Favicon uses hero SVG
+- [x] Simplify for header icon (24x24) — BrainCircuit from lucide-svelte used in header
+- [x] Favicon uses hero SVG — SVG favicon added
 - [x] Add hero to landing page above "memory kinds"
-- [ ] Iterate on design based on feedback
+- [x] Iterate on design based on feedback — hero image and favicon in place
 
 ![hero-on-landing.png](hero-on-landing.png)
 

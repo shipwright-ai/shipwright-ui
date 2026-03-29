@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" fill="none">
+  <!-- Ship stuck on rocks with confused crew -->
+  <g transform="translate(60, 80)">
+    <!-- Rocks -->
+    <path d="M80 220 L60 250 L100 260 L120 240 L140 260 L180 250 L160 220 Z" fill="#71717a" stroke="#52525b" stroke-width="2"/>
+    <path d="M150 230 L140 260 L180 265 L200 245 L190 225 Z" fill="#52525b" stroke="#3f3f46" stroke-width="1.5"/>
+
+    <!-- Ship hull (stuck, tilted) -->
+    <g transform="rotate(8, 140, 200)">
+      <!-- Hull -->
+      <path d="M40 190 L55 225 L185 225 L200 190 Q120 205 40 190Z" fill="#8B6914" stroke="#6B4F12" stroke-width="2"/>
+      <!-- Deck -->
+      <rect x="58" y="170" width="130" height="22" rx="3" fill="#A0781E" stroke="#8B6914" stroke-width="1.5"/>
+      <!-- Mast -->
+      <line x1="125" y1="60" x2="125" y2="175" stroke="#6B4F12" stroke-width="4" stroke-linecap="round"/>
+      <!-- Sail (intact but limp) -->
+      <path d="M127 65 Q170 80 165 130 L127 125 Z" fill="#e5e5e5" stroke="#bbb" stroke-width="1"/>
+      <!-- Crow's nest -->
+      <rect x="115" y="55" width="20" height="5" rx="1" fill="#6B4F12"/>
+      <line x1="115" y1="55" x2="115" y2="60" stroke="#6B4F12" stroke-width="1.5"/>
+      <line x1="135" y1="55" x2="135" y2="60" stroke="#6B4F12" stroke-width="1.5"/>
+
+      <!-- Sailor 1 (scratching head) -->
+      <g transform="translate(90, 152)">
+        <circle cx="0" cy="0" r="6" fill="#fcd34d" stroke="#d97706" stroke-width="1"/>
+        <circle cx="-2" cy="-1" r="1" fill="#333"/>
+        <circle cx="3" cy="-1" r="1" fill="#333"/>
+        <path d="M-2 3 Q0 5 3 3" stroke="#333" stroke-width="0.8" fill="none"/>
+        <!-- Hand scratching head -->
+        <path d="M5 -4 Q8 -8 4 -8" stroke="#fcd34d" stroke-width="2" fill="none" stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" values="M5 -4 Q8 -8 4 -8;M5 -4 Q9 -7 3 -9;M5 -4 Q8 -8 4 -8"/>
+        </path>
+      </g>
+
+      <!-- Sailor 2 (looking at map upside down) -->
+      <g transform="translate(155, 155)">
+        <circle cx="0" cy="0" r="5" fill="#fcd34d" stroke="#d97706" stroke-width="1"/>
+        <circle cx="-1.5" cy="-0.5" r="0.8" fill="#333"/>
+        <circle cx="2" cy="-0.5" r="0.8" fill="#333"/>
+        <path d="M-1.5 2.5 L2 2.5" stroke="#333" stroke-width="0.8"/>
+        <!-- Map held upside down -->
+        <rect x="5" y="-8" width="14" height="10" rx="1" fill="#f5e6c8" stroke="#d4a574" stroke-width="0.8" transform="rotate(180, 12, -3)"/>
+        <text x="7" y="-2" font-size="5" fill="#dc2626" font-family="serif" transform="rotate(180, 12, -3)">X</text>
+      </g>
+
+      <!-- Portholes -->
+      <circle cx="100" cy="195" r="5" fill="#1e3a5f" stroke="#6B4F12" stroke-width="1.5"/>
+      <circle cx="140" cy="195" r="5" fill="#1e3a5f" stroke="#6B4F12" stroke-width="1.5"/>
+    </g>
+
+    <!-- Water -->
+    <path d="M-40 250 Q0 240 40 250 Q80 260 120 250 Q160 240 200 250 Q240 260 280 250 Q320 240 340 250" stroke="#3b82f6" stroke-width="2.5" fill="none" opacity="0.5">
+      <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M-40 250 Q0 240 40 250 Q80 260 120 250 Q160 240 200 250 Q240 260 280 250 Q320 240 340 250;M-40 250 Q0 260 40 250 Q80 240 120 250 Q160 260 200 250 Q240 240 280 250 Q320 260 340 250;M-40 250 Q0 240 40 250 Q80 260 120 250 Q160 240 200 250 Q240 260 280 250 Q320 240 340 250"/>
+    </path>
+  </g>
+
+  <!-- Crab with wrench (trying to help) -->
+  <g transform="translate(310, 250)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="14" ry="10" fill="#ef4444" stroke="#dc2626" stroke-width="1.5"/>
+    <!-- Eyes on stalks -->
+    <line x1="-5" y1="-8" x2="-7" y2="-16" stroke="#ef4444" stroke-width="2"/>
+    <line x1="5" y1="-8" x2="7" y2="-16" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="-7" cy="-17" r="3" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+    <circle cx="7" cy="-17" r="3" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+    <circle cx="-7" cy="-18" r="1.2" fill="white"/>
+    <circle cx="7" cy="-18" r="1.2" fill="white"/>
+    <circle cx="-6.5" cy="-18" r="0.6" fill="#333"/>
+    <circle cx="7.5" cy="-18" r="0.6" fill="#333"/>
+    <!-- Claws -->
+    <path d="M-14 -2 L-24 -8 L-20 -14 L-18 -6 Z" fill="#ef4444" stroke="#dc2626" stroke-width="1">
+      <animate attributeName="d" dur="1.5s" repeatCount="indefinite" values="M-14 -2 L-24 -8 L-20 -14 L-18 -6 Z;M-14 -2 L-24 -5 L-20 -12 L-18 -6 Z;M-14 -2 L-24 -8 L-20 -14 L-18 -6 Z"/>
+    </path>
+    <!-- Right claw holding wrench -->
+    <path d="M14 -2 L24 -8 L20 -14 L18 -6 Z" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+    <rect x="22" y="-18" width="3" height="14" rx="1" fill="#a1a1aa" stroke="#71717a" stroke-width="0.5" transform="rotate(-20, 23, -11)"/>
+    <!-- Legs -->
+    <path d="M-10 8 L-18 16" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-5 10 L-10 18" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+    <path d="M10 8 L18 16" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+    <path d="M5 10 L10 18" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Stars/confusion marks above ship -->
+  <g transform="translate(195, 100)">
+    <text font-size="16" fill="#fbbf24" font-family="sans-serif">&#x2B50;</text>
+    <animateTransform attributeName="transform" type="translate" values="195,100;197,98;193,100;195,102;195,100" dur="1.5s" repeatCount="indefinite"/>
+  </g>
+  <g transform="translate(220, 90)">
+    <text font-size="10" fill="#fbbf24" font-family="sans-serif">&#x2B50;</text>
+    <animateTransform attributeName="transform" type="translate" values="220,90;218,92;222,90;220,88;220,90" dur="1.8s" repeatCount="indefinite"/>
+  </g>
+</svg>

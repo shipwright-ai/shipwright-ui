@@ -1,11 +1,14 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { searchMemories, type SearchResponse, type Facets } from '$lib/brain';
-	import { detectCategory } from '$lib/categories';
-	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
-	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import {
+		searchMemories,
+		type SearchResponse,
+		type Facets,
+		type SortField,
+		type SortOrder
+	} from '$lib/brain';
+	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<SearchResponse | null>(null);
@@ -25,7 +28,16 @@
 		return [];
 	});
 
+	let sortField = $derived(($page.url.searchParams.get('sort') as SortField) || 'modified');
+	let sortOrder = $derived(($page.url.searchParams.get('order') as SortOrder) || 'desc');
 	let inputValue = $state('');
+
+	const SORT_OPTIONS: { label: string; field: SortField; order: SortOrder }[] = [
+		{ label: 'Recent', field: 'modified', order: 'desc' },
+		{ label: 'Oldest', field: 'modified', order: 'asc' },
+		{ label: 'A–Z', field: 'title', order: 'asc' },
+		{ label: 'Z–A', field: 'title', order: 'desc' }
+	];
 
 	onMount(() => {
 		inputValue = query;
@@ -38,6 +50,8 @@
 		void query;
 		void statusFilter;
 		void activeTags;
+		void sortField;
+		void sortOrder;
 		inputValue = query;
 		doSearch();
 	});
@@ -52,17 +66,19 @@
 		searched = true;
 		try {
 			// First fetch with query + tags only (for status tab counts)
-			const tagResult = await searchMemories({
+			const baseOpts = {
 				query: query || undefined,
-				tags: activeTags.length > 0 ? activeTags : undefined
-			});
+				tags: activeTags.length > 0 ? activeTags : undefined,
+				sort: sortField,
+				order: sortOrder
+			};
+			const tagResult = await searchMemories(baseOpts);
 			tagFacets = tagResult.facets ?? null;
 
 			// If status active, fetch again with status
 			if (statusFilter) {
 				data = await searchMemories({
-					query: query || undefined,
-					tags: activeTags.length > 0 ? activeTags : undefined,
+					...baseOpts,
 					status: statusFilter as 'not-started' | 'in-progress' | 'done'
 				});
 			} else {
@@ -75,7 +91,13 @@
 		}
 	}
 
-	function updateUrl(q: string, status: string | null, tags: string[]) {
+	function updateUrl(
+		q: string,
+		status: string | null,
+		tags: string[],
+		sort?: SortField,
+		order?: SortOrder
+	) {
 		const url = new URL($page.url);
 		if (q) {
 			url.searchParams.set('q', q);
@@ -92,8 +114,21 @@
 		for (const t of tags) {
 			url.searchParams.append('tag', t);
 		}
+		const s = sort ?? sortField;
+		const o = order ?? sortOrder;
+		if (s !== 'modified' || o !== 'desc') {
+			url.searchParams.set('sort', s);
+			url.searchParams.set('order', o);
+		} else {
+			url.searchParams.delete('sort');
+			url.searchParams.delete('order');
+		}
 		// eslint-disable-next-line svelte/no-navigation-without-resolve -- URL built from current page
 		goto(url.toString(), { replaceState: true, noScroll: true });
+	}
+
+	function setSort(field: SortField, order: SortOrder) {
+		updateUrl(query, statusFilter, activeTags, field, order);
 	}
 
 	function submitSearch() {
@@ -221,53 +256,33 @@
 		{#if loading}
 			<p class="text-brain-muted">searching...</p>
 		{:else if !data || data.memories.length === 0}
-			<p class="text-brain-muted">no results found</p>
+			<div class="flex flex-col items-center py-12 text-center">
+				<img src="/error-404.svg" alt="No results" class="mb-6 h-40 w-auto opacity-60" />
+				<p class="text-lg font-medium text-brain-muted">No results found</p>
+				<p class="mt-1 text-sm text-brain-muted/60">
+					Try different keywords or broaden your search
+				</p>
+			</div>
 		{:else}
-			<p class="mb-3 text-xs text-brain-muted">{data.total} results</p>
+			<div class="mb-3 flex items-center justify-between">
+				<p class="text-xs text-brain-muted">{data.total} results</p>
+				<div class="flex gap-1">
+					{#each SORT_OPTIONS as opt (opt.label)}
+						<button
+							onclick={() => setSort(opt.field, opt.order)}
+							class="cursor-pointer rounded px-2 py-0.5 text-xs transition-colors {sortField ===
+								opt.field && sortOrder === opt.order
+								? 'bg-brain-accent/20 text-brain-accent'
+								: 'text-brain-muted hover:text-brain-text'}"
+						>
+							{opt.label}
+						</button>
+					{/each}
+				</div>
+			</div>
 			<div class="space-y-2">
 				{#each data.memories as result (result.memory_file)}
-					{@const category = detectCategory(result.tags)}
-					<a
-						href={resolve('/memory/[...path]', { path: result.memory_file })}
-						class="block rounded border p-3 transition-colors hover:border-brain-accent {result
-							.progress?.status === 'done'
-							? 'border-brain-border/50 bg-brain-surface/50 opacity-60'
-							: result.progress?.status === 'in-progress'
-								? 'border-l-2 border-t-brain-border border-r-brain-border border-b-brain-border border-l-amber-500 bg-brain-surface'
-								: 'border-brain-border bg-brain-surface'}"
-					>
-						<div class="flex items-center gap-2">
-							<span class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-accent"
-								>{result.kind}</span
-							>
-							{#if category}
-								<CategoryBadge {category} />
-							{/if}
-							<span class="text-sm font-medium">{result.title}</span>
-							{#if result.progress}
-								<ProgressBadge progress={result.progress} />
-							{/if}
-						</div>
-						{#if result.summary}
-							<div class="mt-1 text-xs text-brain-muted">{result.summary}</div>
-						{/if}
-						{#if result.tags.length > 0}
-							<div class="mt-2 flex gap-1.5">
-								{#each result.tags as tag (tag)}
-									<button
-										onclick={(e) => {
-											e.preventDefault();
-											e.stopPropagation();
-											toggleTag(tag);
-										}}
-										class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)
-											? 'bg-brain-accent/20 text-brain-accent'
-											: 'bg-brain-bg text-brain-muted hover:text-brain-accent'}">{tag}</button
-									>
-								{/each}
-							</div>
-						{/if}
-					</a>
+					<MemoryCard memory={result} showKind showTags {activeTags} onToggleTag={toggleTag} />
 				{/each}
 			</div>
 		{/if}

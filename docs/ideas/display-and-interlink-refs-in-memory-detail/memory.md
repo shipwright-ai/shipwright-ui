@@ -8,7 +8,10 @@ tags:
   - brain-ui
   - feature
   - ux
-refs: []
+refs:
+  - >-
+    docs/ideas/fix-memory-detail-crashes-on-refs-with-missing-tags-title/memory.md
+  - docs/ideas/sub-memory-refs-show-as-deleted-in-parent-detail-view/memory.md
 by: developer
 at: '2026-03-29T17:16:18.096Z'
 ---
@@ -20,7 +23,7 @@ at: '2026-03-29T17:16:18.096Z'
 - [x] Show refs section in memory detail (after content, before children)
 - [x] Display as linked cards with slug name + full path
 - [x] Brain API: return refs as full objects (title, summary, tags, progress, kind)
-- [ ] Brain API: return referencedBy (back-refs) — which memories ref this one
+- [x] Brain API: return referencedBy (back-refs) — Brain now auto-updates refs bidirectionally
 - [x] UI: render refs as rich cards with kind, category badge, progress badge
 - [x] UI: use full objects from API
 

@@ -8,7 +8,9 @@ tags:
   - brain-ui
   - ux
   - routing
-refs: []
+refs:
+  - >-
+    docs/ideas/markdown-links-to-memory-md-files-resolve-as-file-downloads-/memory.md
 by: developer
 at: '2026-03-29T16:33:47.520Z'
 ---

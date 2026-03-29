@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350" fill="none">
+  <!-- Ship hull sinking into water -->
+  <g transform="translate(100, 80)">
+    <!-- Water waves -->
+    <path d="M-80 180 Q-40 165 0 180 Q40 195 80 180 Q120 165 160 180 Q200 195 240 180 Q280 165 320 180 Q360 195 380 180" stroke="#3b82f6" stroke-width="3" fill="none" opacity="0.6">
+      <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M-80 180 Q-40 165 0 180 Q40 195 80 180 Q120 165 160 180 Q200 195 240 180 Q280 165 320 180 Q360 195 380 180;M-80 180 Q-40 195 0 180 Q40 165 80 180 Q120 195 160 180 Q200 165 240 180 Q280 195 320 180 Q360 165 380 180;M-80 180 Q-40 165 0 180 Q40 195 80 180 Q120 165 160 180 Q200 195 240 180 Q280 165 320 180 Q360 195 380 180"/>
+    </path>
+    <path d="M-80 195 Q-40 180 0 195 Q40 210 80 195 Q120 180 160 195 Q200 210 240 195 Q280 180 320 195 Q360 210 380 195" stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.4">
+      <animate attributeName="d" dur="3.5s" repeatCount="indefinite" values="M-80 195 Q-40 180 0 195 Q40 210 80 195 Q120 180 160 195 Q200 210 240 195 Q280 180 320 195 Q360 210 380 195;M-80 195 Q-40 210 0 195 Q40 180 80 195 Q120 210 160 195 Q200 180 240 195 Q280 210 320 195 Q360 180 380 195;M-80 195 Q-40 180 0 195 Q40 210 80 195 Q120 180 160 195 Q200 210 240 195 Q280 180 320 195 Q360 210 380 195"/>
+    </path>
+
+    <!-- Ship hull (tilted, sinking) -->
+    <g transform="rotate(-15, 100, 160)">
+      <!-- Hull -->
+      <path d="M30 160 L50 200 L170 200 L190 160 Q110 175 30 160Z" fill="#8B6914" stroke="#6B4F12" stroke-width="2"/>
+      <!-- Deck -->
+      <rect x="50" y="140" width="120" height="22" rx="3" fill="#A0781E" stroke="#8B6914" stroke-width="1.5"/>
+      <!-- Mast -->
+      <line x1="110" y1="40" x2="110" y2="145" stroke="#6B4F12" stroke-width="4" stroke-linecap="round"/>
+      <!-- Broken sail (torn, flapping) -->
+      <path d="M112 50 L160 70 L155 110 L112 100 Z" fill="#e2e2e2" stroke="#aaa" stroke-width="1" opacity="0.8"/>
+      <path d="M155 85 L165 82 L162 95 L155 110" fill="none" stroke="#aaa" stroke-width="1" opacity="0.5"/>
+      <!-- Flag (droopy) -->
+      <path d="M110 40 Q125 35 120 50 Q115 42 110 48" fill="#ef4444" stroke="#dc2626" stroke-width="1"/>
+      <!-- Porthole -->
+      <circle cx="90" cy="155" r="6" fill="#1e3a5f" stroke="#6B4F12" stroke-width="1.5"/>
+      <circle cx="130" cy="155" r="6" fill="#1e3a5f" stroke="#6B4F12" stroke-width="1.5"/>
+    </g>
+
+    <!-- Bubbles rising from sinking ship -->
+    <circle cx="140" cy="190" r="4" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.5">
+      <animate attributeName="cy" from="190" to="160" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.5" to="0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="155" cy="195" r="3" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.4">
+      <animate attributeName="cy" from="195" to="155" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.4" to="0" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="125" cy="192" r="5" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3">
+      <animate attributeName="cy" from="192" to="150" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.3" to="0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Confused seagull on floating barrel -->
+  <g transform="translate(270, 200)">
+    <!-- Barrel -->
+    <ellipse cx="0" cy="20" rx="18" ry="12" fill="#A0781E" stroke="#8B6914" stroke-width="1.5"/>
+    <rect x="-16" y="0" width="32" height="20" rx="3" fill="#B8901E" stroke="#8B6914" stroke-width="1.5"/>
+    <line x1="-14" y1="7" x2="14" y2="7" stroke="#8B6914" stroke-width="1"/>
+    <line x1="-14" y1="14" x2="14" y2="14" stroke="#8B6914" stroke-width="1"/>
+
+    <!-- Seagull body -->
+    <ellipse cx="0" cy="-8" rx="10" ry="7" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+    <!-- Head -->
+    <circle cx="8" cy="-18" r="6" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+    <!-- Beak -->
+    <path d="M14 -18 L22 -16 L14 -15" fill="#f59e0b" stroke="#d97706" stroke-width="0.8"/>
+    <!-- Eye (confused spiral) -->
+    <path d="M10 -20 Q12 -22 11 -19 Q13 -21 10 -20" stroke="#333" stroke-width="1.2" fill="none"/>
+    <!-- Question marks -->
+    <text x="15" y="-28" font-size="14" fill="#a1a1aa" font-family="monospace" font-weight="bold">?</text>
+    <text x="24" y="-22" font-size="10" fill="#a1a1aa" font-family="monospace">?</text>
+
+    <!-- Bobbing animation -->
+    <animateTransform attributeName="transform" type="translate" values="270,200;270,204;270,200" dur="2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Telescope floating in water -->
+  <g transform="translate(60, 255)">
+    <rect x="0" y="0" width="35" height="8" rx="4" fill="#b8860b" stroke="#8B6914" stroke-width="1" transform="rotate(-20)"/>
+    <circle cx="33" cy="-9" r="5" fill="none" stroke="#b8860b" stroke-width="1.5" transform="rotate(-20)"/>
+    <animateTransform attributeName="transform" type="translate" values="60,255;63,253;60,255" dur="3s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- "X marks the spot" map piece floating -->
+  <g transform="translate(310, 270)">
+    <rect x="0" y="0" width="25" height="20" rx="2" fill="#f5e6c8" stroke="#d4a574" stroke-width="1" transform="rotate(10)"/>
+    <text x="10" y="14" font-size="14" fill="#dc2626" font-family="serif" font-weight="bold" transform="rotate(10)">X</text>
+    <animateTransform attributeName="transform" type="translate" values="310,270;312,268;310,270" dur="2.8s" repeatCount="indefinite"/>
+  </g>
+</svg>

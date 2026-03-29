@@ -21,4 +21,4 @@ at: '2026-03-29T16:33:50.048Z'
 - [x] On submit, navigate to /search?q=query
 - [x] Hidden on /search page to avoid duplication
 - [x] Hidden on mobile (sm: breakpoint)
-- [ ] Ties into Cmd+K popup idea as well
+- [x] Ties into Cmd+K popup idea as well — CommandPalette implemented in +layout.svelte

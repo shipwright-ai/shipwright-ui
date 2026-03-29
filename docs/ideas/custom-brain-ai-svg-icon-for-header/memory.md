@@ -20,6 +20,6 @@ at: '2026-03-29T17:24:18.157Z'
 - [x] Design SVG: brain silhouette with circuit/node pattern (custom + lucide BrainCircuit)
 - [x] Use brain-accent color (#60a5fa) for the icon
 - [x] Replace emoji in Header.svelte with lucide BrainCircuit
-- [ ] Also use as favicon
+- [x] Also use as favicon — SVG favicon added to static/favicon.svg
 
 ![lucide-brain-circuit-icon.png](lucide-brain-circuit-icon.png)

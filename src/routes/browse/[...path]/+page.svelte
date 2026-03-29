@@ -2,10 +2,14 @@
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { browseKind, type BrowseKindResponse, type Facets } from '$lib/brain';
-	import { detectCategory } from '$lib/categories';
-	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
-	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import {
+		browseKind,
+		type BrowseKindResponse,
+		type Facets,
+		type SortField,
+		type SortOrder
+	} from '$lib/brain';
+	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { onMount } from 'svelte';
 
@@ -19,6 +23,8 @@
 	// Read filters from URL
 	let statusFilter = $derived($page.url.searchParams.get('status'));
 	let activeTags = $derived($page.url.searchParams.getAll('tag'));
+	let sortField = $derived(($page.url.searchParams.get('sort') as SortField) || 'modified');
+	let sortOrder = $derived(($page.url.searchParams.get('order') as SortOrder) || 'desc');
 
 	onMount(() => load());
 
@@ -26,6 +32,8 @@
 		void currentPath;
 		void statusFilter;
 		void activeTags;
+		void sortField;
+		void sortOrder;
 		load();
 	});
 
@@ -34,14 +42,19 @@
 		error = null;
 		try {
 			// Fetch with tags only → status counts for tabs
+			const sortOpts = { sort: sortField, order: sortOrder } as const;
 			const tagOpts: { tags?: string[] } = {};
 			if (activeTags.length > 0) tagOpts.tags = activeTags;
-			const tagResult = await browseKind(currentPath, tagOpts);
+			const tagResult = await browseKind(currentPath, { ...tagOpts, ...sortOpts });
 			tagFacets = tagResult.facets ?? null;
 
 			// If status filter active, fetch again with both
 			if (statusFilter) {
-				data = await browseKind(currentPath, { ...tagOpts, status: statusFilter });
+				data = await browseKind(currentPath, {
+					...tagOpts,
+					...sortOpts,
+					status: statusFilter
+				});
 			} else {
 				data = tagResult;
 			}
@@ -50,7 +63,7 @@
 		}
 	}
 
-	function updateUrl(status: string | null, tags: string[]) {
+	function updateUrl(status: string | null, tags: string[], sort?: SortField, order?: SortOrder) {
 		const url = new URL($page.url);
 		if (status) {
 			url.searchParams.set('status', status);
@@ -60,6 +73,15 @@
 		url.searchParams.delete('tag');
 		for (const t of tags) {
 			url.searchParams.append('tag', t);
+		}
+		const s = sort ?? sortField;
+		const o = order ?? sortOrder;
+		if (s !== 'modified' || o !== 'desc') {
+			url.searchParams.set('sort', s);
+			url.searchParams.set('order', o);
+		} else {
+			url.searchParams.delete('sort');
+			url.searchParams.delete('order');
 		}
 		// eslint-disable-next-line svelte/no-navigation-without-resolve -- URL built from current page
 		goto(url.toString(), { replaceState: true, noScroll: true });
@@ -80,6 +102,17 @@
 		updateUrl(statusFilter, []);
 	}
 
+	function setSort(field: SortField, order: SortOrder) {
+		updateUrl(statusFilter, activeTags, field, order);
+	}
+
+	const SORT_OPTIONS: { label: string; field: SortField; order: SortOrder }[] = [
+		{ label: 'Recent', field: 'modified', order: 'desc' },
+		{ label: 'Oldest', field: 'modified', order: 'asc' },
+		{ label: 'A–Z', field: 'title', order: 'asc' },
+		{ label: 'Z–A', field: 'title', order: 'desc' }
+	];
+
 	let hasProgress = $derived(
 		tagFacets
 			? tagFacets.status['not-started'] > 0 ||
@@ -98,8 +131,10 @@
 	</nav>
 
 	{#if error}
-		<div class="rounded border border-brain-red/30 bg-brain-red/10 p-4 text-sm text-brain-red">
-			{error}
+		<div class="flex flex-col items-center py-12 text-center">
+			<img src="/error-generic.svg" alt="Error" class="mb-6 h-40 w-auto opacity-80" />
+			<p class="mb-2 text-lg font-medium text-brain-muted">Something went wrong</p>
+			<p class="text-sm text-brain-muted/60">{error}</p>
 		</div>
 	{:else if !data}
 		<Spinner />
@@ -171,54 +206,35 @@
 			</div>
 		{/if}
 
-		<p class="mb-4 text-xs text-brain-muted">{data.total} memories</p>
+		<div class="mb-4 flex items-center justify-between">
+			<p class="text-xs text-brain-muted">{data.total} memories</p>
+			<div class="flex gap-1">
+				{#each SORT_OPTIONS as opt (opt.label)}
+					<button
+						onclick={() => setSort(opt.field, opt.order)}
+						class="cursor-pointer rounded px-2 py-0.5 text-xs transition-colors {sortField ===
+							opt.field && sortOrder === opt.order
+							? 'bg-brain-accent/20 text-brain-accent'
+							: 'text-brain-muted hover:text-brain-text'}"
+					>
+						{opt.label}
+					</button>
+				{/each}
+			</div>
+		</div>
 
 		{#if data.memories.length > 0}
 			<div class="space-y-2">
 				{#each data.memories as entry (entry.memory_file)}
-					{@const category = detectCategory(entry.tags)}
-					<a
-						href={resolve('/memory/[...path]', { path: entry.memory_file })}
-						class="block rounded border p-3 transition-colors hover:border-brain-accent {entry
-							.progress?.status === 'done'
-							? 'border-brain-border/50 bg-brain-surface/50 opacity-60'
-							: entry.progress?.status === 'in-progress'
-								? 'border-l-2 border-t-brain-border border-r-brain-border border-b-brain-border border-l-amber-500 bg-brain-surface'
-								: 'border-brain-border bg-brain-surface'}"
-					>
-						<div class="flex items-center gap-2 text-sm font-medium">
-							{#if category}
-								<CategoryBadge {category} />
-							{/if}
-							{entry.title}
-							{#if entry.progress}
-								<ProgressBadge progress={entry.progress} />
-							{/if}
-						</div>
-						{#if entry.summary}
-							<div class="mt-1 text-xs text-brain-muted">{entry.summary}</div>
-						{/if}
-						{#if entry.tags.length > 0}
-							<div class="mt-2 flex gap-1.5">
-								{#each entry.tags as tag (tag)}
-									<button
-										onclick={(e) => {
-											e.preventDefault();
-											e.stopPropagation();
-											toggleTag(tag);
-										}}
-										class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)
-											? 'bg-brain-accent/20 text-brain-accent'
-											: 'bg-brain-bg text-brain-muted hover:text-brain-accent'}">{tag}</button
-									>
-								{/each}
-							</div>
-						{/if}
-					</a>
+					<MemoryCard memory={entry} showTags {activeTags} onToggleTag={toggleTag} />
 				{/each}
 			</div>
 		{:else}
-			<p class="text-brain-muted">no memories match this filter</p>
+			<div class="flex flex-col items-center py-12 text-center">
+				<img src="/error-generic.svg" alt="No results" class="mb-6 h-40 w-auto opacity-60" />
+				<p class="text-lg font-medium text-brain-muted">No memories match this filter</p>
+				<p class="mt-1 text-sm text-brain-muted/60">Try a different status or clear tag filters</p>
+			</div>
 		{/if}
 	{/if}
 </div>

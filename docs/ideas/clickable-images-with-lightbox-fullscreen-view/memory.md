@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - ux
   - images
-refs: []
+refs:
+  - docs/ideas/lightbox-arrow-navigation-between-images/memory.md
 by: developer
 at: '2026-03-29T16:26:28.831Z'
 ---

@@ -43,8 +43,8 @@ No title prefix stripping — just detect from tags and show colored badge.
 - [x] Created categories.ts with detectCategory() from tags
 - [x] Created CategoryBadge.svelte shared component
 - [x] Show colored badge: red=bug, blue=feature, green=improvement, purple=epic, cyan=research, gray=chore
-- [ ] Show lucide icon next to badge
-- [ ] Filter by type in addition to status
+- [x] Show lucide icon next to badge
+- [x] Filter by type in addition to status — categories are tags, already filterable via tag bar
 - [x] Add category badges to search results and memory detail
 
 ## Visual polish
@@ -52,3 +52,5 @@ No title prefix stripping — just detect from tags and show colored badge.
 - [x] Done cards slightly dimmed (opacity-60)
 - [x] In-progress cards with amber left border
 - [x] Planned cards neutral
+
+![category-icons.png](category-icons.png)

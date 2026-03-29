@@ -5,6 +5,7 @@
 	import { getMemory, fileUrl, type MemoryDetail } from '$lib/brain';
 	import { detectCategory } from '$lib/categories';
 	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
+	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { marked } from 'marked';
@@ -114,6 +115,35 @@
 		html = '';
 		try {
 			entry = await getMemory(file);
+			// Build contentLinks lookup by memory_file for rich rendering
+			// Also index children so relative links to sub-memories get rich cards
+			// eslint-disable-next-line svelte/prefer-svelte-reactivity -- local non-reactive lookup
+			const linkMap = new Map<
+				string,
+				{
+					title?: string;
+					kind?: string;
+					summary?: string;
+					progress?: { checked: number; total: number };
+					deleted?: boolean;
+					memory_file: string;
+				}
+			>();
+			for (const cl of entry.contentLinks ?? []) {
+				linkMap.set(cl.memory_file, cl);
+			}
+			for (const child of entry.children) {
+				linkMap.set(child.memory_file, {
+					memory_file: child.memory_file,
+					title: child.title,
+					kind: child.kind,
+					summary: child.summary,
+					progress: child.progress
+						? { checked: child.progress.checked, total: child.progress.total }
+						: undefined,
+					deleted: false
+				});
+			}
 			// Rewrite relative paths to use Brain file API
 			const memDir = file.substring(0, file.lastIndexOf('/'));
 			const content = entry.content
@@ -122,17 +152,35 @@
 					const resolved = src.startsWith('/') ? src : `${memDir}/${src}`;
 					return `![${alt}](${fileUrl(resolved)})`;
 				})
-				// Non-image file links: [name](relative-path.ext)
+				// Non-image file links: [name](relative-path.ext) + optional trailing text
+				// memory.md links use contentLinks for rich cards, other files become download links
 				.replace(
-					/(?<!!)\[([^\]]+)\]\((?!https?:\/\/)(?!#)([^)]+\.[a-z0-9]+)\)/gi,
-					(_, text, href) => {
+					/(?<!!)\[([^\]]+)\]\((?!https?:\/\/)(?!#)([^)]+\.[a-z0-9]+)\)(.*?)$/gim,
+					(match, text, href, trailing) => {
+						if (href.endsWith('/memory.md') || href === 'memory.md') {
+							const resolved = href.startsWith('/') ? href : `${memDir}/${href}`;
+							// Look up contentLink by raw href or resolved full path
+							const cl = linkMap.get(href) ?? linkMap.get(resolved);
+							const memHref = `/memory/${resolved}`;
+							if (cl && !cl.deleted && cl.title) {
+								const prog = cl.progress
+									? ` <span class="rounded border border-brain-border px-1 py-0.5 text-[10px] text-brain-muted">${cl.progress.checked}/${cl.progress.total}</span>`
+									: '';
+								return `MEMCARD_START<a href="${memHref}" class="not-prose inline-flex items-center gap-1.5 rounded border border-brain-border bg-brain-surface px-2 py-0.5 text-sm no-underline transition-colors hover:border-brain-accent"><span class="font-medium text-brain-text">${cl.title}</span>${prog}</a>MEMCARD_END${trailing ?? ''}`;
+							}
+							return `[${text}](${memHref})${trailing ?? ''}`;
+						}
 						const resolved = href.startsWith('/') ? href : `${memDir}/${href}`;
 						const ext = href.split('.').pop()?.toLowerCase() ?? '';
 						const icon = getFileIcon(ext);
-						return `[${icon} ${text}](${fileUrl(resolved)})`;
+						return `[${icon} ${text}](${fileUrl(resolved)})${trailing}`;
 					}
 				);
 			let parsed = await marked.parse(content);
+			// Unwrap memory card links from <p> tags
+			parsed = parsed.replace(/<p>MEMCARD_START(.*?)MEMCARD_END<\/p>/gs, '$1');
+			// Also handle inline memcards (not wrapped in their own <p>)
+			parsed = parsed.replace(/MEMCARD_START/g, '').replace(/MEMCARD_END/g, '');
 			// Wrap images in clickable figure with figcaption
 			parsed = parsed.replace(
 				/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*>/g,
@@ -201,8 +249,22 @@
 
 <div class="mx-auto max-w-4xl">
 	{#if error}
-		<div class="rounded border border-brain-red/30 bg-brain-red/10 p-4 text-sm text-brain-red">
-			{error}
+		<div class="flex flex-col items-center py-12 text-center">
+			{#if error.includes('404')}
+				<img src="/error-404.svg" alt="Not found" class="mb-6 h-40 w-auto" />
+				<p class="mb-2 text-lg font-medium text-brain-muted">Memory not found</p>
+				<p class="mb-6 text-sm text-brain-muted/60">This memory may have been deleted or moved.</p>
+			{:else}
+				<img src="/error-generic.svg" alt="Error" class="mb-6 h-40 w-auto opacity-80" />
+				<p class="mb-2 text-lg font-medium text-brain-muted">Something went wrong</p>
+				<p class="mb-6 text-sm text-brain-muted/60">{error}</p>
+			{/if}
+			<a
+				href={resolve('/')}
+				class="rounded bg-brain-accent px-4 py-2 text-sm text-white transition-colors hover:bg-brain-accent/80"
+			>
+				Home
+			</a>
 		</div>
 	{:else if !entry}
 		<Spinner />
@@ -287,31 +349,19 @@
 			{@html html}
 		</article>
 
-		<!-- Refs -->
-		{#if entry.refs.length > 0}
+		<!-- Refs (exclude children and unresolved sub-paths that are children) -->
+		{@const childPaths = new Set(entry.children.map((c) => c.memory_file))}
+		{@const filteredRefs = entry.refs.filter(
+			(r) =>
+				!childPaths.has(r.memory_file) &&
+				!Array.from(childPaths).some((cp) => cp.endsWith('/' + r.memory_file))
+		)}
+		{#if filteredRefs.length > 0}
 			<div class="mt-8 border-t border-brain-border pt-6">
 				<h3 class="mb-3 text-sm font-semibold text-brain-muted">related memories</h3>
 				<div class="space-y-2">
-					{#each entry.refs as ref (ref.memory_file)}
-						{@const refCategory = detectCategory(ref.tags)}
-						<a
-							href={resolve('/memory/[...path]', { path: ref.memory_file })}
-							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
-						>
-							<div class="flex items-center gap-2 text-sm font-medium">
-								<span class="text-xs text-brain-muted">{ref.kind}</span>
-								{#if refCategory}
-									<CategoryBadge category={refCategory} />
-								{/if}
-								{ref.title}
-								{#if ref.progress}
-									<ProgressBadge progress={ref.progress} />
-								{/if}
-							</div>
-							{#if ref.summary}
-								<div class="mt-1 text-xs text-brain-muted">{ref.summary}</div>
-							{/if}
-						</a>
+					{#each filteredRefs as ref (ref.memory_file)}
+						<MemoryCard memory={ref} showKind deleted={!ref.title} />
 					{/each}
 				</div>
 			</div>
@@ -323,20 +373,7 @@
 				<h3 class="mb-3 text-sm font-semibold text-brain-muted">sub-memories</h3>
 				<div class="space-y-2">
 					{#each entry.children as child (child.memory_file)}
-						<a
-							href={resolve('/memory/[...path]', { path: child.memory_file })}
-							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
-						>
-							<div class="flex items-center gap-2 text-sm font-medium">
-								{child.title}
-								{#if child.progress}
-									<ProgressBadge progress={child.progress} />
-								{/if}
-							</div>
-							{#if child.summary}
-								<div class="mt-1 text-xs text-brain-muted">{child.summary}</div>
-							{/if}
-						</a>
+						<MemoryCard memory={child} />
 					{/each}
 				</div>
 			</div>
