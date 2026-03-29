@@ -13,6 +13,7 @@
 	let error = $state<string | null>(null);
 	let html = $state('');
 	let lightboxSrc = $state<string | null>(null);
+	let lightboxPdf = $state<string | null>(null);
 
 	const file = $derived(decodeURIComponent($page.params.file ?? ''));
 
@@ -103,14 +104,12 @@
 				const name = text.substring(text.indexOf(' ') + 1);
 				const isPdf = url.toLowerCase().endsWith('.pdf') || name.toLowerCase().endsWith('.pdf');
 				if (isPdf) {
-					return `<details class="my-3 rounded border border-brain-border bg-brain-surface">
-							<summary class="flex cursor-pointer items-center gap-3 p-3">
-								<span class="text-lg">${icon}</span>
-								<span class="flex-1 text-sm text-brain-text">${name}</span>
-								<a href="${url}" class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted hover:text-brain-accent" download onclick="event.stopPropagation()">⬇ download</a>
-							</summary>
-							<iframe src="${url}" class="w-full border-t border-brain-border" style="height: 500px;"></iframe>
-						</details>`;
+					return `<div class="my-3 flex cursor-pointer items-center gap-3 rounded border border-brain-border bg-brain-surface p-3" data-pdf-lightbox="${url}">
+							<span class="text-lg">${icon}</span>
+							<span class="flex-1 text-sm text-brain-text">${name}</span>
+							<span class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted">click to preview</span>
+							<a href="${url}" class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted hover:text-brain-accent" download>⬇ download</a>
+						</div>`;
 				}
 				return `<div class="my-3 flex items-center gap-3 rounded border border-brain-border bg-brain-surface p-3">
 						<span class="text-lg">${icon}</span>
@@ -134,6 +133,26 @@
 		tabindex="-1"
 	>
 		<img src={lightboxSrc} alt="" class="max-h-full max-w-full rounded" />
+	</div>
+{/if}
+
+{#if lightboxPdf}
+	<div
+		class="fixed inset-0 z-50 flex flex-col bg-black/95 p-4"
+		onkeydown={(e) => e.key === 'Escape' && (lightboxPdf = null)}
+		role="dialog"
+		tabindex="-1"
+	>
+		<div class="mb-2 flex justify-end">
+			<button
+				onclick={() => (lightboxPdf = null)}
+				class="rounded bg-brain-surface px-3 py-1 text-sm text-brain-muted hover:text-brain-text"
+			>
+				close
+			</button>
+		</div>
+		<iframe src={lightboxPdf} title="PDF preview" class="flex-1 rounded border border-brain-border"
+		></iframe>
 	</div>
 {/if}
 
@@ -209,10 +228,16 @@
 		<article
 			class="prose prose-sm max-w-none prose-invert"
 			onclick={(e) => {
-				const trigger = (e.target as HTMLElement).closest('[data-lightbox]');
-				if (trigger) {
+				const imgTrigger = (e.target as HTMLElement).closest('[data-lightbox]');
+				if (imgTrigger) {
 					e.preventDefault();
-					lightboxSrc = trigger.getAttribute('data-lightbox');
+					lightboxSrc = imgTrigger.getAttribute('data-lightbox');
+					return;
+				}
+				const pdfTrigger = (e.target as HTMLElement).closest('[data-pdf-lightbox]');
+				if (pdfTrigger && !(e.target as HTMLElement).closest('a[download]')) {
+					e.preventDefault();
+					lightboxPdf = pdfTrigger.getAttribute('data-pdf-lightbox');
 				}
 			}}
 		>
