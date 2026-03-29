@@ -15,7 +15,7 @@
 	let lightboxSrc = $state<string | null>(null);
 	let lightboxPdf = $state<string | null>(null);
 
-	const file = $derived(decodeURIComponent($page.params.file ?? ''));
+	const file = $derived($page.params.path ?? '');
 
 	onMount(() => load());
 
@@ -251,9 +251,7 @@
 				<div class="space-y-2">
 					{#each entry.children as child (child.memory_file)}
 						<a
-							href={resolve('/memory/[file]', {
-								file: encodeURIComponent(child.memory_file)
-							})}
+							href={resolve('/memory/[...path]', { path: child.memory_file })}
 							class="block rounded border border-brain-border bg-brain-surface p-3 transition-colors hover:border-brain-accent"
 						>
 							<div class="flex items-center gap-2 text-sm font-medium">

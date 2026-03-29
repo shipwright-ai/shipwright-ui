@@ -218,7 +218,7 @@
 				{#each data.memories as result (result.memory_file)}
 					{@const category = detectCategory(result.tags)}
 					<a
-						href={resolve('/memory/[file]', { file: encodeURIComponent(result.memory_file) })}
+						href={resolve('/memory/[...path]', { path: result.memory_file })}
 						class="block rounded border p-3 transition-colors hover:border-brain-accent {result
 							.progress?.status === 'done'
 							? 'border-brain-border/50 bg-brain-surface/50 opacity-60'

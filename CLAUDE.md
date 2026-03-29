@@ -34,7 +34,7 @@ Every change MUST pass `make check` before being committed. This runs prettier, 
 - `src/routes/` — SvelteKit file-based routing:
   - `/` — Landing page, lists memory kinds
   - `/browse/[...path]` — Browse memories by kind/path
-  - `/memory/[file]` — Memory detail with rendered markdown
+  - `/memory/[...path]` — Memory detail with rendered markdown (clean URLs)
   - `/search` — Full-text search across memories
 
 ## Context Gates

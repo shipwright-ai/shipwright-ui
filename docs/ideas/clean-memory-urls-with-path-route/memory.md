@@ -17,7 +17,9 @@ at: '2026-03-29T16:33:47.520Z'
 
 > Context: current URLs are /memory/docs%2Fideas%2Fcmd-k-search%2Fmemory.md — ugly encoded slashes
 
-- [ ] Change route from /memory/[file] to /memory/[...path]
-- [ ] URL becomes /memory/docs/ideas/cmd-k-search/memory.md
-- [ ] Update all href generation to use path segments instead of encodeURIComponent
-- [ ] Update brain.ts getMemory to accept path and reconstruct memory_file
+- [x] Change route from /memory/[file] to /memory/[...path]
+- [x] URL becomes /memory/docs/ideas/cmd-k-search/memory.md
+- [x] Update all href generation in browse, search, and memory detail
+- [x] No encodeURIComponent needed — path segments are natural URL segments
+
+![clean-url-working.png](clean-url-working.png)
