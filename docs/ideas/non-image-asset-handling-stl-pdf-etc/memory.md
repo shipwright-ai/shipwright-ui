@@ -21,7 +21,7 @@ at: '2026-03-29T15:24:01.425Z'
 - [x] Show download link for non-image attachments (relative path rewriting works)
 - [x] File type icons (emoji) based on extension: PDF, 3D, archive, spreadsheet, etc
 - [x] Standalone file links render as attachment cards with icon, name, download button
-- [x] PDF accordion: collapsible preview with inline iframe
+- [x] PDF fullscreen lightbox preview (replaced accordion — too small)
 - [x] Download button styled as button, not link
 - [x] Test PDF preview actually renders in browser
 - [x] Fix download button underline from prose styling
