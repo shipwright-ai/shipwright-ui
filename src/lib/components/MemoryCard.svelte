@@ -34,10 +34,10 @@
 	class="block overflow-hidden rounded border transition-colors {deleted
 		? 'border-brain-red/40 bg-brain-red/5 opacity-70'
 		: isDone
-			? 'border-brain-border/50 bg-brain-surface/50 opacity-60'
+			? 'border-brain-border/50 bg-brain-surface/50 opacity-60 hover:border-brain-accent hover:opacity-80'
 			: 'border-brain-border bg-brain-surface hover:border-brain-accent'}"
 >
-	{#if progress && !deleted}
+	{#if progress && !deleted && !isDone}
 		{@const pct = progress.total > 0 ? (progress.checked / progress.total) * 100 : 0}
 		<div class="h-0.5 w-full bg-brain-border/30">
 			<div

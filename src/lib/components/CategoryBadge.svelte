@@ -2,7 +2,7 @@
 	import { CATEGORIES, type CategoryKey } from '$lib/categories';
 	import { Bug, Sparkles, Wrench, Rocket, Search, Settings } from 'lucide-svelte';
 
-	let { category }: { category: CategoryKey } = $props();
+	let { category, minimal = false }: { category: CategoryKey; minimal?: boolean } = $props();
 
 	const cat = $derived(CATEGORIES[category]);
 
@@ -18,9 +18,13 @@
 	const IconComponent = $derived(icons[cat.icon]);
 </script>
 
-<span
-	class={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs ${cat.color} ${cat.bg}`}
->
-	<IconComponent size={12} />
-	{cat.label}
-</span>
+{#if minimal}
+	<IconComponent size={12} class="inline-block" />
+{:else}
+	<span
+		class={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs ${cat.color} ${cat.bg}`}
+	>
+		<IconComponent size={12} />
+		{cat.label}
+	</span>
+{/if}
