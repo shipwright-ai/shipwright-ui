@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browseKind, type BrowseKindResponse, type MemorySummary } from '$lib/brain';
 	import { detectCategory } from '$lib/categories';
@@ -11,18 +10,44 @@
 	let data = $state<BrowseKindResponse | null>(null);
 	let error = $state<string | null>(null);
 	let statusFilter = $state<string | null>(null);
+	let activeTags = $state<string[]>([]);
 	let currentPath = $derived($page.params.path ?? '');
+
+	let allTags = $derived.by(() => {
+		if (!data) return [];
+		const tags: string[] = [];
+		for (const m of data.memories) {
+			for (const t of m.tags) {
+				if (!tags.includes(t)) tags.push(t);
+			}
+		}
+		return tags.sort();
+	});
 
 	let filtered = $derived.by(() => {
 		if (!data) return [];
-		if (!statusFilter) return data.memories;
-		return data.memories.filter((m: MemorySummary) => {
-			if (!m.progress) return statusFilter === 'no-progress';
-			return m.progress.status === statusFilter;
-		});
+		let items = data.memories;
+		if (statusFilter) {
+			items = items.filter((m: MemorySummary) => {
+				if (!m.progress) return statusFilter === 'no-progress';
+				return m.progress.status === statusFilter;
+			});
+		}
+		if (activeTags.length > 0) {
+			items = items.filter((m: MemorySummary) => activeTags.every((t) => m.tags.includes(t)));
+		}
+		return items;
 	});
 
 	let hasProgress = $derived(data?.memories.some((m: MemorySummary) => m.progress) ?? false);
+
+	function toggleTag(tag: string) {
+		if (activeTags.includes(tag)) {
+			activeTags = activeTags.filter((t) => t !== tag);
+		} else {
+			activeTags = [...activeTags, tag];
+		}
+	}
 
 	onMount(() => load());
 
@@ -35,6 +60,7 @@
 		data = null;
 		error = null;
 		statusFilter = null;
+		activeTags = [];
 		try {
 			data = await browseKind(currentPath);
 		} catch (e) {
@@ -98,6 +124,31 @@
 			</div>
 		{/if}
 
+		<!-- Tag filters -->
+		{#if allTags.length > 0}
+			<div class="mb-4 flex flex-wrap items-center gap-1.5">
+				<span class="text-xs text-brain-muted">tags:</span>
+				{#each allTags as tag (tag)}
+					<button
+						onclick={() => toggleTag(tag)}
+						class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)
+							? 'border border-brain-accent bg-brain-accent/20 text-brain-accent'
+							: 'border border-transparent bg-brain-bg text-brain-muted hover:text-brain-text'}"
+					>
+						{tag}
+					</button>
+				{/each}
+				{#if activeTags.length > 0}
+					<button
+						onclick={() => (activeTags = [])}
+						class="text-xs text-brain-muted hover:text-brain-text"
+					>
+						clear
+					</button>
+				{/if}
+			</div>
+		{/if}
+
 		<p class="mb-4 text-xs text-brain-muted">{filtered.length} memories</p>
 
 		{#if filtered.length > 0}
@@ -132,11 +183,11 @@
 										onclick={(e) => {
 											e.preventDefault();
 											e.stopPropagation();
-											// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
-											goto(`${resolve('/search')}?tags=${encodeURIComponent(tag)}`);
+											toggleTag(tag);
 										}}
-										class="rounded bg-brain-bg px-1.5 py-0.5 text-xs text-brain-muted transition-colors hover:text-brain-accent"
-										>{tag}</button
+										class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)
+											? 'bg-brain-accent/20 text-brain-accent'
+											: 'bg-brain-bg text-brain-muted hover:text-brain-accent'}">{tag}</button
 									>
 								{/each}
 							</div>
