@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/stores';
-	import { browseKind, type BrowseKindResponse, type MemorySummary } from '$lib/brain';
+	import { browseKind, type BrowseKindResponse, type Facets } from '$lib/brain';
 	import { detectCategory } from '$lib/categories';
 	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
@@ -12,42 +12,49 @@
 	let statusFilter = $state<string | null>(null);
 	let activeTags = $state<string[]>([]);
 	let currentPath = $derived($page.params.path ?? '');
+	let facets = $state<Facets | null>(null);
 
-	// Items after status filter (before tag filter) — used to compute available tags
-	let statusFiltered = $derived.by(() => {
-		if (!data) return [];
-		if (!statusFilter) return data.memories;
-		return data.memories.filter((m: MemorySummary) => {
-			if (!m.progress) return statusFilter === 'no-progress';
-			return m.progress.status === statusFilter;
-		});
+	onMount(() => load());
+
+	$effect(() => {
+		void currentPath;
+		statusFilter = null;
+		activeTags = [];
+		load();
 	});
 
-	// Tags available given current status + active tag filters (cascading)
-	let availableTags = $derived.by(() => {
-		const pool =
-			activeTags.length > 0
-				? statusFiltered.filter((m: MemorySummary) => activeTags.every((t) => m.tags.includes(t)))
-				: statusFiltered;
-		const tags: string[] = [];
-		for (const m of pool) {
-			for (const t of m.tags) {
-				if (!tags.includes(t)) tags.push(t);
-			}
+	// Re-fetch when filters change
+	$effect(() => {
+		void statusFilter;
+		void activeTags;
+		fetchFiltered();
+	});
+
+	async function load() {
+		data = null;
+		error = null;
+		try {
+			data = await browseKind(currentPath);
+			facets = data.facets ?? null;
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Failed to load';
 		}
-		return tags.sort();
-	});
+	}
 
-	let filtered = $derived.by(() => {
-		if (activeTags.length > 0) {
-			return statusFiltered.filter((m: MemorySummary) =>
-				activeTags.every((t) => m.tags.includes(t))
-			);
+	async function fetchFiltered() {
+		if (!currentPath) return;
+		try {
+			const opts: { tags?: string[]; status?: string } = {};
+			if (activeTags.length > 0) opts.tags = activeTags;
+			if (statusFilter) opts.status = statusFilter;
+
+			data = await browseKind(currentPath, opts);
+			// Update facets from filtered response (cross-filtering)
+			if (data.facets) facets = data.facets;
+		} catch {
+			// keep existing data on filter fetch failure
 		}
-		return statusFiltered;
-	});
-
-	let hasProgress = $derived(data?.memories.some((m: MemorySummary) => m.progress) ?? false);
+	}
 
 	function toggleTag(tag: string) {
 		if (activeTags.includes(tag)) {
@@ -57,24 +64,9 @@
 		}
 	}
 
-	onMount(() => load());
-
-	$effect(() => {
-		void currentPath;
-		load();
-	});
-
-	async function load() {
-		data = null;
-		error = null;
-		statusFilter = null;
-		activeTags = [];
-		try {
-			data = await browseKind(currentPath);
-		} catch (e) {
-			error = e instanceof Error ? e.message : 'Failed to load';
-		}
-	}
+	let hasProgress = $derived(
+		facets ? Object.values(facets.status).some((v, i) => i < 3 && v > 0) : false
+	);
 </script>
 
 <div class="mx-auto max-w-4xl">
@@ -95,7 +87,7 @@
 		<h2 class="mb-4 text-xl font-semibold capitalize">{data.kind}</h2>
 
 		<!-- Status filter bar -->
-		{#if hasProgress}
+		{#if facets && hasProgress}
 			<div class="mb-4 flex items-center gap-2">
 				<button
 					onclick={() => (statusFilter = null)}
@@ -103,47 +95,55 @@
 						? 'bg-brain-accent text-black'
 						: 'text-brain-muted hover:text-brain-text'}"
 				>
-					All ({data.total})
+					All
 				</button>
-				<button
-					onclick={() => (statusFilter = 'not-started')}
-					class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'not-started'
-						? 'bg-brain-muted/30 text-brain-text'
-						: 'text-brain-muted hover:text-brain-text'}"
-				>
-					Planned
-				</button>
-				<button
-					onclick={() => (statusFilter = 'in-progress')}
-					class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'in-progress'
-						? 'bg-amber-500/20 text-amber-400'
-						: 'text-brain-muted hover:text-brain-text'}"
-				>
-					In Progress
-				</button>
-				<button
-					onclick={() => (statusFilter = 'done')}
-					class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'done'
-						? 'bg-brain-green/20 text-brain-green'
-						: 'text-brain-muted hover:text-brain-text'}"
-				>
-					Done
-				</button>
+				{#if facets.status['not-started'] > 0 || statusFilter === 'not-started'}
+					<button
+						onclick={() => (statusFilter = statusFilter === 'not-started' ? null : 'not-started')}
+						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'not-started'
+							? 'bg-brain-muted/30 text-brain-text'
+							: 'text-brain-muted hover:text-brain-text'}"
+					>
+						Planned ({facets.status['not-started']})
+					</button>
+				{/if}
+				{#if facets.status['in-progress'] > 0 || statusFilter === 'in-progress'}
+					<button
+						onclick={() => (statusFilter = statusFilter === 'in-progress' ? null : 'in-progress')}
+						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'in-progress'
+							? 'bg-amber-500/20 text-amber-400'
+							: 'text-brain-muted hover:text-brain-text'}"
+					>
+						In Progress ({facets.status['in-progress']})
+					</button>
+				{/if}
+				{#if facets.status['done'] > 0 || statusFilter === 'done'}
+					<button
+						onclick={() => (statusFilter = statusFilter === 'done' ? null : 'done')}
+						class="rounded px-2.5 py-1 text-xs transition-colors {statusFilter === 'done'
+							? 'bg-brain-green/20 text-brain-green'
+							: 'text-brain-muted hover:text-brain-text'}"
+					>
+						Done ({facets.status['done']})
+					</button>
+				{/if}
 			</div>
 		{/if}
 
 		<!-- Tag filters -->
-		{#if availableTags.length > 0}
+		{#if facets && facets.tags.length > 0}
 			<div class="mb-4 flex flex-wrap items-center gap-1.5">
 				<span class="text-xs text-brain-muted">tags:</span>
-				{#each availableTags as tag (tag)}
+				{#each facets.tags as tagFacet (tagFacet.tag)}
 					<button
-						onclick={() => toggleTag(tag)}
-						class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(tag)
+						onclick={() => toggleTag(tagFacet.tag)}
+						class="rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(
+							tagFacet.tag
+						)
 							? 'border border-brain-accent bg-brain-accent/20 text-brain-accent'
 							: 'border border-transparent bg-brain-bg text-brain-muted hover:text-brain-text'}"
 					>
-						{tag}
+						{tagFacet.tag} ({tagFacet.count})
 					</button>
 				{/each}
 				{#if activeTags.length > 0}
@@ -157,11 +157,11 @@
 			</div>
 		{/if}
 
-		<p class="mb-4 text-xs text-brain-muted">{filtered.length} memories</p>
+		<p class="mb-4 text-xs text-brain-muted">{data.total} memories</p>
 
-		{#if filtered.length > 0}
+		{#if data.memories.length > 0}
 			<div class="space-y-2">
-				{#each filtered as entry (entry.memory_file)}
+				{#each data.memories as entry (entry.memory_file)}
 					{@const category = detectCategory(entry.tags)}
 					<a
 						href={resolve('/memory/[file]', { file: encodeURIComponent(entry.memory_file) })}

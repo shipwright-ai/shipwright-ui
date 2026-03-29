@@ -32,9 +32,16 @@ export async function browseRoot(): Promise<BrowseRootResponse> {
 	return res.json();
 }
 
-export async function browseKind(kind: string): Promise<BrowseKindResponse> {
+export async function browseKind(
+	kind: string,
+	opts?: { tags?: string[]; status?: string; limit?: number; offset?: number }
+): Promise<BrowseKindResponse> {
 	const url = new URL('/api/browse', getBrainUrl());
 	url.searchParams.set('path', kind);
+	if (opts?.tags?.length) url.searchParams.set('tags', opts.tags.join(','));
+	if (opts?.status) url.searchParams.set('status', opts.status);
+	if (opts?.limit) url.searchParams.set('limit', String(opts.limit));
+	if (opts?.offset) url.searchParams.set('offset', String(opts.offset));
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
 	return res.json();
@@ -96,12 +103,28 @@ export interface MemorySummary {
 	progress?: Progress;
 }
 
+export interface TagFacet {
+	tag: string;
+	count: number;
+}
+
+export interface Facets {
+	tags: TagFacet[];
+	status: {
+		'not-started': number;
+		'in-progress': number;
+		done: number;
+		'no-progress': number;
+	};
+}
+
 export interface BrowseKindResponse {
 	level: 'kind';
 	kind: string;
 	memories: MemorySummary[];
 	total: number;
 	hasMore: boolean;
+	facets?: Facets;
 }
 
 export interface MemoryDetail {
