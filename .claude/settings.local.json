@@ -21,7 +21,9 @@
       "Bash(curl -s http://localhost:3111/api/browse)",
       "Bash(curl -s \"http://localhost:3111/api/browse?path=decisions\")",
       "Bash(python3 -m json.tool)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(pkill -f \"shipwright-brain/src/http.js\")",
+      "Bash(pkill -f \"vite dev\")"
     ]
   }
 }
