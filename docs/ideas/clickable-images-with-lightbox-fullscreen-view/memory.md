@@ -21,3 +21,5 @@ at: '2026-03-29T16:26:28.831Z'
 - [x] Show fullscreen overlay/lightbox on click (Svelte $state driven)
 - [x] Esc or click outside to close
 - [x] No library — pure CSS overlay with event delegation on article
+
+![lightbox-open.png](lightbox-open.png)
