@@ -45,6 +45,7 @@
 		"vitest": "^4.1.0"
 	},
 	"dependencies": {
-		"marked": "^17.0.5"
+		"marked": "^17.0.5",
+		"shipwright-brain": "github:shipwright-ai/shipwright-brain"
 	}
 }

@@ -1,8 +1,8 @@
 {
 	"mcpServers": {
 		"brain": {
-			"command": "node",
-			"args": ["../shipwright-brain/src/mcp.js", "./docs"]
+			"command": "npx",
+			"args": ["shipwright-brain", "mcp", "./docs"]
 		}
 	}
 }
