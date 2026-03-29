@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"brain": {
+			"command": "node",
+			"args": ["../shipwright-brain/src/mcp.js", "./docs"]
+		}
+	}
+}

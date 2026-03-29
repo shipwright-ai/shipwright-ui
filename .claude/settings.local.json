@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx sv:*)",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "WebSearch",
+      "WebFetch(domain:www.shadcn-svelte.com)",
+      "Read(//Users/bartas/.npm/_npx/**)",
+      "Bash(find /tmp -path */shadcn-svelte/dist* -name *.js)",
+      "Bash(node -e \":*)",
+      "Bash(node --input-type=module -e \":*)",
+      "Bash(printf '\\\\n\\\\n\\\\n\\\\n\\\\n\\\\n\\\\n\\\\n')",
+      "Bash(mkdir -p /Users/bartas/local_work/prusa3d/vibecoding/shipwright-done-right/brain-ui/src/routes/browse/'[...path]')",
+      "Bash(mkdir -p /Users/bartas/local_work/prusa3d/vibecoding/shipwright-done-right/brain-ui/src/routes/memory/'[file]')",
+      "Bash(npm run:*)",
+      "Bash(make help:*)",
+      "Bash(make check:*)",
+      "WebFetch(domain:svelte.dev)",
+      "Bash(make test:*)"
+    ]
+  }
+}
