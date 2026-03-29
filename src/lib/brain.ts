@@ -145,4 +145,5 @@ export interface SearchResponse {
 	memories: MemorySummary[];
 	total: number;
 	hasMore: boolean;
+	facets?: Facets;
 }
