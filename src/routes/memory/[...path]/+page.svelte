@@ -6,6 +6,7 @@
 	import { detectCategory } from '$lib/categories';
 	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import Spinner from '$lib/components/Spinner.svelte';
 	import { marked } from 'marked';
 	import { markedHighlight } from 'marked-highlight';
 	import hljs from 'highlight.js/lib/core';
@@ -204,7 +205,7 @@
 			{error}
 		</div>
 	{:else if !entry}
-		<p class="text-brain-muted">loading...</p>
+		<Spinner />
 	{:else}
 		<!-- Breadcrumb -->
 		<nav class="mb-6 flex items-center gap-1.5 text-sm text-brain-muted">

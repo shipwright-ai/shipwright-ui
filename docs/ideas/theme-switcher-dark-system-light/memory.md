@@ -21,6 +21,9 @@ at: '2026-03-29T16:16:19.154Z'
 - [x] System mode uses prefers-color-scheme media query
 - [x] Define light mode brain-\* color tokens
 - [x] Update layout.css with light mode variants + checkbox/image fixes
+- [x] Fix prose headings/links invisible in light mode (override prose CSS vars with brain tokens)
+- [x] Fix checkboxes dull in light mode (white checkmark on green)
+- [x] Add centered loading spinner with animation (replace plain "loading..." text)
 
 ![dark-theme.png](dark-theme.png)
 

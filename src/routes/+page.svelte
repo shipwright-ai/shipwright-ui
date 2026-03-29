@@ -8,6 +8,7 @@
 		type MemorySummary
 	} from '$lib/brain';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import Spinner from '$lib/components/Spinner.svelte';
 	import heroImg from '$lib/assets/shipwright-hero.png';
 	import { onMount } from 'svelte';
 
@@ -43,7 +44,7 @@
 			{error}
 		</div>
 	{:else if !data}
-		<p class="text-brain-muted">loading...</p>
+		<Spinner />
 	{:else}
 		<!-- Hero -->
 		<div class="mb-8 flex flex-col items-center">

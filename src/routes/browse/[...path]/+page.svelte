@@ -6,6 +6,7 @@
 	import { detectCategory } from '$lib/categories';
 	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import Spinner from '$lib/components/Spinner.svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<BrowseKindResponse | null>(null);
@@ -101,7 +102,7 @@
 			{error}
 		</div>
 	{:else if !data}
-		<p class="text-brain-muted">loading...</p>
+		<Spinner />
 	{:else}
 		<h2 class="mb-4 text-xl font-semibold capitalize">{data.kind}</h2>
 

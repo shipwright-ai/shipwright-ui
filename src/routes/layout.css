@@ -38,12 +38,52 @@ html.light {
 		--color-brain-green: #16a34a;
 		--color-brain-red: #dc2626;
 	}
+
+	html:not(.dark) .prose input[type='checkbox'] {
+		border-color: #bbb;
+	}
+
+	html:not(.dark) .prose input[type='checkbox']:checked {
+		background-color: var(--color-brain-green);
+		border-color: var(--color-brain-green);
+	}
+
+	html:not(.dark) .prose input[type='checkbox']:checked::after {
+		border-color: #fff;
+	}
 }
 
 /* Base styles */
 html {
 	background-color: var(--color-brain-bg);
 	color: var(--color-brain-text);
+}
+
+/* Prose typography — override colors to use brain tokens */
+.prose {
+	--tw-prose-body: var(--color-brain-text);
+	--tw-prose-headings: var(--color-brain-text);
+	--tw-prose-links: var(--color-brain-accent);
+	--tw-prose-bold: var(--color-brain-text);
+	--tw-prose-code: var(--color-brain-accent);
+	--tw-prose-quotes: var(--color-brain-muted);
+	--tw-prose-quote-borders: var(--color-brain-border);
+	--tw-prose-counters: var(--color-brain-muted);
+	--tw-prose-bullets: var(--color-brain-muted);
+	--tw-prose-hr: var(--color-brain-border);
+	--tw-prose-th-borders: var(--color-brain-border);
+	--tw-prose-td-borders: var(--color-brain-border);
+	--tw-prose-pre-bg: var(--color-brain-surface);
+	--tw-prose-pre-code: var(--color-brain-text);
+	--tw-prose-invert-body: var(--color-brain-text);
+	--tw-prose-invert-headings: var(--color-brain-text);
+	--tw-prose-invert-links: var(--color-brain-accent);
+	--tw-prose-invert-bold: var(--color-brain-text);
+	--tw-prose-invert-code: var(--color-brain-accent);
+	--tw-prose-invert-quotes: var(--color-brain-muted);
+	--tw-prose-invert-quote-borders: var(--color-brain-border);
+	--tw-prose-invert-pre-bg: var(--color-brain-surface);
+	--tw-prose-invert-pre-code: var(--color-brain-text);
 }
 
 /* Checkbox styling in prose content */
@@ -60,7 +100,16 @@ html {
 }
 
 html.light .prose input[type='checkbox'] {
-	border-color: #ccc;
+	border-color: #bbb;
+}
+
+html.light .prose input[type='checkbox']:checked {
+	background-color: var(--color-brain-green);
+	border-color: var(--color-brain-green);
+}
+
+html.light .prose input[type='checkbox']:checked::after {
+	border-color: #fff;
 }
 
 .prose input[type='checkbox']:checked {
