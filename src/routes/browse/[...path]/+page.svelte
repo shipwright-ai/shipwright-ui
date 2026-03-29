@@ -154,15 +154,19 @@
 						class="cursor-pointer rounded px-1.5 py-0.5 text-xs transition-colors {activeTags.includes(
 							tagFacet.tag
 						)
-							? 'border border-brain-accent bg-brain-accent/20 text-brain-accent'
-							: 'border border-transparent bg-brain-bg text-brain-muted hover:text-brain-text'}"
+							? 'ring-2 ring-brain-accent ring-offset-1 ring-offset-brain-bg'
+							: ''} {tagCategory
+							? ''
+							: activeTags.includes(tagFacet.tag)
+								? 'border border-brain-accent bg-brain-accent/20 text-brain-accent'
+								: 'text-brain-muted hover:text-brain-text'}"
 					>
-						{#if tagCategory && !activeTags.includes(tagFacet.tag)}
+						{#if tagCategory}
 							<CategoryBadge category={tagCategory} />
+							<span class="text-brain-muted">({tagFacet.count})</span>
 						{:else}
-							{tagFacet.tag}
+							{tagFacet.tag} ({tagFacet.count})
 						{/if}
-						({tagFacet.count})
 					</button>
 				{/each}
 				{#if activeTags.length > 0}

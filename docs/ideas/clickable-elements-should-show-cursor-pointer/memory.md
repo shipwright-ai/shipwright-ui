@@ -17,6 +17,6 @@ at: '2026-03-29T22:32:33.724Z'
 
 - [x] Add cursor-pointer to tag buttons in MemoryCard
 - [x] Add cursor-pointer to sort buttons in browse and search
-- [ ] Add cursor-pointer to tag filter bar buttons
+- [x] Add cursor-pointer to tag filter bar buttons
 - [ ] Add cursor-pointer to status filter tabs
 - [ ] Consider global CSS rule for all button elements

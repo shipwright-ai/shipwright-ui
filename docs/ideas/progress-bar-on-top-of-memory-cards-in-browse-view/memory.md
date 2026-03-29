@@ -20,8 +20,13 @@ Cards with progress badges show a fraction like 5/6 but lack a visual bar. A thi
 
 ## Key Points
 
-- [ ] Add thin colored bar at top of MemoryCard when progress exists
-- [ ] Color: green for done, amber for in-progress, gray for not-started
-- [ ] Width proportional to checked/total percentage
+- [x] Add thin colored bar at top of MemoryCard when progress exists
+- [x] Color: green for done, amber for in-progress, gray for not-started
+- [x] Width proportional to checked/total percentage
 - [ ] Also applicable to homepage kind cards that have progress
-- [ ] Subtle — should not dominate the card
+- [x] Subtle — should not dominate the card
+- [x] Remove redundant amber left border for in-progress (progress bar replaces it)
+- [x] Done cards show "done" text on right side instead of DONE badge
+- [x] Clean up tag styling — no bg/border on inactive tags
+
+![progress-bars-clean.png](progress-bars-clean.png)
