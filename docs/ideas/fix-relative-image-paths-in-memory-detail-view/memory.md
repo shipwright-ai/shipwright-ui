@@ -25,3 +25,5 @@ The image rewrite regex in memory/[file]/+page.svelte converts relative image pa
 - [x] Test with attached screenshots
 
 ![broken-image.png](broken-image.png)
+
+![fixed-image-rendering.png](fixed-image-rendering.png)
