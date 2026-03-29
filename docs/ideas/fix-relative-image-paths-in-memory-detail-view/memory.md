@@ -10,6 +10,7 @@ tags:
   - images
 refs:
   - docs/ideas/style-checkboxes-as-green-checkmarks-in-prose/memory.md
+  - docs/ideas/style-attached-images-in-memory-detail/memory.md
 by: developer
 at: '2026-03-29T13:09:24.658Z'
 ---

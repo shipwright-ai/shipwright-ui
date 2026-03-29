@@ -35,7 +35,13 @@
 					return `![${alt}](${fileUrl(resolved)})`;
 				}
 			);
-			html = await marked.parse(content);
+			let parsed = await marked.parse(content);
+			// Wrap images with alt text in figure/figcaption for filename caption
+			parsed = parsed.replace(
+				/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*>/g,
+				(match, _src, alt) => `<figure>${match}<figcaption>${alt}</figcaption></figure>`
+			);
+			html = parsed;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load memory';
 		}
