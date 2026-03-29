@@ -56,6 +56,14 @@
 	let html = $state('');
 	let lightboxSrc = $state<string | null>(null);
 	let lightboxPdf = $state<string | null>(null);
+	let allImages = $state<string[]>([]);
+	let lightboxIndex = $derived(lightboxSrc ? allImages.indexOf(lightboxSrc) : -1);
+
+	function lightboxNav(dir: -1 | 1) {
+		if (allImages.length < 2 || lightboxIndex < 0) return;
+		const next = (lightboxIndex + dir + allImages.length) % allImages.length;
+		lightboxSrc = allImages[next];
+	}
 
 	const file = $derived($page.params.path ?? '');
 
@@ -206,6 +214,13 @@
 						<a href="${url}" class="rounded bg-brain-bg px-2 py-1 text-xs text-brain-muted hover:text-brain-accent" download>⬇ download</a>
 					</div>`;
 			});
+			// Collect all image sources for lightbox navigation
+			const imgSrcs: string[] = [];
+			parsed.replace(/data-lightbox="([^"]+)"/g, (_, src) => {
+				imgSrcs.push(src);
+				return _;
+			});
+			allImages = imgSrcs;
 			html = parsed;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'Failed to load memory';
@@ -219,6 +234,10 @@
 			if (lightboxSrc) lightboxSrc = null;
 			if (lightboxPdf) lightboxPdf = null;
 		}
+		if (lightboxSrc) {
+			if (e.key === 'ArrowLeft') lightboxNav(-1);
+			if (e.key === 'ArrowRight') lightboxNav(1);
+		}
 	}}
 />
 
@@ -228,6 +247,29 @@
 		onclick={() => (lightboxSrc = null)}
 		role="dialog"
 	>
+		{#if allImages.length > 1}
+			<button
+				class="absolute left-4 cursor-pointer rounded-full bg-white/10 p-2 text-2xl text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+				onclick={(e) => {
+					e.stopPropagation();
+					lightboxNav(-1);
+				}}
+			>
+				&#8249;
+			</button>
+			<button
+				class="absolute right-4 cursor-pointer rounded-full bg-white/10 p-2 text-2xl text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+				onclick={(e) => {
+					e.stopPropagation();
+					lightboxNav(1);
+				}}
+			>
+				&#8250;
+			</button>
+			<span class="absolute bottom-4 text-sm text-white/50">
+				{lightboxIndex + 1} / {allImages.length}
+			</span>
+		{/if}
 		<img src={lightboxSrc} alt="" class="max-h-full max-w-full rounded" />
 	</div>
 {/if}

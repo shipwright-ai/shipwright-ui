@@ -20,8 +20,8 @@ Memories with multiple images require closing and reopening the lightbox to view
 
 ## Key Points
 
-- [ ] Collect all image sources from the rendered markdown
-- [ ] Show left/right arrows in the lightbox overlay
-- [ ] Support keyboard arrow keys for navigation
-- [ ] Show image counter (e.g. "2 / 5")
-- [ ] Wrap around at edges (last → first)
+- [x] Collect all image sources from the rendered markdown (data-lightbox attributes)
+- [x] Show left/right arrows in the lightbox overlay
+- [x] Support keyboard arrow keys for navigation
+- [x] Show image counter (e.g. "2 / 5")
+- [x] Wrap around at edges (last → first)
