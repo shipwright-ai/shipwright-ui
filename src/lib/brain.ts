@@ -139,6 +139,7 @@ export interface MemoryDetail {
 	content: string;
 	children: MemorySummary[];
 	progress?: Progress;
+	modified?: string;
 }
 
 export interface SearchResponse {

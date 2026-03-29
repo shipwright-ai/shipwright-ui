@@ -46,14 +46,7 @@ For architecture questions → read docs/architecture/brain-ui-architecture/memo
 
 ## Idea Capture
 
-When the developer mentions an idea unrelated to the current task ("oh we should also...", "what if we...", "remind me to..."), capture it immediately to Brain:
-
-1. Acknowledge briefly: "Captured."
-2. Use `brain.create_memory` with kind: "ideas" — use checkbox format for steps:
-   - `- [ ]` for each concrete step, 3-6 checkboxes per idea
-   - Brain auto-parses checkboxes into progress tracking
-3. Check off boxes (`- [x]`) as work progresses
-4. Return to current task — don't let capture become a conversation
+**Rule: Capture Before Code.** Before implementing any new feature or request, capture it as a Brain idea first using `brain.create_memory` with kind: "ideas". Follow Brain's response instructions for format and attachments. Then implement.
 
 ## Post-Implementation Checks
 

@@ -100,6 +100,17 @@
 					>
 				{/each}
 			</div>
+			<div class="mt-2 flex gap-4 text-xs text-brain-muted">
+				{#if entry.at}
+					<span>created {new Date(entry.at).toLocaleDateString()}</span>
+				{/if}
+				{#if entry.modified}
+					<span>modified {new Date(entry.modified).toLocaleDateString()}</span>
+				{/if}
+				{#if entry.by}
+					<span>by {entry.by}</span>
+				{/if}
+			</div>
 		</div>
 
 		<!-- Content -->
