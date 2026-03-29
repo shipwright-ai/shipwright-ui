@@ -16,7 +16,14 @@
 	// Read from URL
 	let query = $derived($page.url.searchParams.get('q') ?? '');
 	let statusFilter = $derived($page.url.searchParams.get('status'));
-	let activeTags = $derived($page.url.searchParams.getAll('tag'));
+	let activeTags = $derived.by(() => {
+		// Support both ?tag=a&tag=b (multi-param) and ?tags=a,b (comma-separated)
+		const multi = $page.url.searchParams.getAll('tag');
+		if (multi.length > 0) return multi;
+		const csv = $page.url.searchParams.get('tags');
+		if (csv) return csv.split(',');
+		return [];
+	});
 
 	let inputValue = $state('');
 
