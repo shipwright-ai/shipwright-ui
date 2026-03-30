@@ -12,6 +12,21 @@ export const TAG_ICON_MAP: Record<string, string> = {
 	research: 'Search',
 	chore: 'Settings',
 
+	// Priority
+	low: 'ArrowDown',
+	medium: 'Minus',
+	high: 'ArrowUp',
+	urgent: 'AlertTriangle',
+	blocker: 'OctagonAlert',
+
+	// Resolution
+	dropped: 'CircleOff',
+	deferred: 'Clock',
+	rejected: 'XCircle',
+	cancelled: 'Ban',
+	wontfix: 'ShieldOff',
+	duplicate: 'Copy',
+
 	// Common tags → Lucide icon names
 	'brain-ui': 'Monitor',
 	ux: 'Palette',

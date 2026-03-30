@@ -15,9 +15,7 @@
 	const cfg = $derived(config[priority]);
 </script>
 
-<span
-	class={`inline-flex items-center gap-1 rounded border border-current/20 px-1.5 py-0.5 text-xs ${cfg.color} ${cfg.bg}`}
->
+<span class={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs ${cfg.color} ${cfg.bg}`}>
 	<cfg.icon size={12} />
 	{priority}
 </span>

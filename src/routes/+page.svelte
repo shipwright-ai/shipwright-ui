@@ -84,9 +84,11 @@
 		<Spinner />
 	{:else}
 		<!-- Hero -->
+		{@const totalMemories = data.kinds.reduce((sum, k) => sum + (k.totalCount ?? k.count ?? 0), 0)}
 		<div class="mb-8 flex flex-col items-center">
 			<BrainCircuit class="mb-4 h-24 w-24 text-brain-accent" strokeWidth={1.2} />
 			<h2 class="text-xl font-semibold">Memories</h2>
+			<span class="text-sm text-brain-muted">{totalMemories} total</span>
 		</div>
 
 		{#if data.kinds.length > 0}

@@ -22,7 +22,7 @@
 	<IconComponent size={12} class="inline-block" />
 {:else}
 	<span
-		class={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs ${cat.color} ${cat.bg}`}
+		class={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs ${cat.color} ${cat.bg}`}
 	>
 		<IconComponent size={12} />
 		{cat.label}

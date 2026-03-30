@@ -101,6 +101,11 @@ button {
 	}
 }
 
+/* Code blocks — border for visibility in both themes */
+.prose pre {
+	border: 1px solid var(--color-brain-border);
+}
+
 /* Inline code — blend in as plain colored text, no background/backticks */
 .prose :not(pre) > code {
 	background: none;

@@ -3,8 +3,10 @@
 	import { detectCategory } from '$lib/categories';
 	import type { MemorySummary, Progress } from '$lib/brain';
 	import { extractPriority, tagsWithoutPriority } from '$lib/priority';
+	import { extractResolution, tagsWithoutResolution } from '$lib/resolution';
 	import CategoryBadge from './CategoryBadge.svelte';
 	import PriorityBadge from './PriorityBadge.svelte';
+	import ResolutionBadge from './ResolutionBadge.svelte';
 	import ProgressBadge from './ProgressBadge.svelte';
 
 	interface Props {
@@ -29,23 +31,27 @@
 
 	const category = $derived(detectCategory(memory.tags));
 	const priority = $derived(extractPriority(memory.tags));
-	const displayTags = $derived(tagsWithoutPriority(memory.tags));
+	const resolution = $derived(extractResolution(memory.tags));
+	const displayTags = $derived(tagsWithoutResolution(tagsWithoutPriority(memory.tags)));
 	const progress: Progress | undefined = $derived(memory.progress);
 	const isDone = $derived(progress?.status === 'done');
 	const isInProgress = $derived(progress?.status === 'in-progress');
+	const isResolved = $derived(!!resolution);
 </script>
 
 <a
 	href={resolve('/memory/[...path]', { path: memory.memory_file })}
 	class="block overflow-hidden rounded border transition-colors {deleted
 		? 'border-brain-red/40 bg-brain-red/5 opacity-70'
-		: isDone && dimDone
-			? 'border-brain-border/50 bg-brain-surface/50 opacity-60 hover:border-brain-accent hover:opacity-80'
-			: isDone
-				? 'border-brain-border/50 bg-brain-surface/50 hover:border-brain-accent'
-				: 'border-brain-border bg-brain-surface hover:border-brain-accent'}"
+		: isResolved
+			? 'border-brain-border/30 bg-brain-surface/30 opacity-50 hover:border-brain-accent hover:opacity-70'
+			: isDone && dimDone
+				? 'border-brain-border/50 bg-brain-surface/50 opacity-60 hover:border-brain-accent hover:opacity-80'
+				: isDone
+					? 'border-brain-border/50 bg-brain-surface/50 hover:border-brain-accent'
+					: 'border-brain-border bg-brain-surface hover:border-brain-accent'}"
 >
-	{#if progress && !deleted && !isDone}
+	{#if progress && !deleted && !isDone && !isResolved}
 		{@const pct = progress.total > 0 ? (progress.checked / progress.total) * 100 : 0}
 		<div class="h-0.5 w-full bg-brain-border/30">
 			<div
@@ -59,13 +65,17 @@
 		</div>
 	{/if}
 	<div class="p-3">
-		{#if deleted || (showKind && memory.kind) || (category && !deleted) || priority}
+		{#if deleted || (showKind && memory.kind) || (category && !deleted) || priority || resolution || progress}
 			<div class="flex items-center gap-1.5 text-xs">
 				{#if deleted}
-					<span class="rounded bg-brain-red/15 px-1.5 py-0.5 font-medium text-brain-red"
+					<span class="rounded bg-brain-red/10 px-1.5 py-0.5 font-medium text-brain-red"
 						>deleted</span
 					>
-				{:else if showKind && memory.kind}
+				{/if}
+				{#if progress}
+					<ProgressBadge {progress} />
+				{/if}
+				{#if showKind && memory.kind && !deleted}
 					<span class="rounded bg-brain-bg px-1.5 py-0.5 text-brain-accent">{memory.kind}</span>
 				{/if}
 				{#if category && !deleted}
@@ -73,6 +83,9 @@
 				{/if}
 				{#if priority}
 					<PriorityBadge {priority} />
+				{/if}
+				{#if resolution}
+					<ResolutionBadge {resolution} />
 				{/if}
 			</div>
 		{/if}
@@ -82,12 +95,6 @@
 			>
 				{memory.title ?? memory.memory_file}
 			</div>
-			{#if progress && !isDone}
-				<ProgressBadge {progress} />
-			{/if}
-			{#if isDone}
-				<span class="shrink-0 text-xs text-brain-green">done</span>
-			{/if}
 		</div>
 		{#if memory.summary}
 			<div class="card-compact-summary mt-1 text-xs text-brain-muted">{memory.summary}</div>

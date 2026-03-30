@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - ux
   - styling
-refs: []
+refs:
+  - docs/examples/syntax-highlighting-demo/memory.md
 by: developer
 at: '2026-03-29T15:24:04.914Z'
 ---

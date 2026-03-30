@@ -21,7 +21,18 @@
 		Tags,
 		Code,
 		Layout,
-		Workflow
+		Workflow,
+		ArrowDown,
+		Minus,
+		ArrowUp,
+		AlertTriangle,
+		OctagonAlert,
+		CircleOff,
+		Clock,
+		XCircle,
+		Ban,
+		ShieldOff,
+		Copy
 	} from 'lucide-svelte';
 
 	let { tag, size = 12 }: { tag: string; size?: number } = $props();
@@ -47,7 +58,18 @@
 		Tags,
 		Code,
 		Layout,
-		Workflow
+		Workflow,
+		ArrowDown,
+		Minus,
+		ArrowUp,
+		AlertTriangle,
+		OctagonAlert,
+		CircleOff,
+		Clock,
+		XCircle,
+		Ban,
+		ShieldOff,
+		Copy
 	};
 
 	const iconName = $derived(TAG_ICON_MAP[tag]);
