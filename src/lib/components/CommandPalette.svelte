@@ -2,9 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { searchMemories, type MemorySummary } from '$lib/brain';
-	import { detectCategory } from '$lib/categories';
-	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
-	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
+	import MemoryCard from '$lib/components/MemoryCard.svelte';
 
 	let open = $state(false);
 	let query = $state('');
@@ -94,7 +92,7 @@
 		}}
 		role="dialog"
 	>
-		<div class="w-full max-w-lg rounded-lg border border-brain-border bg-brain-surface shadow-2xl">
+		<div class="w-full max-w-2xl rounded-lg border border-brain-border bg-brain-surface shadow-2xl">
 			<!-- Search input -->
 			<div class="flex items-center gap-3 border-b border-brain-border px-4 py-3">
 				<span class="text-brain-muted">🔍</span>
@@ -116,26 +114,17 @@
 			{:else if query && results.length === 0}
 				<div class="p-4 text-center text-xs text-brain-muted">no results</div>
 			{:else if results.length > 0}
-				<div class="max-h-80 overflow-y-auto p-2">
+				<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+				<div class="max-h-[60vh] space-y-1 overflow-y-auto p-2" onclick={() => hide()}>
 					{#each results as result, i (result.memory_file)}
-						{@const category = detectCategory(result.tags)}
-						<button
-							class="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm transition-colors {i ===
-							selectedIndex
-								? 'bg-brain-accent/10 text-brain-text'
-								: 'text-brain-muted hover:bg-brain-bg'}"
-							onclick={() => navigate(result.memory_file)}
+						<div
+							class="rounded transition-shadow {i === selectedIndex
+								? 'ring-1 ring-brain-accent'
+								: ''}"
 							onmouseenter={() => (selectedIndex = i)}
 						>
-							<span class="text-xs text-brain-muted">{result.kind}</span>
-							{#if category}
-								<CategoryBadge {category} />
-							{/if}
-							<span class="flex-1 truncate font-medium text-brain-text">{result.title}</span>
-							{#if result.progress}
-								<ProgressBadge progress={result.progress} />
-							{/if}
-						</button>
+							<MemoryCard memory={result} showKind dimDone={false} />
+						</div>
 					{/each}
 				</div>
 			{:else}

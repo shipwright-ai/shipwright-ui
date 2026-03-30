@@ -12,6 +12,7 @@
 		activeTags?: string[];
 		onToggleTag?: (tag: string) => void;
 		deleted?: boolean;
+		dimDone?: boolean;
 	}
 
 	let {
@@ -20,7 +21,8 @@
 		showTags = false,
 		activeTags = [],
 		onToggleTag,
-		deleted = false
+		deleted = false,
+		dimDone = true
 	}: Props = $props();
 
 	const category = $derived(detectCategory(memory.tags));
@@ -33,9 +35,11 @@
 	href={resolve('/memory/[...path]', { path: memory.memory_file })}
 	class="block overflow-hidden rounded border transition-colors {deleted
 		? 'border-brain-red/40 bg-brain-red/5 opacity-70'
-		: isDone
+		: isDone && dimDone
 			? 'border-brain-border/50 bg-brain-surface/50 opacity-60 hover:border-brain-accent hover:opacity-80'
-			: 'border-brain-border bg-brain-surface hover:border-brain-accent'}"
+			: isDone
+				? 'border-brain-border/50 bg-brain-surface/50 hover:border-brain-accent'
+				: 'border-brain-border bg-brain-surface hover:border-brain-accent'}"
 >
 	{#if progress && !deleted && !isDone}
 		{@const pct = progress.total > 0 ? (progress.checked / progress.total) * 100 : 0}
