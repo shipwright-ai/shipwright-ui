@@ -142,6 +142,11 @@
 								<span class="flex-1"></span>
 								{#if kindFacets[kind.kind]}
 									<span class="flex items-center gap-2 text-xs">
+										{#if kind.progress}
+											<span class="text-brain-muted/60"
+												>{kind.progress.checked}/{kind.progress.total}</span
+											>
+										{/if}
 										{#if kindFacets[kind.kind].status['not-started'] > 0}
 											<span class="text-brain-muted"
 												>{kindFacets[kind.kind].status['not-started']} planned</span
