@@ -51,26 +51,32 @@
 		</div>
 	{/if}
 	<div class="p-3">
-		<div class="flex items-center gap-1.5 text-xs">
-			{#if deleted}
-				<span class="rounded bg-brain-red/15 px-1.5 py-0.5 font-medium text-brain-red">deleted</span
-				>
-			{:else if showKind && memory.kind}
-				<span class="rounded bg-brain-bg px-1.5 py-0.5 text-brain-accent">{memory.kind}</span>
-			{/if}
-			{#if category && !deleted}
-				<CategoryBadge {category} />
-			{/if}
-			<span class="flex-1"></span>
+		{#if deleted || (showKind && memory.kind) || (category && !deleted)}
+			<div class="flex items-center gap-1.5 text-xs">
+				{#if deleted}
+					<span class="rounded bg-brain-red/15 px-1.5 py-0.5 font-medium text-brain-red"
+						>deleted</span
+					>
+				{:else if showKind && memory.kind}
+					<span class="rounded bg-brain-bg px-1.5 py-0.5 text-brain-accent">{memory.kind}</span>
+				{/if}
+				{#if category && !deleted}
+					<CategoryBadge {category} />
+				{/if}
+			</div>
+		{/if}
+		<div class="mt-1 flex items-start gap-2">
+			<div
+				class="min-w-0 flex-1 text-sm font-medium {deleted ? 'text-brain-muted line-through' : ''}"
+			>
+				{memory.title ?? memory.memory_file}
+			</div>
 			{#if progress && !isDone}
 				<ProgressBadge {progress} />
 			{/if}
 			{#if isDone}
-				<span class="text-brain-green">done</span>
+				<span class="shrink-0 text-xs text-brain-green">done</span>
 			{/if}
-		</div>
-		<div class="mt-1 text-sm font-medium {deleted ? 'text-brain-muted line-through' : ''}">
-			{memory.title ?? memory.memory_file}
 		</div>
 		{#if memory.summary}
 			<div class="card-compact-summary mt-1 text-xs text-brain-muted">{memory.summary}</div>
