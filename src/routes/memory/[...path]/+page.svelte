@@ -340,15 +340,17 @@
 		<!-- Header -->
 		{@const entryCategory = detectCategory(entry.tags)}
 		<div class="mb-6">
-			<div class="flex items-center gap-3">
-				{#if entryCategory}
-					<CategoryBadge category={entryCategory} />
-				{/if}
-				<h1 class="text-2xl font-semibold">{entry.title}</h1>
-				{#if entry.progress}
-					<ProgressBadge progress={entry.progress} />
-				{/if}
-			</div>
+			{#if entryCategory || entry.progress}
+				<div class="mb-2 flex items-center gap-2">
+					{#if entryCategory}
+						<CategoryBadge category={entryCategory} />
+					{/if}
+					{#if entry.progress}
+						<ProgressBadge progress={entry.progress} />
+					{/if}
+				</div>
+			{/if}
+			<h1 class="text-2xl font-semibold">{entry.title}</h1>
 			{#if entry.summary}
 				<p class="mt-1 text-brain-muted">{entry.summary}</p>
 			{/if}

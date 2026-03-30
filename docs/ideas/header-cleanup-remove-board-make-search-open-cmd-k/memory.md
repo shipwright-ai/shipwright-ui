@@ -20,3 +20,5 @@ at: '2026-03-30T09:02:09.319Z'
 - [x] Show ⌘K hint in the search button
 - [x] Rename "memory kinds" → "Memories" on homepage
 - [x] Make "Recent activity" heading larger (text-xl font-semibold)
+
+![header-cleanup-result.png](header-cleanup-result.png)
