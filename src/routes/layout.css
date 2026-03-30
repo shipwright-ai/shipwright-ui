@@ -59,6 +59,10 @@ html {
 	color: var(--color-brain-text);
 }
 
+button {
+	cursor: pointer;
+}
+
 /* Prose typography — override colors to use brain tokens */
 .prose {
 	--tw-prose-body: var(--color-brain-text);
