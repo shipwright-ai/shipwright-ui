@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { checkConnection, setBrainUrl, resetBrainUrl } from '$lib/brain';
 	import { BrainCircuit, Sun, Moon, Monitor } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -9,10 +7,7 @@
 	let connected = $state(false);
 	let showPopover = $state(false);
 	let urlInput = $state('http://localhost:3111');
-	let searchQuery = $state('');
 	let theme = $state<'dark' | 'light' | 'system'>('dark');
-
-	let isSearchPage = $derived($page.url.pathname.startsWith('/search'));
 
 	onMount(() => {
 		urlInput = localStorage.getItem('brain-url') || 'http://localhost:3111';
@@ -51,11 +46,8 @@
 		check();
 	}
 
-	function submitSearch() {
-		if (!searchQuery.trim()) return;
-		// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended
-		goto(`${resolve('/search')}?q=${encodeURIComponent(searchQuery.trim())}`);
-		searchQuery = '';
+	function openSearch() {
+		window.dispatchEvent(new CustomEvent('open-command-palette'));
 	}
 </script>
 
@@ -67,32 +59,17 @@
 			<BrainCircuit class="h-6 w-6 text-brain-accent" />
 			<h1 class="text-lg font-semibold tracking-tight">shipwright brain</h1>
 		</a>
-		<a
-			href={resolve('/board')}
-			class="text-xs text-brain-muted transition-colors hover:text-brain-text"
-		>
-			board
-		</a>
 	</div>
 
 	<div class="flex items-center gap-4">
-		<!-- Search input (hidden on search page) -->
-		{#if !isSearchPage}
-			<form
-				onsubmit={(e) => {
-					e.preventDefault();
-					submitSearch();
-				}}
-				class="hidden sm:block"
-			>
-				<input
-					type="text"
-					bind:value={searchQuery}
-					placeholder="search..."
-					class="w-48 rounded border border-brain-border bg-brain-bg px-2.5 py-1 text-xs text-brain-text transition-all placeholder:text-brain-muted focus:w-64 focus:border-brain-accent focus:outline-none"
-				/>
-			</form>
-		{/if}
+		<!-- Search button — opens Cmd+K palette -->
+		<button
+			onclick={openSearch}
+			class="hidden items-center gap-2 rounded border border-brain-border bg-brain-bg px-2.5 py-1 text-xs text-brain-muted transition-colors hover:border-brain-accent hover:text-brain-text sm:flex"
+		>
+			search
+			<kbd class="rounded bg-brain-border/50 px-1 py-0.5 text-[10px]">⌘K</kbd>
+		</button>
 
 		<!-- Theme toggle -->
 		<button

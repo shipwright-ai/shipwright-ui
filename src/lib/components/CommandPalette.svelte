@@ -35,6 +35,14 @@
 		}
 	}
 
+	$effect(() => {
+		const handler = () => {
+			if (!open) show();
+		};
+		window.addEventListener('open-command-palette', handler);
+		return () => window.removeEventListener('open-command-palette', handler);
+	});
+
 	function onInput() {
 		clearTimeout(debounceTimer);
 		if (!query.trim()) {

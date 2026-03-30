@@ -77,7 +77,7 @@
 		<!-- Hero -->
 		<div class="mb-8 flex flex-col items-center">
 			<BrainCircuit class="mb-4 h-24 w-24 text-brain-accent" strokeWidth={1.2} />
-			<h2 class="text-xl font-semibold">memory kinds</h2>
+			<h2 class="text-xl font-semibold">Memories</h2>
 		</div>
 
 		{#if data.kinds.length > 0}
@@ -150,7 +150,7 @@
 		{#if dashboard.some((s) => s.total > 0)}
 			<div class="mt-10">
 				<div class="mb-3 flex items-center justify-between">
-					<h2 class="text-sm font-semibold text-brain-muted">Recent activity</h2>
+					<h2 class="text-xl font-semibold">Recent activity</h2>
 					<a href={resolve('/board')} class="text-xs text-brain-accent hover:text-brain-accent/80">
 						see full board &rarr;
 					</a>
