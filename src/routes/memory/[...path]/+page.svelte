@@ -4,8 +4,10 @@
 	import { page } from '$app/stores';
 	import { getMemory, fileUrl, type MemoryDetail } from '$lib/brain';
 	import { detectCategory } from '$lib/categories';
+	import { extractPriority, tagsWithoutPriority } from '$lib/priority';
 	import CategoryBadge from '$lib/components/CategoryBadge.svelte';
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
+	import PriorityBadge from '$lib/components/PriorityBadge.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
 	import { marked } from 'marked';
@@ -345,12 +347,19 @@
 
 		<!-- Header -->
 		{@const entryCategory = detectCategory(entry.tags)}
+		{@const entryPriority = extractPriority(entry.tags)}
+		{@const entryDisplayTags = tagsWithoutPriority(entry.tags)}
 		<div class="mb-6">
-			<h1 class="text-2xl font-semibold">{entry.title}</h1>
+			<h1 class="text-2xl font-semibold">
+				{#if entryPriority}
+					<PriorityBadge priority={entryPriority} />
+				{/if}
+				{entry.title}
+			</h1>
 			{#if entry.summary}
 				<p class="mt-1 text-brain-muted">{entry.summary}</p>
 			{/if}
-			{#if entry.tags.length > 0 || entryCategory || entry.progress}
+			{#if entryDisplayTags.length > 0 || entryCategory || entry.progress}
 				<div class="mt-3 flex flex-wrap items-center gap-1.5">
 					{#if entryCategory}
 						<CategoryBadge category={entryCategory} />
@@ -358,7 +367,7 @@
 					{#if entry.progress}
 						<ProgressBadge progress={entry.progress} />
 					{/if}
-					{#each entry.tags as tag (tag)}
+					{#each entryDisplayTags as tag (tag)}
 						<button
 							onclick={() => {
 								// eslint-disable-next-line svelte/no-navigation-without-resolve -- resolve() used, query params appended

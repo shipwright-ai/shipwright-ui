@@ -15,6 +15,7 @@ refs:
     docs/ideas/memorycard-remove-empty-badge-space-float-progress-right/memory.md
   - >-
     docs/ideas/show-planned-in-progress-done-counts-on-homepage-kind-cards/memory.md
+  - docs/ideas/priority-tag-badges-in-memorycard-and-memory-detail/memory.md
 by: developer
 at: '2026-03-29T21:50:42.437Z'
 ---

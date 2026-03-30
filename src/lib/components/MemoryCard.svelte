@@ -2,7 +2,9 @@
 	import { resolve } from '$app/paths';
 	import { detectCategory } from '$lib/categories';
 	import type { MemorySummary, Progress } from '$lib/brain';
+	import { extractPriority, tagsWithoutPriority } from '$lib/priority';
 	import CategoryBadge from './CategoryBadge.svelte';
+	import PriorityBadge from './PriorityBadge.svelte';
 	import ProgressBadge from './ProgressBadge.svelte';
 
 	interface Props {
@@ -26,6 +28,8 @@
 	}: Props = $props();
 
 	const category = $derived(detectCategory(memory.tags));
+	const priority = $derived(extractPriority(memory.tags));
+	const displayTags = $derived(tagsWithoutPriority(memory.tags));
 	const progress: Progress | undefined = $derived(memory.progress);
 	const isDone = $derived(progress?.status === 'done');
 	const isInProgress = $derived(progress?.status === 'in-progress');
@@ -73,6 +77,9 @@
 			<div
 				class="min-w-0 flex-1 text-sm font-medium {deleted ? 'text-brain-muted line-through' : ''}"
 			>
+				{#if priority}
+					<PriorityBadge {priority} />
+				{/if}
 				{memory.title ?? memory.memory_file}
 			</div>
 			{#if progress && !isDone}
@@ -85,9 +92,9 @@
 		{#if memory.summary}
 			<div class="card-compact-summary mt-1 text-xs text-brain-muted">{memory.summary}</div>
 		{/if}
-		{#if showTags && memory.tags?.length > 0}
+		{#if showTags && displayTags.length > 0}
 			<div class="mt-2 flex flex-wrap gap-1.5">
-				{#each memory.tags as tag (tag)}
+				{#each displayTags as tag (tag)}
 					<button
 						onclick={(e) => {
 							e.preventDefault();
