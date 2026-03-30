@@ -62,6 +62,13 @@
 	</div>
 
 	<div class="flex items-center gap-4">
+		<a
+			href={resolve('/docs')}
+			class="text-xs text-brain-muted transition-colors hover:text-brain-text"
+		>
+			docs
+		</a>
+
 		<!-- Search button — opens Cmd+K palette -->
 		<button
 			onclick={openSearch}

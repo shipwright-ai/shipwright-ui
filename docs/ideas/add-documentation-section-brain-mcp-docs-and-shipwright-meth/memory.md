@@ -14,7 +14,10 @@ at: '2026-03-30T09:02:07.336Z'
 
 ## Key Points
 
-- [ ] Add a docs/help route or section to Brain UI
-- [ ] Include Brain MCP documentation — what memories are, kinds, tags, refs, progress tracking
-- [ ] Include Shipwright methodology — idea capture, conventions, decisions, vision workflow
-- [ ] Consider sourcing content from Brain's own docs or shipwright skill files
+- [x] Add /docs route with three sections: Concepts, MCP Tools, Shipwright Workflow
+- [x] Include Brain MCP documentation — 7 concepts (Memory, Kind, Tags, Refs, Progress, Sub-memory, Facets)
+- [x] Include all 10 MCP tools with Lucide icons and descriptions
+- [x] Include Shipwright workflow — Capture, Refine, Implement, Verify steps
+- [x] Add "docs" link in header navigation
+
+![docs-page.png](docs-page.png)
