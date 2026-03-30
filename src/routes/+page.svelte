@@ -90,7 +90,7 @@
 							href={resolve('/memory/[...path]', { path: memory.memory_file })}
 							class="block overflow-hidden rounded border border-brain-border bg-brain-surface transition-colors hover:border-brain-accent"
 						>
-							{#if kind.progress}
+							{#if kind.progress && kind.progress.status !== 'done'}
 								{@const pct =
 									kind.progress.total > 0 ? (kind.progress.checked / kind.progress.total) * 100 : 0}
 								<div class="h-0.5 w-full bg-brain-border/30">
@@ -113,7 +113,7 @@
 							href={resolve('/browse/[...path]', { path: kind.kind })}
 							class="block overflow-hidden rounded border border-brain-border bg-brain-surface transition-colors hover:border-brain-accent"
 						>
-							{#if kind.progress}
+							{#if kind.progress && kind.progress.status !== 'done'}
 								{@const pct =
 									kind.progress.total > 0 ? (kind.progress.checked / kind.progress.total) * 100 : 0}
 								<div class="h-0.5 w-full bg-brain-border/30">
