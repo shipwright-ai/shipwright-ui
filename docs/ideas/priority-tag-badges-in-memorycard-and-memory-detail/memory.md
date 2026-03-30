@@ -21,16 +21,16 @@ When scanning memory lists, priority is buried in the tag list. Adding a colored
 
 ## Checklist
 
-- [ ] Create `PriorityBadge.svelte` component with icon + color per level
+- [x] Create `PriorityBadge.svelte` component with icon + color per level
   - low: muted, arrow-down icon
   - medium: blue, minus icon
   - high: amber, arrow-up icon
   - urgent: orange, alert-triangle icon
   - blocker: red, octagon-alert icon
-- [ ] Add helper to extract priority from tags (e.g. `priority/high` → `high`)
-- [ ] Show PriorityBadge next to title in `MemoryCard.svelte`
-- [ ] Show PriorityBadge next to title in memory detail page (`/memory/[...path]`)
-- [ ] Filter priority tags out of the regular tag display (avoid duplication)
+- [x] Add helper to extract priority from tags (e.g. `priority/high` → `high`)
+- [x] Show PriorityBadge next to title in `MemoryCard.svelte`
+- [x] Show PriorityBadge next to title in memory detail page (`/memory/[...path]`)
+- [x] Filter priority tags out of the regular tag display (avoid duplication)
 
 ## Scope
 

@@ -47,6 +47,7 @@ Dev server at http://localhost:5173.
 
 - **Browse** memories by kind (ideas, decisions, features, etc.) with tag and status filters
 - **Search** with full-text keyword search and Cmd+K command palette
+- **Priority badges** — colored icons for `priority/low` through `priority/blocker` tags, shown next to titles
 - **Memory detail** with rendered markdown, syntax highlighting, progress badges, and image lightbox
 - **Status dashboard** with planned / in-progress / done counts
 - **Dark/light/system** theme support
