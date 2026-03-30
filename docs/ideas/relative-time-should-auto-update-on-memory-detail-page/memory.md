@@ -14,5 +14,5 @@ at: '2026-03-30T09:10:21.879Z'
 
 ## Key Points
 
-- [ ] Add a periodic timer that re-computes relative timestamps (e.g. every 30s)
-- [ ] "just now" → "30s ago" → "1m ago" → "5m ago" etc.
+- [x] Add a 30s interval timer (`timeTick` state) that triggers re-render of relative timestamps
+- [x] "just now" → "Xm ago" → "Xh ago" auto-updates as time passes

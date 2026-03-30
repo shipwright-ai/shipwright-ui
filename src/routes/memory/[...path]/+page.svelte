@@ -58,6 +58,7 @@
 	let lightboxPdf = $state<string | null>(null);
 	let allImages = $state<string[]>([]);
 	let lightboxIndex = $derived(lightboxSrc ? allImages.indexOf(lightboxSrc) : -1);
+	let timeTick = $state(0);
 
 	function lightboxNav(dir: -1 | 1) {
 		if (allImages.length < 2 || lightboxIndex < 0) return;
@@ -67,7 +68,11 @@
 
 	const file = $derived($page.params.path ?? '');
 
-	onMount(() => load());
+	onMount(() => {
+		load();
+		const timer = setInterval(() => timeTick++, 30000);
+		return () => clearInterval(timer);
+	});
 
 	$effect(() => {
 		void file;
@@ -75,6 +80,7 @@
 	});
 
 	function relativeTime(iso: string): string {
+		void timeTick; // trigger reactivity on tick
 		const now = Date.now();
 		const then = new Date(iso).getTime();
 		const diff = now - then;
@@ -340,22 +346,18 @@
 		<!-- Header -->
 		{@const entryCategory = detectCategory(entry.tags)}
 		<div class="mb-6">
-			{#if entryCategory || entry.progress}
-				<div class="mb-2 flex items-center gap-2">
+			<h1 class="text-2xl font-semibold">{entry.title}</h1>
+			{#if entry.summary}
+				<p class="mt-1 text-brain-muted">{entry.summary}</p>
+			{/if}
+			{#if entry.tags.length > 0 || entryCategory || entry.progress}
+				<div class="mt-3 flex flex-wrap items-center gap-1.5">
 					{#if entryCategory}
 						<CategoryBadge category={entryCategory} />
 					{/if}
 					{#if entry.progress}
 						<ProgressBadge progress={entry.progress} />
 					{/if}
-				</div>
-			{/if}
-			<h1 class="text-2xl font-semibold">{entry.title}</h1>
-			{#if entry.summary}
-				<p class="mt-1 text-brain-muted">{entry.summary}</p>
-			{/if}
-			{#if entry.tags.length > 0}
-				<div class="mt-3 flex flex-wrap items-center gap-1.5">
 					{#each entry.tags as tag (tag)}
 						<button
 							onclick={() => {

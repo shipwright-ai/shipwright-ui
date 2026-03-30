@@ -15,6 +15,8 @@ at: '2026-03-30T09:09:15.197Z'
 
 ## Key Points
 
-- [x] Move CategoryBadge and ProgressBadge to their own row above the title
+- [x] Move CategoryBadge and ProgressBadge next to tags row (they're categorization, not title metadata)
 
 ![title-wrapping-fixed.png](title-wrapping-fixed.png)
+
+![badges-with-tags.png](badges-with-tags.png)
