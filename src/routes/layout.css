@@ -44,8 +44,8 @@ html.light {
 	}
 
 	html:not(.dark) .prose input[type='checkbox']:checked {
-		background-color: var(--color-brain-green);
-		border-color: var(--color-brain-green);
+		background-color: #86cfac;
+		border-color: #86cfac;
 	}
 
 	html:not(.dark) .prose input[type='checkbox']:checked::after {
@@ -138,8 +138,8 @@ html.light .prose input[type='checkbox'] {
 }
 
 html.light .prose input[type='checkbox']:checked {
-	background-color: var(--color-brain-green);
-	border-color: var(--color-brain-green);
+	background-color: #15803d;
+	border-color: #15803d;
 }
 
 html.light .prose input[type='checkbox']:checked::after {
