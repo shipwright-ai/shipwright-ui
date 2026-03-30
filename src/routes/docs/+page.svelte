@@ -383,7 +383,7 @@
 								class="mt-1 text-xs text-brain-muted/40 transition-transform {expandedTool ===
 								tool.name
 									? 'rotate-180'
-									: ''}">\u25BC</span
+									: ''}">▼</span
 							>
 						{/if}
 					</button>
