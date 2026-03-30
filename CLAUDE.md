@@ -79,6 +79,15 @@ After finishing any implementation — before reporting done:
 6. Commit the changes (don't batch — commit after each completed idea)
 7. Summary: what changed, gates passed, any concerns
 
+## Context Management
+
+After completing a commit or finishing a Brain idea, compact context if:
+
+- The next task is unrelated to what was just completed
+- The session has been running for a while with many tool calls
+- You notice you're losing track of earlier decisions
+  Use /compact to summarize and free context for the next task.
+
 ## Shipwright
 
 Skills: ../shipwright/skills/

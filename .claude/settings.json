@@ -1,3 +1,12 @@
 {
-	"mcpServers": {}
+	"mcpServers": {},
+	"hooks": {
+		"post-tool-use": [
+			{
+				"matcher": "Bash",
+				"pattern": "git commit",
+				"command": "echo 'Context boundary: commit completed. Consider compacting if switching tasks.'"
+			}
+		]
+	}
 }
