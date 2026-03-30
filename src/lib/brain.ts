@@ -40,6 +40,7 @@ export async function browseKind(
 	opts?: {
 		tags?: string[];
 		status?: string;
+		agent?: string;
 		limit?: number;
 		offset?: number;
 		sort?: SortField;
@@ -50,6 +51,7 @@ export async function browseKind(
 	url.searchParams.set('path', kind);
 	if (opts?.tags?.length) url.searchParams.set('tags', opts.tags.join(','));
 	if (opts?.status) url.searchParams.set('status', opts.status);
+	if (opts?.agent) url.searchParams.set('agent', opts.agent);
 	if (opts?.limit) url.searchParams.set('limit', String(opts.limit));
 	if (opts?.offset) url.searchParams.set('offset', String(opts.offset));
 	if (opts?.sort) url.searchParams.set('sort', `${opts.sort}:${opts.order ?? 'desc'}`);
@@ -70,6 +72,7 @@ export async function searchMemories(opts: {
 	query?: string;
 	tags?: string[];
 	status?: 'not-started' | 'in-progress' | 'done';
+	agent?: string;
 	sort?: SortField;
 	order?: SortOrder;
 }): Promise<SearchResponse> {
@@ -77,6 +80,7 @@ export async function searchMemories(opts: {
 	if (opts.query) url.searchParams.set('q', opts.query);
 	if (opts.tags?.length) url.searchParams.set('tags', opts.tags.join(','));
 	if (opts.status) url.searchParams.set('status', opts.status);
+	if (opts.agent) url.searchParams.set('agent', opts.agent);
 	if (opts.sort) url.searchParams.set('sort', `${opts.sort}:${opts.order ?? 'desc'}`);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(`Brain API error: ${res.status}`);
@@ -123,8 +127,14 @@ export interface TagFacet {
 	count: number;
 }
 
+export interface AgentFacet {
+	agent: string;
+	count: number;
+}
+
 export interface Facets {
 	tags: TagFacet[];
+	agents: AgentFacet[];
 	status: {
 		'not-started': number;
 		'in-progress': number;

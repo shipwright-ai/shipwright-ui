@@ -29,6 +29,7 @@
 		return [];
 	});
 
+	let agentFilter = $derived($page.url.searchParams.get('agent'));
 	let sortField = $derived(($page.url.searchParams.get('sort') as SortField) || 'modified');
 	let sortOrder = $derived(($page.url.searchParams.get('order') as SortOrder) || 'desc');
 	let inputValue = $state('');
@@ -51,6 +52,7 @@
 		void query;
 		void statusFilter;
 		void activeTags;
+		void agentFilter;
 		void sortField;
 		void sortOrder;
 		inputValue = query;
@@ -66,10 +68,11 @@
 		loading = true;
 		searched = true;
 		try {
-			// First fetch with query + tags only (for status tab counts)
+			// First fetch with query + tags + agent only (for status tab counts)
 			const baseOpts = {
 				query: query || undefined,
 				tags: activeTags.length > 0 ? activeTags : undefined,
+				agent: agentFilter || undefined,
 				sort: sortField,
 				order: sortOrder
 			};
@@ -96,6 +99,7 @@
 		q: string,
 		status: string | null,
 		tags: string[],
+		agent: string | null = agentFilter,
 		sort?: SortField,
 		order?: SortOrder
 	) {
@@ -115,6 +119,11 @@
 		for (const t of tags) {
 			url.searchParams.append('tag', t);
 		}
+		if (agent) {
+			url.searchParams.set('agent', agent);
+		} else {
+			url.searchParams.delete('agent');
+		}
 		const s = sort ?? sortField;
 		const o = order ?? sortOrder;
 		if (s !== 'modified' || o !== 'desc') {
@@ -129,7 +138,7 @@
 	}
 
 	function setSort(field: SortField, order: SortOrder) {
-		updateUrl(query, statusFilter, activeTags, field, order);
+		updateUrl(query, statusFilter, activeTags, agentFilter, field, order);
 	}
 
 	function submitSearch() {
@@ -149,6 +158,10 @@
 
 	function clearTags() {
 		updateUrl(query, statusFilter, []);
+	}
+
+	function setAgent(agent: string | null) {
+		updateUrl(query, statusFilter, activeTags, agent);
 	}
 
 	let hasProgress = $derived(
@@ -207,6 +220,32 @@
 				{/each}
 				{#if activeTags.length > 0}
 					<button onclick={clearTags} class="text-xs text-brain-muted hover:text-brain-text">
+						clear
+					</button>
+				{/if}
+			</div>
+		{/if}
+
+		<!-- Agent filter -->
+		{#if tagFacets && tagFacets.agents.length > 0}
+			<div class="mb-3 flex flex-wrap items-center gap-1.5">
+				<span class="text-xs text-brain-muted">agent:</span>
+				{#each tagFacets.agents as af (af.agent)}
+					<button
+						onclick={() => setAgent(agentFilter === af.agent ? null : af.agent)}
+						class="cursor-pointer rounded px-1.5 py-0.5 text-xs transition-colors {agentFilter ===
+						af.agent
+							? 'text-brain-accent'
+							: 'text-brain-muted hover:text-brain-text'}"
+					>
+						{af.agent} <span class="opacity-40">({af.count})</span>
+					</button>
+				{/each}
+				{#if agentFilter}
+					<button
+						onclick={() => setAgent(null)}
+						class="text-xs text-brain-muted hover:text-brain-text"
+					>
 						clear
 					</button>
 				{/if}
