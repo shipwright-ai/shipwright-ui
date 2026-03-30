@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { checkConnection, setBrainUrl, resetBrainUrl } from '$lib/brain';
+	import { checkConnection, setBrainUrl, resetBrainUrl, DEFAULT_BRAIN_URL } from '$lib/brain';
 	import { BrainCircuit, Sun, Moon, Monitor } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let connected = $state(false);
 	let showPopover = $state(false);
-	let urlInput = $state('http://localhost:3111');
+	let urlInput = $state(DEFAULT_BRAIN_URL);
 	let theme = $state<'dark' | 'light' | 'system'>('dark');
 
 	onMount(() => {
-		urlInput = localStorage.getItem('brain-url') || 'http://localhost:3111';
+		urlInput = localStorage.getItem('brain-url') || DEFAULT_BRAIN_URL;
 		theme = (localStorage.getItem('brain-theme') as typeof theme) || 'dark';
 		applyTheme();
 		check();
@@ -37,7 +37,7 @@
 
 	function save() {
 		const trimmed = urlInput.trim().replace(/\/+$/, '');
-		if (trimmed && trimmed !== 'http://localhost:3111') {
+		if (trimmed && trimmed !== DEFAULT_BRAIN_URL) {
 			setBrainUrl(trimmed);
 		} else {
 			resetBrainUrl();

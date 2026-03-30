@@ -1,4 +1,6 @@
-const DEFAULT_BRAIN_URL = 'http://localhost:3111';
+import { env } from '$env/dynamic/public';
+
+export const DEFAULT_BRAIN_URL = env.PUBLIC_BRAIN_URL || 'http://localhost:3111';
 
 function getBrainUrl(): string {
 	if (typeof window !== 'undefined') {

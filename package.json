@@ -1,6 +1,8 @@
 {
 	"name": "brain-ui",
-	"private": true,
+	"bin": {
+		"brain-ui": "bin/brain-ui.js"
+	},
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
