@@ -14,7 +14,15 @@ Part of the [Shipwright](https://github.com/shipwright-ai/shipwright) a la carte
 npx github:shipwright-ai/shipwright-ui
 ```
 
-Opens http://localhost:3111. Requires a running Brain MCP server.
+Options:
+
+```bash
+npx github:shipwright-ai/shipwright-ui --port 8080        # UI on custom port (default: 5173)
+npx github:shipwright-ai/shipwright-ui --brain-port 4000   # Brain API on custom port (default: 3111)
+npx github:shipwright-ai/shipwright-ui -p 8080 -b 4000     # both
+```
+
+Requires a running Brain MCP server.
 
 ### Via Makefile (recommended)
 
