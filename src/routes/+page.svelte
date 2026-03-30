@@ -5,7 +5,8 @@
 		browseKind,
 		searchMemories,
 		type BrowseRootResponse,
-		type MemorySummary
+		type MemorySummary,
+		type Facets
 	} from '$lib/brain';
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
@@ -16,6 +17,7 @@
 	let data = $state<BrowseRootResponse | null>(null);
 	let error = $state<string | null>(null);
 	let singleMemories = $state<Record<string, MemorySummary>>({});
+	let kindFacets = $state<Record<string, Facets>>({});
 
 	interface StatusSection {
 		label: string;
@@ -30,8 +32,10 @@
 			data = await browseRoot();
 			// Fetch single-memory kinds and dashboard in parallel
 			const singles = data.kinds.filter((k) => (k.count ?? 0) === 1);
-			const [kindResults, ...statusResults] = await Promise.all([
+			const progressKinds = data.kinds.filter((k) => k.progress);
+			const [kindResults, facetResults, ...statusResults] = await Promise.all([
 				Promise.all(singles.map((k) => browseKind(k.kind))),
+				Promise.all(progressKinds.map((k) => browseKind(k.kind))),
 				...(['not-started', 'in-progress', 'done'] as const).map((status) =>
 					searchMemories({ status, sort: 'modified', order: 'desc' })
 				)
@@ -43,6 +47,11 @@
 				}
 			}
 			singleMemories = rec;
+			const facetRec: Record<string, Facets> = {};
+			for (const result of facetResults) {
+				if (result.facets) facetRec[result.kind] = result.facets;
+			}
+			kindFacets = facetRec;
 			const labels = ['Planned', 'In Progress', 'Done'];
 			const statuses = ['not-started', 'in-progress', 'done'] as const;
 			dashboard = statusResults.map((r, i) => ({
@@ -130,7 +139,24 @@
 										>+{kind.totalCount - (kind.count ?? 0)} nested</span
 									>
 								{/if}
-								{#if kind.progress}
+								<span class="flex-1"></span>
+								{#if kindFacets[kind.kind]}
+									<span class="flex items-center gap-2 text-xs">
+										{#if kindFacets[kind.kind].status['not-started'] > 0}
+											<span class="text-brain-muted"
+												>{kindFacets[kind.kind].status['not-started']} planned</span
+											>
+										{/if}
+										{#if kindFacets[kind.kind].status['in-progress'] > 0}
+											<span class="text-amber-500"
+												>{kindFacets[kind.kind].status['in-progress']} active</span
+											>
+										{/if}
+										{#if kindFacets[kind.kind].status.done > 0}
+											<span class="text-brain-green">{kindFacets[kind.kind].status.done} done</span>
+										{/if}
+									</span>
+								{:else if kind.progress}
 									<ProgressBadge progress={kind.progress} />
 								{/if}
 							</div>
