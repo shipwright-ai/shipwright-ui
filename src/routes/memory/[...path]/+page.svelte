@@ -350,19 +350,17 @@
 		{@const entryPriority = extractPriority(entry.tags)}
 		{@const entryDisplayTags = tagsWithoutPriority(entry.tags)}
 		<div class="mb-6">
-			<h1 class="text-2xl font-semibold">
-				{#if entryPriority}
-					<PriorityBadge priority={entryPriority} />
-				{/if}
-				{entry.title}
-			</h1>
+			<h1 class="text-2xl font-semibold">{entry.title}</h1>
 			{#if entry.summary}
 				<p class="mt-1 text-brain-muted">{entry.summary}</p>
 			{/if}
-			{#if entryDisplayTags.length > 0 || entryCategory || entry.progress}
+			{#if entryDisplayTags.length > 0 || entryCategory || entryPriority || entry.progress}
 				<div class="mt-3 flex flex-wrap items-center gap-1.5">
 					{#if entryCategory}
 						<CategoryBadge category={entryCategory} />
+					{/if}
+					{#if entryPriority}
+						<PriorityBadge priority={entryPriority} />
 					{/if}
 					{#if entry.progress}
 						<ProgressBadge progress={entry.progress} />

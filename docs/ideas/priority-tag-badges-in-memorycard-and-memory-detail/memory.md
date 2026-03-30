@@ -38,3 +38,5 @@ When scanning memory lists, priority is buried in the tag list. Adding a colored
 - **Where:** `MemoryCard.svelte` and `src/routes/memory/[...path]/+page.svelte`
 - **Tags format:** plain tags: `low`, `medium`, `high`, `urgent`, `blocker`
 - **Style:** Similar to `CategoryBadge` — inline icon + label, color-coded
+
+![priority-badge-filtered.png](priority-badge-filtered.png)

@@ -59,7 +59,7 @@
 		</div>
 	{/if}
 	<div class="p-3">
-		{#if deleted || (showKind && memory.kind) || (category && !deleted)}
+		{#if deleted || (showKind && memory.kind) || (category && !deleted) || priority}
 			<div class="flex items-center gap-1.5 text-xs">
 				{#if deleted}
 					<span class="rounded bg-brain-red/15 px-1.5 py-0.5 font-medium text-brain-red"
@@ -71,15 +71,15 @@
 				{#if category && !deleted}
 					<CategoryBadge {category} />
 				{/if}
+				{#if priority}
+					<PriorityBadge {priority} />
+				{/if}
 			</div>
 		{/if}
 		<div class="mt-1 flex items-start gap-2">
 			<div
 				class="min-w-0 flex-1 text-sm font-medium {deleted ? 'text-brain-muted line-through' : ''}"
 			>
-				{#if priority}
-					<PriorityBadge {priority} />
-				{/if}
 				{memory.title ?? memory.memory_file}
 			</div>
 			{#if progress && !isDone}
