@@ -46,7 +46,11 @@ For architecture questions → read docs/architecture/brain-ui-architecture/memo
 
 ## Idea Capture
 
-**Rule: Capture Before Code.** Before implementing any new feature or request, capture it as a Brain idea first using `brain.create_memory` with kind: "ideas". Follow Brain's response instructions for format and attachments. Then implement.
+**Rule: Capture → Verify → Implement.** Before implementing any new feature or request:
+
+1. **Capture** — create a Brain idea with `brain.create_memory` (kind: "ideas"), write checklist and content
+2. **Verify** — present the plan to the developer and wait for approval before writing any code. Show the checklist items and approach. Do NOT start implementing until the developer confirms.
+3. **Implement** — only after developer approval, start coding
 
 ## Living Ideas — Continuous Updates
 
