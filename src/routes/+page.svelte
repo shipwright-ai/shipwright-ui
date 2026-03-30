@@ -158,7 +158,7 @@
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 					{#each dashboard as section (section.status)}
 						{#if section.total > 0}
-							<div>
+							<div class="card-container">
 								<div class="mb-2">
 									<h3 class="text-sm font-medium text-brain-muted">
 										{section.label}

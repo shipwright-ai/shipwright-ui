@@ -15,8 +15,13 @@ at: '2026-03-29T23:13:45.247Z'
 
 ## Key Points
 
-- [ ] Add `container-type: inline-size` on board columns and dashboard sections
-- [ ] Use `@container` queries in MemoryCard to switch layout when < ~300px
-- [ ] Compact: title stacks above badges, smaller text, hide summary
-- [ ] Keep full layout for browse/search where cards have full width
-- [ ] Works automatically — no prop needed, pure CSS adaptation
+- [x] Add `.card-container` with `container-type: inline-size` on board columns and dashboard
+- [x] Use `@container (max-width: 350px)` to hide summary in narrow containers
+- [x] Restructured card: badges + progress on first row, title on second row
+- [x] Kind + category on left, progress/done on right with flex spacer
+- [x] Full layout preserved for browse/search where cards have full width
+- [x] Pure CSS — no prop needed
+
+![compact-cards-dashboard.png](compact-cards-dashboard.png)
+
+![compact-cards-board.png](compact-cards-board.png)

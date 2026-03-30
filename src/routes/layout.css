@@ -86,6 +86,17 @@ html {
 	--tw-prose-invert-pre-code: var(--color-brain-text);
 }
 
+/* Container queries for compact card layout */
+.card-container {
+	container-type: inline-size;
+}
+
+@container (max-width: 350px) {
+	.card-compact-summary {
+		display: none;
+	}
+}
+
 /* Inline code — blend in as plain colored text, no background/backticks */
 .prose :not(pre) > code {
 	background: none;

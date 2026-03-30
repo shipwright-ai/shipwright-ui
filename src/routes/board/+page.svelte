@@ -148,7 +148,7 @@
 	{:else}
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 			{#each columns as col (col.status)}
-				<div class="min-h-[200px]">
+				<div class="card-container min-h-[200px]">
 					<div class="mb-3 flex items-center gap-2">
 						<h2 class="text-sm font-semibold {col.color}">{col.label}</h2>
 						<span class="text-xs text-brain-muted/40">{col.total}</span>
