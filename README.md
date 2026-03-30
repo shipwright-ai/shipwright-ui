@@ -1,52 +1,58 @@
-# Shipwright Brain UI
+# Shipwright UI
 
-Web UI for [Shipwright Brain](https://github.com/shipwright-ai/shipwright-brain) — browse, search, and read memories stored in Brain's knowledge base.
+Web UI for [Shipwright Brain](https://github.com/shipwright-ai/shipwright-brain) — browse, search, and read your project's knowledge base.
 
-Part of the [Shipwright](https://github.com/shipwright-ai/shipwright) ecosystem for AI-assisted software development.
+Part of the [Shipwright](https://github.com/shipwright-ai/shipwright) a la carte toolkit.
 
 ![Homepage](docs/screenshots/readme-homepage.png)
 
+## Install
+
+### Quick start (no clone needed)
+
+```bash
+npx github:shipwright-ai/shipwright-ui
+```
+
+Opens http://localhost:3111. Requires a running Brain MCP server.
+
+### Via Makefile (recommended)
+
+If [Shipwright](https://github.com/shipwright-ai/shipwright) set up your project, just run:
+
+```bash
+make brain-ui
+```
+
+### For development
+
+```bash
+git clone git@github.com:shipwright-ai/shipwright-ui.git
+cd shipwright-ui
+npm install
+make dev
+```
+
+Dev server at http://localhost:5173.
+
 ## Features
 
-- **Browse** memories by kind (ideas, decisions, architecture, etc.) with tag and status filters
+- **Browse** memories by kind (ideas, decisions, features, etc.) with tag and status filters
 - **Search** with full-text keyword search and Cmd+K command palette
-- **Memory detail** with rendered markdown, progress tracking, and image lightbox
-- **Documentation** page showing Brain MCP tools, concepts, and Shipwright workflow
+- **Memory detail** with rendered markdown, syntax highlighting, progress badges, and image lightbox
+- **Status dashboard** with planned / in-progress / done counts
 - **Dark/light/system** theme support
-- **Status dashboard** with planned/in-progress/done counts
+- **Auto-refresh** as Claude works
 
 ![Browse](docs/screenshots/readme-browse.png)
 
 ![Memory Detail](docs/screenshots/readme-memory-detail.png)
 
-![Docs](docs/screenshots/readme-docs.png)
-
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) 18+
-- A running [Shipwright Brain](https://github.com/shipwright-ai/shipwright-brain) server (defaults to `http://localhost:3111`)
-
-## Getting Started
-
-```bash
-# Clone the repo
-git clone git@github.com:shipwright-ai/shipwright-ui.git
-cd shipwright-ui
-
-# Install dependencies
-npm install
-
-# Start the dev server
-make dev
-```
-
-The UI will be available at `http://localhost:5173`.
-
 ## Commands
 
 ```
 make dev        # Start dev server (localhost:5173)
-make check      # Lint + typecheck (run before every commit)
+make check      # Lint + typecheck
 make test       # Run unit tests
 make format     # Auto-format with prettier
 make build      # Production build
@@ -63,22 +69,11 @@ make help       # Show all targets
 - **Markdown:** marked + marked-highlight
 - **Testing:** Vitest
 
-## Brain MCP Integration
-
-Brain UI connects to a Shipwright Brain server via its HTTP API. To use Brain as an MCP server in your project (for AI agents like Claude Code), add to your `.mcp.json`:
-
-```json
-{
-	"mcpServers": {
-		"brain": {
-			"command": "npx",
-			"args": ["shipwright-brain", "mcp", "--dir", "./docs"]
-		}
-	}
-}
-```
-
 ## Related Projects
 
-- [Shipwright](https://github.com/shipwright-ai/shipwright) — methodology and skills for AI-assisted development
-- [Shipwright Brain](https://github.com/shipwright-ai/shipwright-brain) — persistent knowledge base with MCP server
+- [Shipwright](https://github.com/shipwright-ai/shipwright) — a la carte toolkit for Claude Code (methodology + orchestration)
+- [Shipwright Brain](https://github.com/shipwright-ai/shipwright-brain) — persistent memory with MCP server
+
+## License
+
+MIT
