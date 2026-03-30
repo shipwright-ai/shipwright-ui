@@ -10,7 +10,7 @@
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import ProgressBadge from '$lib/components/ProgressBadge.svelte';
 	import Spinner from '$lib/components/Spinner.svelte';
-	import heroImg from '$lib/assets/shipwright-hero.png';
+	import { BrainCircuit } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let data = $state<BrowseRootResponse | null>(null);
@@ -76,7 +76,7 @@
 	{:else}
 		<!-- Hero -->
 		<div class="mb-8 flex flex-col items-center">
-			<img src={heroImg} alt="Shipwright Brain" class="mb-4 h-40 w-40 object-contain" />
+			<BrainCircuit class="mb-4 h-24 w-24 text-brain-accent" strokeWidth={1.2} />
 			<h2 class="text-xl font-semibold">memory kinds</h2>
 		</div>
 

@@ -20,7 +20,7 @@ The homepage currently uses a custom/emoji-based logo. Lucide icons are already 
 
 ## Key Points
 
-- [x] Superseded — hero PNG already on homepage from branding work
-- [x] Icon approach evolved into tag icon mapping (all tags get Lucide icons)
+- [x] Replace hero PNG with Lucide `BrainCircuit` icon on the homepage (same as header, h-24 w-24, brain-accent color, strokeWidth 1.2)
+- [x] ~~Incorrectly marked as superseded — developer confirmed this is still wanted~~
 
 ![homepage-current.png](homepage-current.png)
