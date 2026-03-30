@@ -8,7 +8,9 @@ tags:
   - brain-ui
   - ux
   - bug
-refs: []
+refs:
+  - >-
+    docs/ideas/memorycard-remove-empty-badge-space-float-progress-right/memory.md
 by: developer
 at: '2026-03-30T09:09:15.197Z'
 ---

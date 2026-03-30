@@ -8,7 +8,8 @@ tags:
   - brain-ui
   - ux
   - improvement
-refs: []
+refs:
+  - docs/ideas/map-lucide-icons-to-all-tags-not-just-categories/memory.md
 by: developer
 at: '2026-03-29T22:31:49.853Z'
 ---

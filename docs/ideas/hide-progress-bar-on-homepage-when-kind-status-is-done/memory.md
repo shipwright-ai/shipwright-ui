@@ -10,6 +10,8 @@ tags:
   - bug
 refs:
   - docs/ideas/progress-bar-on-top-of-memory-cards-in-browse-view/memory.md
+  - >-
+    docs/ideas/show-planned-in-progress-done-counts-on-homepage-kind-cards/memory.md
 by: developer
 at: '2026-03-30T08:53:05.760Z'
 ---
@@ -17,3 +19,5 @@ at: '2026-03-30T08:53:05.760Z'
 ## Key Points
 
 - [x] Hide amber progress bar on homepage kind cards when `progress.status === 'done'` — the green DONE badge is enough
+
+![homepage-no-orange-bar-on-done.png](homepage-no-orange-bar-on-done.png)

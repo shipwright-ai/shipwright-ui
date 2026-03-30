@@ -8,6 +8,8 @@ tags:
   - progress
 refs:
   - docs/ideas/progress-bar-on-top-of-memory-cards-in-browse-view/memory.md
+  - >-
+    docs/ideas/show-planned-in-progress-done-counts-on-homepage-kind-cards/memory.md
 by: developer
 at: '2026-03-29T13:45:55.273Z'
 ---

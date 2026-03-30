@@ -24,3 +24,5 @@ The homepage currently uses a custom/emoji-based logo. Lucide icons are already 
 - [x] ~~Incorrectly marked as superseded — developer confirmed this is still wanted~~
 
 ![homepage-current.png](homepage-current.png)
+
+![homepage-braincircuit-icon.png](homepage-braincircuit-icon.png)

@@ -6,7 +6,8 @@ summary: >-
 kind: features
 tags:
   - brain-ui
-refs: []
+refs:
+  - docs/ideas/header-cleanup-remove-board-make-search-open-cmd-k/memory.md
 by: developer
 at: '2026-03-29T21:38:45.363Z'
 ---
