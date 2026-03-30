@@ -46,11 +46,13 @@ For architecture questions → read docs/architecture/brain-ui-architecture/memo
 
 ## Idea Capture
 
-**Rule: Capture → Verify → Implement.** Before implementing any new feature or request:
+**Rule: Capture → Refine → Implement.** See `../shipwright/skills/idea-capture.md` for full details. Summary:
 
-1. **Capture** — create a Brain idea with `brain.create_memory` (kind: "ideas"), write checklist and content
-2. **Verify** — present the plan to the developer and wait for approval before writing any code. Show the checklist items and approach. Do NOT start implementing until the developer confirms.
-3. **Implement** — only after developer approval, start coding
+1. **Capture** — create a Brain idea with checklist steps
+2. **Refine** — discuss the plan with the developer. Present steps, ask if anything is missing. Developer adds/removes/reorders. Update the idea as the plan evolves. Keep going until developer says "go".
+3. **Implement** — only start coding after developer agrees on the plan
+
+Never skip step 2. The idea is a living draft until the developer approves it.
 
 ## Living Ideas — Continuous Updates
 
