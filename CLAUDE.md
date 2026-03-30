@@ -48,6 +48,19 @@ For architecture questions → read docs/architecture/brain-ui-architecture/memo
 
 **Rule: Capture Before Code.** Before implementing any new feature or request, capture it as a Brain idea first using `brain.create_memory` with kind: "ideas". Follow Brain's response instructions for format and attachments. Then implement.
 
+## Living Ideas — Continuous Updates
+
+Brain idea files are **living documents**, not write-once snapshots. Update them throughout implementation:
+
+- **Scope changes** — if requirements shift during implementation, update the checklist immediately
+- **Decisions made** — if you choose an approach (API format, component structure, etc.), add it to the idea
+- **Blockers found** — if something can't be done (needs Brain API change, etc.), note it
+- **New checklist items** — if implementation reveals more work than planned, add items
+- **Related discoveries** — if you find related ideas or bugs, add refs
+- **Screenshots** — attach screenshots after UI changes using `brain.attach_to_memory`
+
+Do NOT wait until the end — update as you go, after each meaningful step.
+
 ## Post-Implementation Checks
 
 After finishing any implementation — before reporting done:
@@ -55,9 +68,10 @@ After finishing any implementation — before reporting done:
 1. Run `make check` on changed files — fix all errors
 2. Self-review: did you follow conventions.md? Did you drift from what was asked?
 3. If the change affects architecture/decisions/vision docs, flag it — don't update silently
-4. Update the related Brain idea: check off completed items, add new items for refinements
-5. Ask the developer for a screenshot of the result, attach to the idea via `brain.attach_to_memory`
-6. Summary: what changed, gates passed, any concerns
+4. Update the related Brain idea: check off completed items, add scope changes, note decisions made
+5. Attach a screenshot of the result via `brain.screenshot` + `brain.attach_to_memory`
+6. Commit the changes (don't batch — commit after each completed idea)
+7. Summary: what changed, gates passed, any concerns
 
 ## Shipwright
 
