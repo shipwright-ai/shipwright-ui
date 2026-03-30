@@ -352,62 +352,79 @@
 	<!-- MCP Tools -->
 	<section class="mb-10">
 		<h2 class="mb-4 text-lg font-semibold">MCP Tools</h2>
-		<div class="space-y-2">
+		<div class="space-y-3">
 			{#each tools as tool (tool.name)}
-				<button
-					class="w-full rounded border border-brain-border bg-brain-surface text-left transition-colors hover:border-brain-accent"
-					onclick={() => toggleTool(tool.name)}
+				<div
+					class="overflow-hidden rounded-lg border border-brain-border bg-brain-surface {expandedTool ===
+					tool.name
+						? 'border-brain-accent/40'
+						: ''}"
 				>
-					<div class="flex items-start gap-3 p-3">
+					<button
+						class="flex w-full items-start gap-3 p-4 text-left transition-colors hover:bg-brain-bg/50"
+						onclick={() => toggleTool(tool.name)}
+					>
 						<tool.icon class="mt-0.5 h-5 w-5 shrink-0 text-brain-accent" />
 						<div class="min-w-0 flex-1">
 							<div class="flex items-center gap-2">
-								<code class="text-sm text-brain-accent">{tool.name}</code>
+								<code class="text-sm font-semibold text-brain-accent">{tool.name}</code>
 								{#if tool.params.length > 0}
-									<span class="text-xs text-brain-muted/50"
-										>{tool.params.length} param{tool.params.length > 1 ? 's' : ''}</span
+									<span class="rounded-full bg-brain-bg px-2 py-0.5 text-[10px] text-brain-muted"
+										>{tool.params.length} params</span
 									>
 								{/if}
 							</div>
-							<div class="mt-0.5 text-xs text-brain-muted">{tool.description}</div>
+							<div class="mt-1 text-xs leading-relaxed text-brain-muted">
+								{tool.description}
+							</div>
 						</div>
 						{#if tool.params.length > 0}
-							<span class="mt-1 text-xs text-brain-muted/40"
-								>{expandedTool === tool.name ? '\u25B2' : '\u25BC'}</span
+							<span
+								class="mt-1 text-xs text-brain-muted/40 transition-transform {expandedTool ===
+								tool.name
+									? 'rotate-180'
+									: ''}">\u25BC</span
 							>
 						{/if}
-					</div>
-				</button>
-				{#if expandedTool === tool.name && tool.params.length > 0}
-					<div class="ml-8 rounded border border-brain-border/50 bg-brain-bg p-3">
-						<div class="space-y-2">
-							{#each tool.params as param (param.name)}
-								<div class="flex items-start gap-2">
-									<div class="flex shrink-0 items-center gap-1.5">
-										<code class="text-xs text-brain-text">{param.name}</code>
-										<span class="rounded bg-brain-surface px-1 py-0.5 text-[10px] text-brain-muted"
+					</button>
+					{#if expandedTool === tool.name && tool.params.length > 0}
+						<div class="border-t border-brain-border bg-brain-bg/30 px-4 py-3">
+							<div class="space-y-0">
+								{#each tool.params as param, pi (param.name)}
+									<div
+										class="flex items-baseline gap-3 py-2 {pi > 0
+											? 'border-t border-brain-border/30'
+											: ''}"
+									>
+										<div class="flex w-40 shrink-0 items-center gap-1.5">
+											<code class="text-xs font-medium text-brain-text">{param.name}</code>
+											{#if param.required}
+												<span class="text-brain-red">*</span>
+											{/if}
+										</div>
+										<span
+											class="w-16 shrink-0 rounded bg-brain-surface px-1.5 py-0.5 text-center text-[10px] text-brain-muted"
 											>{param.type}</span
 										>
-										{#if param.required}
-											<span class="text-[10px] font-medium text-brain-red">required</span>
-										{/if}
+										<span class="flex-1 text-xs text-brain-muted">
+											{param.description}
+											{#if param.values}
+												<span class="ml-1 inline-flex flex-wrap gap-1 align-middle">
+													{#each param.values as val (val)}
+														<code
+															class="rounded border border-brain-accent/20 bg-brain-accent/5 px-1.5 py-0.5 text-[10px] text-brain-accent"
+															>{val}</code
+														>
+													{/each}
+												</span>
+											{/if}
+										</span>
 									</div>
-									<span class="text-xs text-brain-muted">{param.description}</span>
-								</div>
-								{#if param.values}
-									<div class="ml-4 flex flex-wrap gap-1">
-										{#each param.values as val (val)}
-											<code
-												class="rounded bg-brain-surface px-1.5 py-0.5 text-[10px] text-brain-accent"
-												>{val}</code
-											>
-										{/each}
-									</div>
-								{/if}
-							{/each}
+								{/each}
+							</div>
 						</div>
-					</div>
-				{/if}
+					{/if}
+				</div>
 			{/each}
 		</div>
 	</section>
