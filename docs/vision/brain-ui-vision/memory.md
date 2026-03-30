@@ -9,7 +9,7 @@ tags:
   - vision
   - product
 refs:
-  - docs/vision/brain-ui/memory.md
+  - docs/ideas/brain-ui-sveltekit/memory.md
 by: developer
 at: '2026-03-29T12:12:13.968Z'
 ---
@@ -30,8 +30,25 @@ Brain UI is a lightweight web frontend for Shipwright Brain — it lets develope
 - Memory detail renders rich markdown with images, tags, and linked refs
 - Eventually: graph view showing how memories connect (not MVP)
 
+## Stack
+
+- SvelteKit 2 + Svelte 5 (runes mode)
+- TypeScript (strict)
+- Tailwind CSS 4 + shadcn-svelte
+- Consumes Brain HTTP API at localhost:3111
+
+## API endpoints consumed
+
+- GET /api/browse?path=&tags=&status=&limit=&offset=&sort=
+- GET /api/search?q=&tags=&status=&sort=
+- GET /api/memory?f={memory_file}
+- GET /api/graph
+- GET /api/overview
+- GET /file?p={path} (attachment serving)
+
 ## Not in scope (yet)
 
 - Creating or editing memories from the UI
 - Authentication
 - Multi-user / deployment beyond localhost
+- Graph visualization
