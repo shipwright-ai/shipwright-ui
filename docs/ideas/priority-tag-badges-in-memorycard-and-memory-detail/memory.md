@@ -9,6 +9,7 @@ tags:
   - ux
   - tags
   - feature
+  - urgent
 refs:
   - docs/ideas/progress-bar-on-top-of-memory-cards-in-browse-view/memory.md
 by: developer
@@ -35,5 +36,5 @@ When scanning memory lists, priority is buried in the tag list. Adding a colored
 ## Scope
 
 - **Where:** `MemoryCard.svelte` and `src/routes/memory/[...path]/+page.svelte`
-- **Tags format:** `priority/low`, `priority/medium`, `priority/high`, `priority/urgent`, `priority/blocker`
+- **Tags format:** plain tags: `low`, `medium`, `high`, `urgent`, `blocker`
 - **Style:** Similar to `CategoryBadge` — inline icon + label, color-coded
