@@ -8,29 +8,13 @@ Part of the [Shipwright](https://github.com/shipwright-ai/shipwright) a la carte
 
 ## Install
 
-### Quick start (no clone needed)
+### Via Shipwright Brain (recommended)
 
 ```bash
-npx github:shipwright-ai/shipwright-ui
+npx github:shipwright-ai/shipwright-brain ui
 ```
 
-Options:
-
-```bash
-npx github:shipwright-ai/shipwright-ui --port 8080        # UI on custom port (default: 5173)
-npx github:shipwright-ai/shipwright-ui --brain-port 4000   # Brain API on custom port (default: 3111)
-npx github:shipwright-ai/shipwright-ui -p 8080 -b 4000     # both
-```
-
-Requires a running Brain MCP server.
-
-### Via Makefile (recommended)
-
-If [Shipwright](https://github.com/shipwright-ai/shipwright) set up your project, just run:
-
-```bash
-make brain-ui
-```
+This starts Brain API on :3111 and serves the pre-built UI on :5173. The UI is downloaded automatically from GitHub releases and cached in `~/.shipwright/brain-ui/`.
 
 ### For development
 
@@ -41,7 +25,7 @@ npm install
 make dev
 ```
 
-Dev server at http://localhost:5173.
+Dev server at http://localhost:5173. Requires a running Brain API (`npx github:shipwright-ai/shipwright-brain api`).
 
 ## Features
 
