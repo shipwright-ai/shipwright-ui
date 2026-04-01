@@ -2,7 +2,7 @@
 	"mcpServers": {
 		"brain": {
 			"command": "npx",
-			"args": ["shipwright-brain", "mcp", "--dir", "./docs"]
+			"args": ["github:shipwright-ai/shipwright-brain", "mcp", "--dir", "./docs"]
 		}
 	}
 }
